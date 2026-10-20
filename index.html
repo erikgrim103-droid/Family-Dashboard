@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Familie Dashboard</title>
+<title>Dashboard Familiar</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Arial, sans-serif; background: #111; color: #fff; min-height: 100vh; }
@@ -21,69 +21,68 @@ ul { list-style: none; font-size: 32px; line-height: 1.8; }
 </head>
 <body>
 
-<!-- Hoofdmenu -->
+<!-- Menú principal -->
 <div id="home" class="screen active">
-  <h1>Familie Dashboard</h1>
+  <h1>Dashboard Familiar</h1>
   <div class="nav">
-    <button onclick="show('eten')">🍽️ Wat eten we?</button>
-    <button onclick="show('schoonmaak')">🧹 Schoonmaakrooster</button>
-    <button onclick="show('films')">🎬 Films</button>
+    <button onclick="show('eten')">🍽️ Menú de la semana</button>
+    <button onclick="show('schoonmaak')">🧹 Turnos de limpieza</button>
+    <button onclick="show('films')">🎬 Películas</button>
   </div>
-  <p style="font-size: 24px; color: #aaa;">Gebruik de pijltjes + OK op de afstandsbediening</p>
+  <p style="font-size: 24px; color: #aaa;">Usa las flechas + OK del mando a distancia</p>
 </div>
 
-<!-- Eten -->
+<!-- Menú de la semana -->
 <div id="eten" class="screen">
-  <h1>Wat eten we?</h1>
-  <div class="grid">
-    <div class="card" tabindex="0">Pasta met pesto</div>
-    <div class="card" tabindex="0">Kip met rijst</div>
-    <div class="card" tabindex="0">Soep + brood</div>
-    <div class="card" tabindex="0">Pizza</div>
-    <div class="card" tabindex="0">Stamppot</div>
-    <div class="card" tabindex="0">Salade + vis</div>
-  </div>
-  <button class="back" onclick="show('home')">← Terug</button>
-</div>
-
-<!-- Schoonmaak -->
-<div id="schoonmaak" class="screen">
-  <h1>Schoonmaakrooster</h1>
+  <h1>Menú de la semana</h1>
   <ul>
-    <li>Maandag: Mama – Keuken</li>
-    <li>Dinsdag: Papa – Badkamer</li>
-    <li>Woensdag: Kind 1 – Stofzuigen</li>
-    <li>Donderdag: Kind 2 – Vaatwasser</li>
-    <li>Vrijdag: Iedereen – Woonkamer</li>
-    <li>Zaterdag: Mama – Boodschappen</li>
-    <li>Zondag: Rustdag</li>
+    <li><strong>Lunes</strong> – Almuerzo: Arroz con pollo &nbsp;|&nbsp; Cena: Arepas rellenas con carne desmechada</li>
+    <li><strong>Martes</strong> – Almuerzo: Sándwich de jamón, queso, lechuga y tomate &nbsp;|&nbsp; Cena: Pernil de pollo asado</li>
+    <li><strong>Miércoles</strong> – Almuerzo: Sándwich de jamón, queso, lechuga y tomate &nbsp;|&nbsp; Cena: Wok oriental de cerdo con verduras y arroz</li>
+    <li><strong>Jueves</strong> – Almuerzo: Sándwich de jamón, queso, lechuga y tomate &nbsp;|&nbsp; Cena: Sopa de calabaza con leche de coco (& pechuga pavo)</li>
+    <li><strong>Viernes</strong> – Almuerzo: Fríjoles &nbsp;|&nbsp; Cena: Pizza</li>
+    <li><strong>Sábado</strong> – Almuerzo: Entrecot de ternera &nbsp;|&nbsp; Cena: Arepas con queso</li>
+    <li><strong>Domingo</strong> – Almuerzo: Salmón con espárragos y patatas &nbsp;|&nbsp; Cena: Arroz con huevo</li>
   </ul>
-  <button class="back" onclick="show('home')">← Terug</button>
+  <button class="back" onclick="show('home')">← Volver</button>
 </div>
 
-<!-- Films -->
+<!-- Limpieza -->
+<div id="schoonmaak" class="screen">
+  <h1>Turnos de limpieza</h1>
+  <ul>
+    <li>Lunes: Mamá – Cocina</li>
+    <li>Martes: Papá – Baño</li>
+    <li>Miércoles: Hijo 1 – Aspirar</li>
+    <li>Jueves: Hijo 2 – Lavavajillas</li>
+    <li>Viernes: Todos – Salón</li>
+    <li>Sábado: Mamá – Compras</li>
+    <li>Domingo: Día de descanso</li>
+  </ul>
+  <button class="back" onclick="show('home')">← Volver</button>
+</div>
+
+<!-- Películas -->
 <div id="films" class="screen">
-  <h1>Films aanbevolen</h1>
+  <h1>Películas recomendadas</h1>
   <div class="grid">
     <div class="card" tabindex="0">You've Got Mail</div>
     <div class="card" tabindex="0">Toy Story</div>
     <div class="card" tabindex="0">Finding Nemo</div>
     <div class="card" tabindex="0">The Incredibles</div>
   </div>
-  <button class="back" onclick="show('home')">← Terug</button>
+  <button class="back" onclick="show('home')">← Volver</button>
 </div>
 
 <script>
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  // Focus eerste knop/kaart
   setTimeout(() => {
     const el = document.querySelector('#' + id + ' button, #' + id + ' .card');
     if (el) el.focus();
   }, 50);
 }
-// Startfocus
 document.querySelector('#home button').focus();
 </script>
 </body>
