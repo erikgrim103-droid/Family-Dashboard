@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b1838">
+<title>Family App - CanSocho</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:linear-gradient(160deg,#0f0c29,#302b63 60%,#24243e);background-attachment:fixed;color:#f2f2ff;font-size:17px;line-height:1.4;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;padding:16px 16px 120px}
+header h1{font-size:1.35rem;font-weight:600;text-align:center;letter-spacing:.3px;color:#e3e0ff}
+.progress{margin:14px 0 18px}
+.progress .label{display:flex;justify-content:space-between;font-size:.85rem;opacity:.8;margin-bottom:8px}
+.dots{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.dots span{height:6px;border-radius:3px;background:rgba(255,255,255,.15)}
+.dots span.done{background:#a78bfa}
+.dots span.cur{background:#c4b5fd;box-shadow:0 0 8px #a78bfa}
+h2{font-size:1.25rem;font-weight:600;margin-bottom:6px}
+.sub{opacity:.75;font-size:.95rem;margin-bottom:14px}
+.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px;margin-bottom:10px}
+.pick{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);border-radius:16px;padding:14px;margin-bottom:10px;min-height:64px;cursor:pointer}
+.pick.on{border-color:#a78bfa;background:rgba(167,139,250,.2)}
+.pick:disabled{opacity:.4}
+.pick .emoji{font-size:1.6rem;width:36px;text-align:center}
+.pick .t{font-weight:600}
+.pick .d{font-size:.85rem;opacity:.7}
+.pick .chk{margin-left:auto;width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.pick.on .chk{background:#a78bfa;border-color:#a78bfa;color:#1b1838}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;color:inherit;min-height:48px;padding:10px 14px;border-radius:24px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);cursor:pointer;font-size:1rem}
+.chip.on{background:#a78bfa;border-color:#a78bfa;color:#1b1838;font-weight:600}
+.chip:disabled{opacity:.35}
+.days .chip{flex:1 1 calc(25% - 8px);text-align:center;padding:10px 4px}
+select{width:100%;font:inherit;font-size:1rem;min-height:52px;padding:10px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:#2a2650;color:#fff;margin-top:8px}
+.daytitle{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.daytitle b{font-size:1.05rem}
+.daytitle small{opacity:.7;font-size:.85rem;text-align:right}
+.msg{min-height:1.4em;font-size:.92rem;color:#fcd34d;margin:6px 0 10px}
+.msg.ok{color:#86efac}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.row:last-child{border-bottom:none}
+.row .n{font-weight:500}
+.row .s{font-size:.82rem;opacity:.65}
+.row .q{font-weight:700;white-space:nowrap;color:#ddd6fe}
+.stepper{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.stepper button{font:inherit;width:44px;height:44px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:1.3rem;cursor:pointer}
+.stepper input{width:60px;height:44px;text-align:center;font:inherit;font-size:1rem;border-radius:10px;border:1.5px solid rgba(255,255,255,.25);background:#2a2650;color:#fff}
+.stepper .u{font-size:.75rem;opacity:.7;width:46px;text-align:left;overflow-wrap:anywhere}
+.shop{display:flex;align-items:center;gap:14px;width:100%;font:inherit;color:inherit;text-align:left;background:none;border:none;border-bottom:1px solid rgba(255,255,255,.08);padding:14px 2px;min-height:60px;cursor:pointer}
+.shop .box{width:30px;height:30px;border-radius:8px;border:2px solid rgba(255,255,255,.4);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.shop.done{opacity:.45}
+.shop.done .n{text-decoration:line-through}
+.shop.done .box{background:#86efac;border-color:#86efac;color:#1b1838}
+.shop .q{margin-left:auto;font-weight:700;white-space:nowrap}
+.counter{font-size:1rem;font-weight:600;text-align:center;margin:6px 0 12px;color:#ddd6fe}
+.btn{font:inherit;font-size:1.05rem;min-height:54px;border-radius:14px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.09);color:#fff;cursor:pointer;padding:0 16px}
+.btn.primary{background:#a78bfa;border-color:#a78bfa;color:#1b1838;font-weight:700}
+.btn:disabled{opacity:.35}
+.btn.danger{background:rgba(248,113,113,.18);border-color:#f87171;color:#fecaca;width:100%;margin-top:18px}
+.btn.danger.solid{background:#f87171;color:#1b1838;font-weight:700}
+.confirm{margin-top:12px;padding:14px;border-radius:14px;border:1.5px solid #f87171;background:rgba(248,113,113,.1)}
+.confirm p{margin-bottom:10px}
+.confirm .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.confirm .btn{margin-top:0}
+nav.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(20,17,45,.92);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+nav.bar .in{max-width:480px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.empty{text-align:center;padding:24px 8px;opacity:.8}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #fcd34d;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header><h1>🍽️ Family App – CanSocho</h1></header>
+  <div class="progress"><div class="label"><span id="stepLabel"></span><span id="stepName"></span></div><div class="dots" id="dots"></div></div>
+  <main id="main"></main>
+</div>
+<nav class="bar"><div class="in">
+  <button class="btn" id="back">← Atrás</button>
+  <button class="btn primary" id="next">Siguiente →</button>
+</div></nav>
+
+<script>
+const PERSONAS = [
+  {id:'Llan',w:1.00},{id:'Lluma',w:0.80},{id:'Ale',w:1.05},{id:'Isa',w:0.90},{id:'Tori',w:0.65}
+];
+const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const DIAS_CORTO = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const NUM_MENUS = 5;
+// Cantidades por 1 porción adulta
+const MENUS = [
+  {id:1,emoji:'🍗',nombre:'Pollo asado con patatas',tipo:'Pollo',ing:[['Muslos de pollo',250,'g'],['Patatas',250,'g'],['Cebolla',0.5,'ud'],['Pimiento rojo',0.5,'ud'],['Limón',0.25,'ud']]},
+  {id:2,emoji:'🥣',nombre:'Lentejas estofadas',tipo:'Legumbres',ing:[['Lentejas',80,'g'],['Chorizo',40,'g'],['Zanahoria',1,'ud'],['Patatas',100,'g'],['Cebolla',0.5,'ud']]},
+  {id:3,emoji:'🥚',nombre:'Tortilla de patatas con ensalada',tipo:'Huevos',ing:[['Huevos',2,'ud'],['Patatas',200,'g'],['Cebolla',0.5,'ud'],['Lechuga',0.25,'ud'],['Tomate',1,'ud']]},
+  {id:4,emoji:'🐟',nombre:'Merluza al horno con verduras',tipo:'Pescado blanco',ing:[['Merluza',180,'g'],['Patatas',200,'g'],['Calabacín',0.5,'ud'],['Tomate',1,'ud'],['Limón',0.25,'ud']]},
+  {id:5,emoji:'🍝',nombre:'Espaguetis a la boloñesa',tipo:'Carne roja',ing:[['Espaguetis',100,'g'],['Carne picada de ternera',125,'g'],['Tomate triturado',100,'g'],['Cebolla',0.5,'ud'],['Queso rallado',20,'g']]},
+  {id:6,emoji:'🍛',nombre:'Arroz con pollo y verduras',tipo:'Pollo',ing:[['Arroz',80,'g'],['Pechuga de pollo',150,'g'],['Pimiento rojo',0.5,'ud'],['Guisantes',50,'g'],['Cebolla',0.5,'ud']]},
+  {id:7,emoji:'🍣',nombre:'Salmón con espárragos y arroz',tipo:'Pescado azul',ing:[['Salmón',150,'g'],['Espárragos verdes',100,'g'],['Arroz',70,'g'],['Limón',0.25,'ud'],['Ajo',1,'dientes']]},
+  {id:8,emoji:'🥩',nombre:'Lomo de cerdo con pimientos',tipo:'Cerdo',ing:[['Lomo de cerdo',150,'g'],['Pimiento rojo',0.5,'ud'],['Pimiento verde',0.5,'ud'],['Patatas',200,'g'],['Ajo',1,'dientes']]},
+  {id:9,emoji:'🫘',nombre:'Garbanzos con espinacas y huevo',tipo:'Legumbres',ing:[['Garbanzos cocidos',150,'g'],['Espinacas',100,'g'],['Huevos',1,'ud'],['Tomate',1,'ud'],['Ajo',1,'dientes']]},
+  {id:10,emoji:'🎃',nombre:'Crema de calabaza con pan',tipo:'Vegetariano',ing:[['Calabaza',300,'g'],['Zanahoria',1,'ud'],['Puerro',0.5,'ud'],['Queso fresco',40,'g'],['Pan',60,'g']]}
+];
+const PASOS = ['Elegir menús','Elegir días','Comensales','Ingredientes','Stock en casa','Lista de la compra'];
+const KEY = 'cansocho-simple-v1';
+const UNIDAD = {g:'g',ud:'ud',dientes:'dientes'};
+
+function nuevoEstado(){return {step:1,picked:[],days:[],assign:{},diners:{},stock:{},bought:{},confirmReset:false};}
+let S = cargar();
+function cargar(){
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if(s && typeof s==='object' && Array.isArray(s.picked)) return Object.assign(nuevoEstado(),s,{confirmReset:false});
+  }catch(e){}
+  return nuevoEstado();
+}
+function guardar(){ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} }
+
+const menuById = id => MENUS.find(m=>m.id===id);
+const diasOrdenados = () => [...S.days].sort((a,b)=>a-b);
+const pesoDia = d => (S.diners[d]||[]).reduce((t,p)=>t+PERSONAS.find(x=>x.id===p).w,0);
+const fmtNum = n => (Math.round(n*100)/100).toLocaleString('es-ES');
+
+// Redondeo: g hacia arriba a 10 g; unidades y dientes hacia arriba a entero
+function redondear(v,u){ if(u==='g') return Math.ceil(v/10-1e-9)*10; return Math.ceil(v-1e-9); }
+
+function ingredientes(){
+  const map = new Map();
+  diasOrdenados().forEach(d=>{
+    const m = menuById(S.assign[d]); if(!m) return;
+    const peso = pesoDia(d);
+    m.ing.forEach(([n,q,u])=>{
+      const k = n+'|'+u;
+      if(!map.has(k)) map.set(k,{key:k,nombre:n,unidad:u,raw:0,menus:[]});
+      const it = map.get(k); it.raw += q*peso; it.menus.push(m.nombre);
+    });
+  });
+  return [...map.values()].map(it=>({...it,total:redondear(it.raw,it.unidad)})).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
+}
+function compra(){
+  return ingredientes().map(it=>{const st = Number(S.stock[it.key])||0; return {...it,stock:st,need:Math.max(0,it.total-st)};}).filter(it=>it.need>0);
+}
+
+// Validación por paso: devuelve '' si es válido o un mensaje
+function validar(step){
+  if(step===1){ const n=S.picked.length; return n===NUM_MENUS?'':`Elige ${NUM_MENUS} menús (llevas ${n}).`; }
+  if(step===2){
+    if(S.days.length!==NUM_MENUS) return `Elige ${NUM_MENUS} días (llevas ${S.days.length}).`;
+    const asign = S.days.map(d=>S.assign[d]).filter(Boolean);
+    if(asign.length<NUM_MENUS) return `Asigna un menú a cada día (faltan ${NUM_MENUS-asign.length}).`;
+    if(new Set(asign).size!==asign.length) return 'Cada menú solo puede ir en un día.';
+    return '';
+  }
+  if(step===3){ const sin = diasOrdenados().filter(d=>!(S.diners[d]||[]).length); return sin.length?`Cada día necesita al menos un comensal (${sin.map(d=>DIAS[d]).join(', ')}).`:''; }
+  if(step===5){ const bad = ingredientes().some(it=>{const v=S.stock[it.key]; return v!==undefined && v!=='' && (isNaN(Number(v))||Number(v)<0);}); return bad?'Revisa el stock: solo números de 0 en adelante.':''; }
+  return '';
+}
+function validoHasta(step){ for(let i=1;i<step;i++) if(validar(i)) return false; return true; }
+
+function render(){
+  if(!validoHasta(S.step)){ let s=1; while(s<S.step && !validar(s)) s++; S.step=s; }
+  document.getElementById('stepLabel').textContent = `Paso ${S.step} de 6`;
+  document.getElementById('stepName').textContent = PASOS[S.step-1];
+  document.getElementById('dots').innerHTML = PASOS.map((_,i)=>`<span class="${i+1<S.step?'done':i+1===S.step?'cur':''}"></span>`).join('');
+  const main = document.getElementById('main');
+  main.innerHTML = [null,paso1,paso2,paso3,paso4,paso5,paso6][S.step]();
+  const err = validar(S.step);
+  const back = document.getElementById('back'), next = document.getElementById('next');
+  back.disabled = S.step===1;
+  next.style.visibility = S.step===6?'hidden':'visible';
+  next.disabled = !!err;
+  const msg = document.getElementById('msg');
+  if(msg){ msg.textContent = err || (S.step<6?'✓ Listo, pulsa Siguiente.':''); msg.className = 'msg'+(err?'':' ok'); }
+  guardar();
+}
+
+function paso1(){
+  const n=S.picked.length;
+  return `<h2>Elige ${NUM_MENUS} menús</h2><p class="sub">Toca para elegir. Seleccionados: <b>${n} / ${NUM_MENUS}</b></p>
+  <div id="msg" class="msg"></div>`+
+  MENUS.map(m=>{const on=S.picked.includes(m.id); const dis=!on&&n>=NUM_MENUS;
+    return `<button class="pick ${on?'on':''}" data-act="pick" data-id="${m.id}" ${dis?'disabled':''} aria-pressed="${on}">
+      <span class="emoji">${m.emoji}</span><span><div class="t">${m.nombre}</div><div class="d">${m.tipo} · ${m.ing.map(i=>i[0]).join(', ')}</div></span><span class="chk">${on?'✓':''}</span></button>`;}).join('');
+}
+function paso2(){
+  const dias = diasOrdenados();
+  const usados = d => Object.entries(S.assign).filter(([k,v])=>Number(k)!==d && S.days.includes(Number(k))).map(([,v])=>v);
+  return `<h2>¿Qué días coméis estos menús?</h2><p class="sub">Elige ${NUM_MENUS} días: <b>${S.days.length} / ${NUM_MENUS}</b></p>
+  <div class="chips days">${DIAS_CORTO.map((d,i)=>{const on=S.days.includes(i);const dis=!on&&S.days.length>=NUM_MENUS;
+    return `<button class="chip ${on?'on':''}" data-act="day" data-d="${i}" ${dis?'disabled':''} aria-pressed="${on}" aria-label="${DIAS[i]}">${d}</button>`;}).join('')}</div>
+  <div id="msg" class="msg"></div>
+  ${dias.length?'<h2 style="font-size:1.05rem;margin:6px 0 10px">Asigna un menú a cada día</h2>':''}
+  ${dias.map(d=>{const u=usados(d);return `<div class="card"><b>${DIAS[d]}</b>
+    <select data-act="assign" data-d="${d}" aria-label="Menú del ${DIAS[d]}"><option value="">— Elige menú —</option>
+    ${S.picked.map(id=>{const m=menuById(id);return `<option value="${id}" ${S.assign[d]===id?'selected':''} ${u.includes(id)?'disabled':''}>${m.emoji} ${m.nombre}${u.includes(id)?' (ya asignado)':''}</option>`;}).join('')}
+    </select></div>`;}).join('')}`;
+}
+function paso3(){
+  return `<h2>¿Quién come cada día?</h2><p class="sub">Toca un nombre para quitarlo o añadirlo.</p><div id="msg" class="msg"></div>`+
+  diasOrdenados().map(d=>{const m=menuById(S.assign[d]);const sel=S.diners[d]||[];
+    return `<div class="card"><div class="daytitle"><b>${DIAS[d]}</b><small>${m.emoji} ${m.nombre}<br>${sel.length} pers. · ${fmtNum(pesoDia(d))} porciones</small></div>
+    <div class="chips" style="margin-top:10px">${PERSONAS.map(p=>`<button class="chip ${sel.includes(p.id)?'on':''}" data-act="diner" data-d="${d}" data-p="${p.id}" aria-pressed="${sel.includes(p.id)}">${p.id}</button>`).join('')}</div></div>`;}).join('');
+}
+function paso4(){
+  const it = ingredientes();
+  return `<h2>Ingredientes necesarios</h2><p class="sub">Total de la semana según quién come (porciones por edad). ${it.length} ingredientes.</p><div id="msg" class="msg"></div>
+  <div class="card">${it.map(i=>`<div class="row"><div><div class="n">${i.nombre}</div><div class="s">${[...new Set(i.menus)].join(' · ')}</div></div><div class="q">${fmtNum(i.total)} ${UNIDAD[i.unidad]}</div></div>`).join('')}</div>`;
+}
+function paso5(){
+  const it = ingredientes();
+  return `<h2>¿Cuánto hay en casa?</h2><p class="sub">Apunta lo que ya tenéis. Deja 0 si no hay nada.</p><div id="msg" class="msg"></div>
+  <div class="card">${it.map(i=>{const v=S.stock[i.key]??0;const step=i.unidad==='g'?50:1;
+    return `<div class="row"><div><div class="n">${i.nombre}</div><div class="s">Necesitas ${fmtNum(i.total)} ${UNIDAD[i.unidad]}</div></div>
+    <div class="stepper"><button data-act="st" data-k="${i.key}" data-delta="-${step}" aria-label="Menos ${i.nombre}">−</button>
+    <input type="number" inputmode="decimal" min="0" step="${step}" value="${v}" data-act="stock" data-k="${i.key}" aria-label="Stock de ${i.nombre}">
+    <span class="u">${UNIDAD[i.unidad]}</span>
+    <button data-act="st" data-k="${i.key}" data-delta="${step}" aria-label="Más ${i.nombre}">+</button></div></div>`;}).join('')}</div>`;
+}
+function paso6(){
+  const c = compra(); const hechos = c.filter(i=>S.bought[i.key]).length;
+  return `<h2>Lista de la compra</h2>
+  ${c.length?`<div class="counter" id="counter">${hechos} de ${c.length} en el carrito${hechos===c.length?' 🎉':''}</div>
+  <div class="card">${c.map(i=>{const on=!!S.bought[i.key];return `<button class="shop ${on?'done':''}" data-act="buy" data-k="${i.key}" aria-pressed="${on}"><span class="box">${on?'✓':''}</span><span class="n">${i.nombre}</span><span class="q">${fmtNum(i.need)} ${UNIDAD[i.unidad]}</span></button>`;}).join('')}</div>`
+  :`<div class="card empty">✅ Tenéis todo en casa. No hace falta comprar nada.</div>`}
+  ${S.confirmReset?`<div class="confirm"><p><b>¿Empezar una nueva semana?</b><br>Se borran los menús, días, comensales, stock y la lista.</p>
+    <div class="two"><button class="btn" data-act="resetNo">Cancelar</button><button class="btn danger solid" data-act="resetYes">Sí, borrar</button></div></div>`
+  :`<button class="btn danger" data-act="reset">🔄 Nueva semana</button>`}`;
+}
+
+document.addEventListener('click',e=>{
+  const b = e.target.closest('[data-act]'); if(!b||b.disabled) return;
+  const a = b.dataset.act;
+  if(a==='pick'){ const id=Number(b.dataset.id);
+    if(S.picked.includes(id)){ S.picked=S.picked.filter(x=>x!==id); for(const d in S.assign) if(S.assign[d]===id) delete S.assign[d]; }
+    else if(S.picked.length<NUM_MENUS) S.picked.push(id);
+  }else if(a==='day'){ const d=Number(b.dataset.d);
+    if(S.days.includes(d)){ S.days=S.days.filter(x=>x!==d); delete S.assign[d]; delete S.diners[d]; }
+    else if(S.days.length<NUM_MENUS){ S.days.push(d); S.diners[d]=PERSONAS.map(p=>p.id); }
+  }else if(a==='diner'){ const d=b.dataset.d,p=b.dataset.p; const l=S.diners[d]||[];
+    S.diners[d] = l.includes(p)?l.filter(x=>x!==p):PERSONAS.map(x=>x.id).filter(x=>x===p||l.includes(x));
+  }else if(a==='st'){ const k=b.dataset.k; const v=Math.max(0,(Number(S.stock[k])||0)+Number(b.dataset.delta)); S.stock[k]=v;
+  }else if(a==='buy'){ const k=b.dataset.k; S.bought[k]=!S.bought[k];
+  }else if(a==='reset'){ S.confirmReset=true;
+  }else if(a==='resetNo'){ S.confirmReset=false;
+  }else if(a==='resetYes'){ S=nuevoEstado();
+  }else return;
+  render();
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.act==='assign'){ const d=t.dataset.d; if(t.value) S.assign[d]=Number(t.value); else delete S.assign[d]; render(); }
+  if(t.dataset.act==='stock'){ const v=t.value; S.stock[t.dataset.k] = v===''?0:Math.max(0,Number(v)); render(); }
+});
+document.addEventListener('input',e=>{
+  const t=e.target; if(t.dataset.act==='stock'){ S.stock[t.dataset.k]=t.value; guardar();
+    const err=validar(5); document.getElementById('next').disabled=!!err; const m=document.getElementById('msg'); m.textContent=err||'✓ Listo, pulsa Siguiente.'; m.className='msg'+(err?'':' ok'); }
+});
+document.getElementById('next').onclick=()=>{ if(!validar(S.step)&&S.step<6){S.step++;S.confirmReset=false;render();scrollTo(0,0);} };
+document.getElementById('back').onclick=()=>{ if(S.step>1){S.step--;S.confirmReset=false;render();scrollTo(0,0);} };
+render();
+</script>
+</body>
+</html>
