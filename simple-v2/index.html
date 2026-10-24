@@ -104,6 +104,31 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .sheet .por td{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.07)}
 .sheet .por td:last-child{text-align:right;font-weight:600;white-space:nowrap;padding-left:10px}
 .sheet table{width:100%;border-collapse:collapse}
+
+.dots{grid-template-columns:repeat(7,1fr)}
+.slotday{margin-bottom:10px}
+.slot{display:grid;grid-template-columns:96px 1fr;gap:8px;align-items:center;margin-top:8px}
+.slot .tg{font:inherit;font-size:.85rem;min-height:48px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;line-height:1.15;padding:4px}
+.slot .tg.on{background:rgba(167,139,250,.25);border-color:#a78bfa}
+.slot .tg small{display:block;font-size:.72rem;opacity:.75}
+.slot select{margin-top:0;min-height:48px;font-size:.92rem}
+.slot select:disabled{opacity:.35}
+.warnbox{background:rgba(252,211,77,.1);border:1px solid rgba(252,211,77,.5);color:#fde68a;border-radius:12px;padding:10px 12px;font-size:.9rem;margin:8px 0}
+.okbox{background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.45);color:#bbf7d0;border-radius:12px;padding:10px 12px;font-size:.9rem;margin:8px 0}
+.wk{display:grid;grid-template-columns:62px 1fr;gap:8px;align-items:stretch;margin-bottom:8px}
+.wk .dn{background:rgba(100,100,180,.25);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:.92rem}
+.wk .dn small{font-weight:400;opacity:.7;font-size:.7rem}
+.wk .ml{display:grid;gap:6px}
+.wk .cell{font:inherit;color:inherit;text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 10px;min-height:52px;cursor:pointer;width:100%}
+.wk .cell .k{font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:.5px}
+.wk .cell .v{font-size:.93rem;font-weight:600}
+.wk .cell.empty{border:1.5px dashed #fcd34d;background:rgba(252,211,77,.08)}
+.wk .cell.empty .v{color:#fcd34d;font-weight:500}
+.wk .cell.off{opacity:.45;cursor:default}
+.wk .cell.off .v{font-weight:400}
+.edits{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 4px}
+.edits .btn{min-height:48px;font-size:.92rem}
+.mini2{font:inherit;font-size:.9rem;min-height:46px;border-radius:12px;border:1.5px solid rgba(167,139,250,.6);background:rgba(167,139,250,.15);color:#fff;cursor:pointer;width:100%;margin:6px 0 10px}
 </style>
 </head>
 <body>
@@ -118,982 +143,178 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 </div></nav>
 <div id="modal"></div>
 <script>
-const CARNE = {
- "fuente": "Notion · 1. Almuerzo & Cena (collection://9931f3d4-5c46-46c2-a922-dc9c16865d1f)",
- "leido": "2026-10-24",
- "grupo": "Carne roja",
- "maxSemana": 2,
- "porcionesReceta": 5,
- "reglas": "porPorcion = cantidadReceta / 5. Sin sal, pimienta, agua, aceite, vinagre, azúcar, especias secas ni pastillas de caldo. Rangos → punto medio. 1 lata de tomate = 400 g. Opcionales fuera de la compra.",
- "platos": [
-  {
-   "no": 1,
-   "nombre": "Chili con carne",
-   "estado": "Aprobado",
-   "url": "https://app.notion.com/p/3f7a5f3fc23081c196f7f419d711615c",
-   "editado": "2026-10-20",
-   "corte": "Carne picada de vacuno",
-   "carbohidratos": [
-    "Arroz"
-   ],
-   "verduras": [
-    "Cebolla",
-    "Pimiento",
-    "Tomate"
-   ],
-   "notaNutricionista": "arroz integral; sin nata agria, cheddar ni tortillas.",
-   "ingredientesNotion": [
-    {
-     "titulo": "Ingredientes (5 personas)",
-     "lineas": [
-      "1 cebolla (grande, picada)",
-      "1 pimiento rojo (en cubitos)",
-      "2 ½ dientes de ajo (picados)",
-      "415–500 g de carne de vacuno picada (o 665 g de aguja en cubos)",
-      "1 ⅔ cucharadas de concentrado de tomate",
-      "335 g de tomate triturado (1 lata de 400 g)",
-      "335 g de alubias rojas escurridas (1 lata de 400 g)",
-      "210–335 ml de caldo de vacuno",
-      "Arroz integral (para servir)",
-      "Cilantro (fresco) (para servir) (opcional)",
-      "Lima (para servir) (opcional)",
-      "Jalapeño (para servir) (opcional)"
-     ]
-    }
-   ],
-   "pasos": [
-    {
-     "titulo": "Preparación",
-     "lineas": [
-      "Sofríe la cebolla y el pimiento 6–8 min en aceite. Añade el ajo 1 min.",
-      "Sube el fuego, dora la carne. Incorpora las especias y el concentrado; cocina 1–2 min.",
-      "Añade el tomate, las alubias y caldo suficiente para cubrir. Hierve suave 30–40 min (picada) o 1½–2½ h (cubos) hasta espesar.",
-      "Rectifica picante y acidez. Sirve sobre arroz integral con los acompañamientos (cilantro, lima, jalapeño) aparte."
-     ]
-    }
-   ],
-   "compra": [
-    {
-     "nombre": "Cebolla",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 cebolla (grande)"
-    },
-    {
-     "nombre": "Pimiento rojo",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 pimiento rojo"
-    },
-    {
-     "nombre": "Ajo",
-     "cantidadReceta": 2.5,
-     "unidad": "dientes",
-     "porPorcion": 0.5,
-     "origen": "2 ½ dientes de ajo"
-    },
-    {
-     "nombre": "Carne picada de vacuno",
-     "cantidadReceta": 457.5,
-     "unidad": "g",
-     "porPorcion": 91.5,
-     "origen": "415–500 g",
-     "nota": "punto medio del rango"
-    },
-    {
-     "nombre": "Concentrado de tomate",
-     "cantidadReceta": 1.67,
-     "unidad": "cucharadas",
-     "porPorcion": 0.334,
-     "origen": "1 ⅔ cucharadas"
-    },
-    {
-     "nombre": "Tomate triturado",
-     "cantidadReceta": 335,
-     "unidad": "g",
-     "porPorcion": 67.0,
-     "origen": "335 g (1 lata de 400 g)"
-    },
-    {
-     "nombre": "Alubias rojas cocidas",
-     "cantidadReceta": 335,
-     "unidad": "g",
-     "porPorcion": 67.0,
-     "origen": "335 g escurridas (1 lata de 400 g)"
-    },
-    {
-     "nombre": "Caldo de vacuno",
-     "cantidadReceta": 272.5,
-     "unidad": "ml",
-     "porPorcion": 54.5,
-     "origen": "210–335 ml",
-     "nota": "punto medio del rango"
-    },
-    {
-     "nombre": "Arroz integral",
-     "cantidadReceta": null,
-     "unidad": "g",
-     "porPorcion": null,
-     "origen": "Arroz integral (para servir), sin cantidad",
-     "sinCantidad": true
-    }
-   ],
-   "excluidosCompra": [
-    "aceite",
-    "especias",
-    "Cilantro, lima y jalapeño (opcionales)"
-   ]
-  },
-  {
-   "no": 2,
-   "nombre": "Entrecot de ternera",
-   "estado": "Aprobado",
-   "url": "https://app.notion.com/p/3f7a5f3fc2308178bf00f6068ee6c93f",
-   "editado": "2026-10-19",
-   "corte": "Entrecot de ternera",
-   "carbohidratos": [
-    "Patatas"
-   ],
-   "verduras": [
-    "Aguacate",
-    "Tomate",
-    "Cebolla"
-   ],
-   "notaNutricionista": null,
-   "ingredientesNotion": [
-    {
-     "titulo": "Ingredientes (5 personas)",
-     "lineas": [
-      "5 entrecots de ternera (unos 180–220 g cada uno)",
-      "Patata (acompañamiento: papas saladas o patatas)"
-     ]
-    },
-    {
-     "titulo": "Guacamole (5 personas)",
-     "lineas": [
-      "3 aguacates maduros",
-      "4 tomates",
-      "1½ cebolla blanca",
-      "1–2 limones (o limas), el zumo",
-      "1 manojo pequeño de cilantro fresco"
-     ]
-    }
-   ],
-   "pasos": [
-    {
-     "titulo": "Preparación",
-     "lineas": [
-      "Saca la carne del frío 30 min antes.",
-      "Dora en sartén muy caliente 2–4 min por lado según punto deseado.",
-      "Deja reposar 3–5 min. Sirve con papas o patatas y el guacamole."
-     ]
-    },
-    {
-     "titulo": "Guacamole",
-     "lineas": [
-      "Pica muy fino la cebolla y el cilantro; trocea el tomate en dados pequeños (sin semillas).",
-      "Aplasta los aguacates con un tenedor y mezcla enseguida con el zumo de limón.",
-      "Incorpora tomate, cebolla y cilantro; sala al gusto.",
-      "Prepáralo justo antes de servir (o cubre con film en contacto para que no se oscurezca)."
-     ]
-    }
-   ],
-   "compra": [
-    {
-     "nombre": "Entrecot de ternera",
-     "cantidadReceta": 1000,
-     "unidad": "g",
-     "porPorcion": 200.0,
-     "origen": "5 entrecots de 180–220 g",
-     "nota": "5 × 200 g (punto medio)"
-    },
-    {
-     "nombre": "Patatas",
-     "cantidadReceta": null,
-     "unidad": "g",
-     "porPorcion": null,
-     "origen": "Patata, sin cantidad",
-     "sinCantidad": true
-    },
-    {
-     "nombre": "Aguacate",
-     "cantidadReceta": 3,
-     "unidad": "ud",
-     "porPorcion": 0.6,
-     "origen": "3 aguacates maduros"
-    },
-    {
-     "nombre": "Tomate",
-     "cantidadReceta": 4,
-     "unidad": "ud",
-     "porPorcion": 0.8,
-     "origen": "4 tomates"
-    },
-    {
-     "nombre": "Cebolla",
-     "cantidadReceta": 1.5,
-     "unidad": "ud",
-     "porPorcion": 0.3,
-     "origen": "1½ cebolla blanca"
-    },
-    {
-     "nombre": "Limón",
-     "cantidadReceta": 1.5,
-     "unidad": "ud",
-     "porPorcion": 0.3,
-     "origen": "1–2 limones",
-     "nota": "punto medio del rango"
-    },
-    {
-     "nombre": "Cilantro fresco",
-     "cantidadReceta": 1,
-     "unidad": "manojo",
-     "porPorcion": 0.2,
-     "origen": "1 manojo pequeño"
-    }
-   ],
-   "excluidosCompra": [
-    "sal"
-   ]
-  },
-  {
-   "no": 3,
-   "nombre": "Goulash de carne",
-   "estado": "Revisar",
-   "url": "https://app.notion.com/p/3f7a5f3fc23081f19ba2fc650f441c2c",
-   "editado": "2026-10-19",
-   "corte": "Ternera o aguja en cubos",
-   "carbohidratos": [
-    "Arroz",
-    "Pan"
-   ],
-   "verduras": [
-    "Cebolla",
-    "Tomate",
-    "Pimiento",
-    "Zanahoria"
-   ],
-   "notaNutricionista": "arroz o pan integral.",
-   "ingredientesNotion": [
-    {
-     "titulo": "Ingredientes (5 personas)",
-     "lineas": [
-      "640 g de carne de ternera o aguja en cubos",
-      "1 ½ cebollas (grandes)",
-      "2 ½ dientes de ajo",
-      "1 lata de tomate triturado (lata) (o 2 tomates)",
-      "1 ½ tomates (alternativa a la lata) (opcional)",
-      "1 pimiento",
-      "1 ½ zanahorias",
-      "400 ml de caldo",
-      "Arroz (para servir (o pan)) (opcional)",
-      "Pan (para servir (o arroz)) (opcional)"
-     ]
-    }
-   ],
-   "pasos": [
-    {
-     "titulo": "Preparación",
-     "lineas": [
-      "Dora la carne en tandas y reserva. Sofríe la cebolla hasta que se dore.",
-      "Añade ajo y pimentón (sin quemar). Incorpora la carne, tomate, verduras, laurel y caldo.",
-      "Cocina a fuego suave 1,5–2 h hasta que la carne esté tierna. Rectifica y sirve con arroz o pan."
-     ]
-    }
-   ],
-   "compra": [
-    {
-     "nombre": "Ternera o aguja en cubos",
-     "cantidadReceta": 640,
-     "unidad": "g",
-     "porPorcion": 128.0,
-     "origen": "640 g"
-    },
-    {
-     "nombre": "Cebolla",
-     "cantidadReceta": 1.5,
-     "unidad": "ud",
-     "porPorcion": 0.3,
-     "origen": "1 ½ cebollas"
-    },
-    {
-     "nombre": "Ajo",
-     "cantidadReceta": 2.5,
-     "unidad": "dientes",
-     "porPorcion": 0.5,
-     "origen": "2 ½ dientes"
-    },
-    {
-     "nombre": "Tomate triturado",
-     "cantidadReceta": 400,
-     "unidad": "g",
-     "porPorcion": 80.0,
-     "origen": "1 lata",
-     "nota": "lata estándar de 400 g"
-    },
-    {
-     "nombre": "Pimiento",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 pimiento"
-    },
-    {
-     "nombre": "Zanahoria",
-     "cantidadReceta": 1.5,
-     "unidad": "ud",
-     "porPorcion": 0.3,
-     "origen": "1 ½ zanahorias"
-    },
-    {
-     "nombre": "Caldo",
-     "cantidadReceta": 400,
-     "unidad": "ml",
-     "porPorcion": 80.0,
-     "origen": "400 ml"
-    }
-   ],
-   "excluidosCompra": [
-    "pimentón y laurel (especias)",
-    "tomates alternativos (opcional)",
-    "arroz o pan para servir (opcional)"
-   ]
-  },
-  {
-   "no": 4,
-   "nombre": "Arepas rellenas con carne desmechada",
-   "estado": "Revisar",
-   "url": "https://app.notion.com/p/3f7a5f3fc23081b9aef5f10021422052",
-   "editado": "2026-10-23",
-   "corte": "Carne de res para desmechar",
-   "carbohidratos": [
-    "Maíz/arepa"
-   ],
-   "verduras": [
-    "Cebolla",
-    "Tomate"
-   ],
-   "notaNutricionista": null,
-   "notaPagina": "Propuesta: ~75 g de harina por arepa, 1–2 arepas por persona.",
-   "ingredientesNotion": [
-    {
-     "titulo": "Ingredientes (5 personas)",
-     "lineas": [
-      "600 g de harina de maíz precocida (≈8 arepas) (propuesta)",
-      "500 g de pulled pork",
-      "250 g de queso para arepas (mozzarella rallado)"
-     ]
-    }
-   ],
-   "pasos": [
-    {
-     "titulo": "Preparación",
-     "lineas": [
-      "Cocina la carne en agua 1,5 h hasta que esté tierna; desmecha.",
-      "Sofríe cebolla, ajo y tomate picados con el aceite y el comino; añade la carne y un poco de caldo hasta que quede jugosa.",
-      "Mezcla la harina con 730 ml de agua tibia, amasa 2–3 min y reposa 5 min. Forma las arepas (~75 g de harina cada una).",
-      "Ásalas en sartén o plancha 5–6 min por lado y termina 10 min al horno si son gruesas.",
-      "Abre y rellena con la carne y el queso. Sirve calientes."
-     ]
-    }
-   ],
-   "compra": [
-    {
-     "nombre": "Harina de maíz precocida",
-     "cantidadReceta": 600,
-     "unidad": "g",
-     "porPorcion": 120.0,
-     "origen": "600 g (propuesta)"
-    },
-    {
-     "nombre": "Pulled pork",
-     "cantidadReceta": 500,
-     "unidad": "g",
-     "porPorcion": 100.0,
-     "origen": "500 g de pulled pork",
-     "nota": "¿cerdo en un plato de carne roja?"
-    },
-    {
-     "nombre": "Mozzarella rallada",
-     "cantidadReceta": 250,
-     "unidad": "g",
-     "porPorcion": 50.0,
-     "origen": "250 g de queso para arepas"
-    }
-   ],
-   "excluidosCompra": [
-    "agua",
-    "aceite",
-    "comino",
-    "caldo (poco)"
-   ],
-   "avisos": [
-    "Cebolla, ajo y tomate salen en los pasos pero no en la lista de ingredientes.",
-    "La lista dice «pulled pork» (cerdo), pero el plato y el corte son de res."
-   ]
-  },
-  {
-   "no": 5,
-   "nombre": "Verduras al wok con carne de vacío y arroz",
-   "estado": "Aprobado",
-   "url": "https://app.notion.com/p/3f7a5f3fc230810b9735f2efd4783a4d",
-   "editado": "2026-10-19",
-   "corte": "Vacío de ternera",
-   "carbohidratos": [
-    "Arroz"
-   ],
-   "verduras": [
-    "Cebolla",
-    "Tomate",
-    "Zanahoria",
-    "Calabacín"
-   ],
-   "notaNutricionista": "arroz integral.",
-   "ingredientesNotion": [
-    {
-     "titulo": "Ingredientes (5 personas)",
-     "lineas": [
-      "4 ½–5 ½ dientes de ajo",
-      "2 cebollas",
-      "2 tomates",
-      "2 zanahorias",
-      "1 calabacín",
-      "440–550 g de carne de vacío (en trozos)",
-      "330–440 g de arroz (blanco)"
-     ]
-    }
-   ],
-   "pasos": [
-    {
-     "titulo": "Preparación",
-     "lineas": [
-      "Sofríe ajo y cebolla. Añade la carne y sella.",
-      "Incorpora tomate, zanahoria y calabacín. Añade jengibre y salsa de soja.",
-      "Cocina 20 min a fuego medio. Sirve con el arroz cocido aparte."
-     ]
-    }
-   ],
-   "compra": [
-    {
-     "nombre": "Ajo",
-     "cantidadReceta": 5,
-     "unidad": "dientes",
-     "porPorcion": 1.0,
-     "origen": "4 ½–5 ½ dientes",
-     "nota": "punto medio"
-    },
-    {
-     "nombre": "Cebolla",
-     "cantidadReceta": 2,
-     "unidad": "ud",
-     "porPorcion": 0.4,
-     "origen": "2 cebollas"
-    },
-    {
-     "nombre": "Tomate",
-     "cantidadReceta": 2,
-     "unidad": "ud",
-     "porPorcion": 0.4,
-     "origen": "2 tomates"
-    },
-    {
-     "nombre": "Zanahoria",
-     "cantidadReceta": 2,
-     "unidad": "ud",
-     "porPorcion": 0.4,
-     "origen": "2 zanahorias"
-    },
-    {
-     "nombre": "Calabacín",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 calabacín"
-    },
-    {
-     "nombre": "Carne de vacío",
-     "cantidadReceta": 495,
-     "unidad": "g",
-     "porPorcion": 99.0,
-     "origen": "440–550 g",
-     "nota": "punto medio"
-    },
-    {
-     "nombre": "Arroz",
-     "cantidadReceta": 385,
-     "unidad": "g",
-     "porPorcion": 77.0,
-     "origen": "330–440 g de arroz blanco",
-     "nota": "punto medio"
-    }
-   ],
-   "excluidosCompra": [
-    "aceite"
-   ],
-   "avisos": [
-    "Jengibre y salsa de soja salen en los pasos pero no en la lista de ingredientes."
-   ]
-  },
-  {
-   "no": 6,
-   "nombre": "Espagueti a la boloñesa",
-   "estado": "Aprobado",
-   "url": "https://app.notion.com/p/3f7a5f3fc2308127af80eba05de77951",
-   "editado": "2026-10-19",
-   "corte": "Carne picada",
-   "carbohidratos": [
-    "Pasta"
-   ],
-   "verduras": [
-    "Cebolla",
-    "Zanahoria",
-    "Tomate",
-    "Puerro"
-   ],
-   "notaNutricionista": "pasta integral; apio → puerro u omitir.",
-   "ingredientesNotion": [
-    {
-     "titulo": "Ingredientes (5 personas)",
-     "lineas": [
-      "500 g de espagueti",
-      "500 g de carne picada",
-      "1 cebolla",
-      "2 dientes de ajo",
-      "1 zanahoria",
-      "1 apio",
-      "1 lata de tomate triturado (lata)",
-      "2 cucharadas de concentrado de tomate"
-     ]
-    }
-   ],
-   "pasos": [
-    {
-     "titulo": "Preparación",
-     "lineas": [
-      "Sofríe las verduras. Añade la carne y dora. Incorpora tomate y concentrado.",
-      "Cocina a fuego suave 30–40 min. Cuece la pasta al dente.",
-      "Mezcla o sirve la salsa sobre la pasta."
-     ]
-    }
-   ],
-   "compra": [
-    {
-     "nombre": "Espaguetis",
-     "cantidadReceta": 500,
-     "unidad": "g",
-     "porPorcion": 100.0,
-     "origen": "500 g"
-    },
-    {
-     "nombre": "Carne picada",
-     "cantidadReceta": 500,
-     "unidad": "g",
-     "porPorcion": 100.0,
-     "origen": "500 g"
-    },
-    {
-     "nombre": "Cebolla",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 cebolla"
-    },
-    {
-     "nombre": "Ajo",
-     "cantidadReceta": 2,
-     "unidad": "dientes",
-     "porPorcion": 0.4,
-     "origen": "2 dientes"
-    },
-    {
-     "nombre": "Zanahoria",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 zanahoria"
-    },
-    {
-     "nombre": "Apio",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 apio",
-     "nota": "la nota dice apio → puerro u omitir"
-    },
-    {
-     "nombre": "Tomate triturado",
-     "cantidadReceta": 400,
-     "unidad": "g",
-     "porPorcion": 80.0,
-     "origen": "1 lata",
-     "nota": "lata estándar de 400 g"
-    },
-    {
-     "nombre": "Concentrado de tomate",
-     "cantidadReceta": 2,
-     "unidad": "cucharadas",
-     "porPorcion": 0.4,
-     "origen": "2 cucharadas"
-    }
-   ],
-   "excluidosCompra": [
-    "aceite"
-   ]
-  },
-  {
-   "no": 7,
-   "nombre": "Sopa de la abuela (con albóndigas)",
-   "estado": "Aprobado",
-   "url": "https://app.notion.com/p/3f7a5f3fc23081b3ad07d270b6b7fa45",
-   "editado": "2026-10-20",
-   "corte": "Carne picada de ternera",
-   "carbohidratos": [
-    "Pasta",
-    "Pan"
-   ],
-   "verduras": [
-    "Cebolla",
-    "Puerro",
-    "Zanahoria"
-   ],
-   "notaNutricionista": "fideos y pan rallado integrales; apio → puerro.",
-   "ingredientesNotion": [
-    {
-     "titulo": "Ingredientes (5 personas)",
-     "lineas": [
-      "265 g de carne picada de ternera",
-      "1 huevo",
-      "2 cebollas",
-      "2 puerros",
-      "2 ½ zanahorias",
-      "2 ½ tallos de apio",
-      "175 g de fideos finos",
-      "1,76 l de caldo de ternera",
-      "Perejil",
-      "Pan de barra (para servir) (opcional)"
-     ]
-    }
-   ],
-   "pasos": [
-    {
-     "titulo": "Preparación",
-     "lineas": [
-      "Forma albóndigas con carne, huevo y pan rallado.",
-      "Sofríe las verduras. Añade el caldo y las albóndigas. Cocina 45–60 min.",
-      "Añade los fideos los últimos 10 min. Sirve con pan."
-     ]
-    }
-   ],
-   "compra": [
-    {
-     "nombre": "Carne picada de ternera",
-     "cantidadReceta": 265,
-     "unidad": "g",
-     "porPorcion": 53.0,
-     "origen": "265 g"
-    },
-    {
-     "nombre": "Huevos",
-     "cantidadReceta": 1,
-     "unidad": "ud",
-     "porPorcion": 0.2,
-     "origen": "1 huevo"
-    },
-    {
-     "nombre": "Cebolla",
-     "cantidadReceta": 2,
-     "unidad": "ud",
-     "porPorcion": 0.4,
-     "origen": "2 cebollas"
-    },
-    {
-     "nombre": "Puerro",
-     "cantidadReceta": 2,
-     "unidad": "ud",
-     "porPorcion": 0.4,
-     "origen": "2 puerros"
-    },
-    {
-     "nombre": "Zanahoria",
-     "cantidadReceta": 2.5,
-     "unidad": "ud",
-     "porPorcion": 0.5,
-     "origen": "2 ½ zanahorias"
-    },
-    {
-     "nombre": "Apio",
-     "cantidadReceta": 2.5,
-     "unidad": "tallos",
-     "porPorcion": 0.5,
-     "origen": "2 ½ tallos",
-     "nota": "la nota dice apio → puerro"
-    },
-    {
-     "nombre": "Fideos finos",
-     "cantidadReceta": 175,
-     "unidad": "g",
-     "porPorcion": 35.0,
-     "origen": "175 g"
-    },
-    {
-     "nombre": "Caldo de ternera",
-     "cantidadReceta": 1760,
-     "unidad": "ml",
-     "porPorcion": 352.0,
-     "origen": "1,76 l"
-    },
-    {
-     "nombre": "Perejil",
-     "cantidadReceta": null,
-     "unidad": "manojo",
-     "porPorcion": null,
-     "origen": "Perejil, sin cantidad",
-     "sinCantidad": true
-    }
-   ],
-   "excluidosCompra": [
-    "pan de barra (opcional)"
-   ],
-   "avisos": [
-    "El pan rallado sale en los pasos pero no en la lista de ingredientes.",
-    "Dos líneas de ingredientes tenían restos de texto de la importación; aquí se muestran limpias."
-   ],
-   "ingredientesNotionOriginal": [
-    "265 g de carne picada de ternera (M: 'carne picada'; C: 'de ternera')",
-    "2 ½ tallos de apio (amount from C ('3 tallos'))"
-   ]
-  }
- ]
-};
-const PERSONAS = [{id:'Llan',w:1.00},{id:'Lluma',w:0.80},{id:'Ale',w:1.05},{id:'Isa',w:0.90},{id:'Tori',w:0.65}];
-const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
-const DIAS_CORTO = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-const NUM_MENUS = 5;
-// Grupos de proteína con el máximo semanal de Notion
-const GRUPOS = [
-  {id:'carne',nombre:'Carne roja',emoji:'🥩',max:2},
-  {id:'pollo',nombre:'Pollo',emoji:'🍗',max:2},
-  {id:'cerdo',nombre:'Cerdo',emoji:'🐖',max:1},
-  {id:'pblanco',nombre:'Pescado blanco',emoji:'🐟',max:1},
-  {id:'pazul',nombre:'Pescado azul',emoji:'🍣',max:1},
-  {id:'huevos',nombre:'Huevos',emoji:'🥚',max:1},
-  {id:'legumbres',nombre:'Legumbres',emoji:'🫘',max:1},
-  {id:'sinprot',nombre:'Sin proteína',emoji:'🥗',max:1}
-];
-// Menús de ejemplo (temporal, hasta cargar los demás grupos de Notion). Cantidades por 1 porción adulta
-const EJEMPLOS = [
-  ['e1','pollo','Pollo asado con patatas',[['Muslos de pollo',250,'g'],['Patatas',250,'g'],['Cebolla',0.5,'ud'],['Pimiento rojo',0.5,'ud'],['Limón',0.25,'ud']]],
-  ['e6','pollo','Arroz con pollo y verduras',[['Arroz',80,'g'],['Pechuga de pollo',150,'g'],['Pimiento rojo',0.5,'ud'],['Guisantes',50,'g'],['Cebolla',0.5,'ud']]],
-  ['e8','cerdo','Lomo de cerdo con pimientos',[['Lomo de cerdo',150,'g'],['Pimiento rojo',0.5,'ud'],['Pimiento verde',0.5,'ud'],['Patatas',200,'g'],['Ajo',1,'dientes']]],
-  ['e4','pblanco','Merluza al horno con verduras',[['Merluza',180,'g'],['Patatas',200,'g'],['Calabacín',0.5,'ud'],['Tomate',1,'ud'],['Limón',0.25,'ud']]],
-  ['e7','pazul','Salmón con espárragos y arroz',[['Salmón',150,'g'],['Espárragos verdes',100,'g'],['Arroz',70,'g'],['Limón',0.25,'ud'],['Ajo',1,'dientes']]],
-  ['e3','huevos','Tortilla de patatas con ensalada',[['Huevos',2,'ud'],['Patatas',200,'g'],['Cebolla',0.5,'ud'],['Lechuga',0.25,'ud'],['Tomate',1,'ud']]],
-  ['e2','legumbres','Lentejas estofadas',[['Lentejas',80,'g'],['Chorizo',40,'g'],['Zanahoria',1,'ud'],['Patatas',100,'g'],['Cebolla',0.5,'ud']]],
-  ['e9','legumbres','Garbanzos con espinacas y huevo',[['Garbanzos cocidos',150,'g'],['Espinacas',100,'g'],['Huevos',1,'ud'],['Tomate',1,'ud'],['Ajo',1,'dientes']]],
-  ['e10','sinprot','Crema de calabaza con pan',[['Calabaza',300,'g'],['Zanahoria',1,'ud'],['Puerro',0.5,'ud'],['Queso fresco',40,'g'],['Pan',60,'g']]]
-];
-const MENUS = [
-  ...CARNE.platos.map(p=>({id:'n'+p.no,grupo:'carne',no:p.no,nombre:p.nombre,fuente:'notion',plato:p,
-     ing:p.compra.map(c=>[c.nombre,c.porPorcion,c.unidad])})),
-  ...EJEMPLOS.map(([id,g,n,ing])=>({id,grupo:g,nombre:n,fuente:'ejemplo',ing}))
-];
-const PASOS = ['Elegir menús','Elegir días','Comensales','Ingredientes','Stock en casa','Lista de la compra'];
-const KEY = 'cansocho-simple-v2';
-const UNIDAD = {g:'g',ud:'ud',dientes:'dientes',ml:'ml',cucharadas:'cucharadas',manojo:'manojo',tallos:'tallos'};
-const uTxt = u => UNIDAD[u]||u;
+const DATA = {"porcionesReceta": 5, "grupos": [{"id": "carne-roja", "nombre": "Carne roja", "max": 2, "platos": [{"no": 1, "nombre": "Chili con carne", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081c196f7f419d711615c", "editado": "2026-10-20", "corte": "Carne picada de vacuno", "carbohidratos": ["Arroz"], "verduras": ["Cebolla", "Pimiento", "Tomate"], "notaNutricionista": "arroz integral; sin nata agria, cheddar ni tortillas.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["1 cebolla (grande, picada)", "1 pimiento rojo (en cubitos)", "2 ½ dientes de ajo (picados)", "415–500 g de carne de vacuno picada (o 665 g de aguja en cubos)", "1 ⅔ cucharadas de concentrado de tomate", "335 g de tomate triturado (1 lata de 400 g)", "335 g de alubias rojas escurridas (1 lata de 400 g)", "210–335 ml de caldo de vacuno", "Arroz integral (para servir)", "Cilantro (fresco) (para servir) (opcional)", "Lima (para servir) (opcional)", "Jalapeño (para servir) (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe la cebolla y el pimiento 6–8 min en aceite. Añade el ajo 1 min.", "Sube el fuego, dora la carne. Incorpora las especias y el concentrado; cocina 1–2 min.", "Añade el tomate, las alubias y caldo suficiente para cubrir. Hierve suave 30–40 min (picada) o 1½–2½ h (cubos) hasta espesar.", "Rectifica picante y acidez. Sirve sobre arroz integral con los acompañamientos (cilantro, lima, jalapeño) aparte."]}], "compra": [{"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla (grande)"}, {"nombre": "Pimiento rojo", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pimiento rojo"}, {"nombre": "Ajo", "cantidadReceta": 2.5, "unidad": "dientes", "porPorcion": 0.5, "origen": "2 ½ dientes de ajo"}, {"nombre": "Carne picada de vacuno", "cantidadReceta": 457.5, "unidad": "g", "porPorcion": 91.5, "origen": "415–500 g", "nota": "punto medio del rango"}, {"nombre": "Concentrado de tomate", "cantidadReceta": 1.67, "unidad": "cucharadas", "porPorcion": 0.334, "origen": "1 ⅔ cucharadas"}, {"nombre": "Tomate triturado", "cantidadReceta": 335, "unidad": "g", "porPorcion": 67.0, "origen": "335 g (1 lata de 400 g)"}, {"nombre": "Alubias rojas cocidas", "cantidadReceta": 335, "unidad": "g", "porPorcion": 67.0, "origen": "335 g escurridas (1 lata de 400 g)"}, {"nombre": "Caldo de vacuno", "cantidadReceta": 272.5, "unidad": "ml", "porPorcion": 54.5, "origen": "210–335 ml", "nota": "punto medio del rango"}, {"nombre": "Arroz integral", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Arroz integral (para servir), sin cantidad", "sinCantidad": true}], "excluidosCompra": ["aceite", "especias", "Cilantro, lima y jalapeño (opcionales)"], "id": "n1", "grupo": "carne-roja"}, {"no": 2, "nombre": "Entrecot de ternera", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308178bf00f6068ee6c93f", "editado": "2026-10-19", "corte": "Entrecot de ternera", "carbohidratos": ["Patatas"], "verduras": ["Aguacate", "Tomate", "Cebolla"], "notaNutricionista": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["5 entrecots de ternera (unos 180–220 g cada uno)", "Patata (acompañamiento: papas saladas o patatas)"]}, {"titulo": "Guacamole (5 personas)", "lineas": ["3 aguacates maduros", "4 tomates", "1½ cebolla blanca", "1–2 limones (o limas), el zumo", "1 manojo pequeño de cilantro fresco"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Saca la carne del frío 30 min antes.", "Dora en sartén muy caliente 2–4 min por lado según punto deseado.", "Deja reposar 3–5 min. Sirve con papas o patatas y el guacamole."]}, {"titulo": "Guacamole", "lineas": ["Pica muy fino la cebolla y el cilantro; trocea el tomate en dados pequeños (sin semillas).", "Aplasta los aguacates con un tenedor y mezcla enseguida con el zumo de limón.", "Incorpora tomate, cebolla y cilantro; sala al gusto.", "Prepáralo justo antes de servir (o cubre con film en contacto para que no se oscurezca)."]}], "compra": [{"nombre": "Entrecot de ternera", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "5 entrecots de 180–220 g", "nota": "5 × 200 g (punto medio)"}, {"nombre": "Patatas", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Patata, sin cantidad", "sinCantidad": true}, {"nombre": "Aguacate", "cantidadReceta": 3, "unidad": "ud", "porPorcion": 0.6, "origen": "3 aguacates maduros"}, {"nombre": "Tomate", "cantidadReceta": 4, "unidad": "ud", "porPorcion": 0.8, "origen": "4 tomates"}, {"nombre": "Cebolla", "cantidadReceta": 1.5, "unidad": "ud", "porPorcion": 0.3, "origen": "1½ cebolla blanca"}, {"nombre": "Limón", "cantidadReceta": 1.5, "unidad": "ud", "porPorcion": 0.3, "origen": "1–2 limones", "nota": "punto medio del rango"}, {"nombre": "Cilantro fresco", "cantidadReceta": 1, "unidad": "manojo", "porPorcion": 0.2, "origen": "1 manojo pequeño"}], "excluidosCompra": ["sal"], "id": "n2", "grupo": "carne-roja"}, {"no": 3, "nombre": "Goulash de carne", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081f19ba2fc650f441c2c", "editado": "2026-10-19", "corte": "Ternera o aguja en cubos", "carbohidratos": ["Arroz", "Pan"], "verduras": ["Cebolla", "Tomate", "Pimiento", "Zanahoria"], "notaNutricionista": "arroz o pan integral.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["640 g de carne de ternera o aguja en cubos", "1 ½ cebollas (grandes)", "2 ½ dientes de ajo", "1 lata de tomate triturado (lata) (o 2 tomates)", "1 ½ tomates (alternativa a la lata) (opcional)", "1 pimiento", "1 ½ zanahorias", "400 ml de caldo", "Arroz (para servir (o pan)) (opcional)", "Pan (para servir (o arroz)) (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Dora la carne en tandas y reserva. Sofríe la cebolla hasta que se dore.", "Añade ajo y pimentón (sin quemar). Incorpora la carne, tomate, verduras, laurel y caldo.", "Cocina a fuego suave 1,5–2 h hasta que la carne esté tierna. Rectifica y sirve con arroz o pan."]}], "compra": [{"nombre": "Ternera o aguja en cubos", "cantidadReceta": 640, "unidad": "g", "porPorcion": 128.0, "origen": "640 g"}, {"nombre": "Cebolla", "cantidadReceta": 1.5, "unidad": "ud", "porPorcion": 0.3, "origen": "1 ½ cebollas"}, {"nombre": "Ajo", "cantidadReceta": 2.5, "unidad": "dientes", "porPorcion": 0.5, "origen": "2 ½ dientes"}, {"nombre": "Tomate triturado", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "1 lata", "nota": "lata estándar de 400 g"}, {"nombre": "Pimiento", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pimiento"}, {"nombre": "Zanahoria", "cantidadReceta": 1.5, "unidad": "ud", "porPorcion": 0.3, "origen": "1 ½ zanahorias"}, {"nombre": "Caldo", "cantidadReceta": 400, "unidad": "ml", "porPorcion": 80.0, "origen": "400 ml"}], "excluidosCompra": ["pimentón y laurel (especias)", "tomates alternativos (opcional)", "arroz o pan para servir (opcional)"], "id": "n3", "grupo": "carne-roja"}, {"no": 4, "nombre": "Arepas rellenas con carne desmechada", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081b9aef5f10021422052", "editado": "2026-10-23", "corte": "Carne de res para desmechar", "carbohidratos": ["Maíz/arepa"], "verduras": ["Cebolla", "Tomate"], "notaNutricionista": null, "notaPagina": "Propuesta: ~75 g de harina por arepa, 1–2 arepas por persona.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["600 g de harina de maíz precocida (≈8 arepas) (propuesta)", "500 g de cerdo desmechado", "250 g de queso para arepas (mozzarella rallado)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Cocina la carne en agua 1,5 h hasta que esté tierna; desmecha.", "Sofríe cebolla, ajo y tomate picados con el aceite y el comino; añade la carne y un poco de caldo hasta que quede jugosa.", "Mezcla la harina con 730 ml de agua tibia, amasa 2–3 min y reposa 5 min. Forma las arepas (~75 g de harina cada una).", "Ásalas en sartén o plancha 5–6 min por lado y termina 10 min al horno si son gruesas.", "Abre y rellena con la carne y el queso. Sirve calientes."]}], "compra": [{"nombre": "Harina de maíz precocida", "cantidadReceta": 600, "unidad": "g", "porPorcion": 120.0, "origen": "600 g (propuesta)"}, {"nombre": "Cerdo desmechado", "cantidadReceta": 500, "unidad": "g", "porPorcion": 100.0, "origen": "500 g (en Notion, con el nombre en inglés)", "nota": "¿cerdo en un plato de carne roja?"}, {"nombre": "Mozzarella rallada", "cantidadReceta": 250, "unidad": "g", "porPorcion": 50.0, "origen": "250 g de queso para arepas"}], "excluidosCompra": ["agua", "aceite", "comino", "caldo (poco)"], "avisos": ["Cebolla, ajo y tomate salen en los pasos pero no en la lista de ingredientes.", "En Notion la carne figura con un nombre en inglés que significa cerdo desmechado, pero el plato y el corte son de res."], "ingredientesNotionOriginal": ["500 g de pulled pork"], "id": "n4", "grupo": "carne-roja"}, {"no": 5, "nombre": "Verduras al wok con carne de vacío y arroz", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc230810b9735f2efd4783a4d", "editado": "2026-10-19", "corte": "Vacío de ternera", "carbohidratos": ["Arroz"], "verduras": ["Cebolla", "Tomate", "Zanahoria", "Calabacín"], "notaNutricionista": "arroz integral.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["4 ½–5 ½ dientes de ajo", "2 cebollas", "2 tomates", "2 zanahorias", "1 calabacín", "440–550 g de carne de vacío (en trozos)", "330–440 g de arroz (blanco)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe ajo y cebolla. Añade la carne y sella.", "Incorpora tomate, zanahoria y calabacín. Añade jengibre y salsa de soja.", "Cocina 20 min a fuego medio. Sirve con el arroz cocido aparte."]}], "compra": [{"nombre": "Ajo", "cantidadReceta": 5, "unidad": "dientes", "porPorcion": 1.0, "origen": "4 ½–5 ½ dientes", "nota": "punto medio"}, {"nombre": "Cebolla", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 cebollas"}, {"nombre": "Tomate", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 tomates"}, {"nombre": "Zanahoria", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 zanahorias"}, {"nombre": "Calabacín", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 calabacín"}, {"nombre": "Carne de vacío", "cantidadReceta": 495, "unidad": "g", "porPorcion": 99.0, "origen": "440–550 g", "nota": "punto medio"}, {"nombre": "Arroz", "cantidadReceta": 385, "unidad": "g", "porPorcion": 77.0, "origen": "330–440 g de arroz blanco", "nota": "punto medio"}], "excluidosCompra": ["aceite"], "avisos": ["Jengibre y salsa de soja salen en los pasos pero no en la lista de ingredientes."], "id": "n5", "grupo": "carne-roja"}, {"no": 6, "nombre": "Espagueti a la boloñesa", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308127af80eba05de77951", "editado": "2026-10-19", "corte": "Carne picada", "carbohidratos": ["Pasta"], "verduras": ["Cebolla", "Zanahoria", "Tomate", "Puerro"], "notaNutricionista": "pasta integral; apio → puerro u omitir.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["500 g de espagueti", "500 g de carne picada", "1 cebolla", "2 dientes de ajo", "1 zanahoria", "1 apio", "1 lata de tomate triturado (lata)", "2 cucharadas de concentrado de tomate"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe las verduras. Añade la carne y dora. Incorpora tomate y concentrado.", "Cocina a fuego suave 30–40 min. Cuece la pasta al dente.", "Mezcla o sirve la salsa sobre la pasta."]}], "compra": [{"nombre": "Espaguetis", "cantidadReceta": 500, "unidad": "g", "porPorcion": 100.0, "origen": "500 g"}, {"nombre": "Carne picada", "cantidadReceta": 500, "unidad": "g", "porPorcion": 100.0, "origen": "500 g"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Zanahoria", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 zanahoria"}, {"nombre": "Apio", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 apio", "nota": "la nota dice apio → puerro u omitir"}, {"nombre": "Tomate triturado", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "1 lata", "nota": "lata estándar de 400 g"}, {"nombre": "Concentrado de tomate", "cantidadReceta": 2, "unidad": "cucharadas", "porPorcion": 0.4, "origen": "2 cucharadas"}], "excluidosCompra": ["aceite"], "id": "n6", "grupo": "carne-roja"}, {"no": 7, "nombre": "Sopa de la abuela (con albóndigas)", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081b3ad07d270b6b7fa45", "editado": "2026-10-20", "corte": "Carne picada de ternera", "carbohidratos": ["Pasta", "Pan"], "verduras": ["Cebolla", "Puerro", "Zanahoria"], "notaNutricionista": "fideos y pan rallado integrales; apio → puerro.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["265 g de carne picada de ternera", "1 huevo", "2 cebollas", "2 puerros", "2 ½ zanahorias", "2 ½ tallos de apio", "175 g de fideos finos", "1,76 l de caldo de ternera", "Perejil", "Pan de barra (para servir) (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Forma albóndigas con carne, huevo y pan rallado.", "Sofríe las verduras. Añade el caldo y las albóndigas. Cocina 45–60 min.", "Añade los fideos los últimos 10 min. Sirve con pan."]}], "compra": [{"nombre": "Carne picada de ternera", "cantidadReceta": 265, "unidad": "g", "porPorcion": 53.0, "origen": "265 g"}, {"nombre": "Huevos", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 huevo"}, {"nombre": "Cebolla", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 cebollas"}, {"nombre": "Puerro", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 puerros"}, {"nombre": "Zanahoria", "cantidadReceta": 2.5, "unidad": "ud", "porPorcion": 0.5, "origen": "2 ½ zanahorias"}, {"nombre": "Apio", "cantidadReceta": 2.5, "unidad": "tallos", "porPorcion": 0.5, "origen": "2 ½ tallos", "nota": "la nota dice apio → puerro"}, {"nombre": "Fideos finos", "cantidadReceta": 175, "unidad": "g", "porPorcion": 35.0, "origen": "175 g"}, {"nombre": "Caldo de ternera", "cantidadReceta": 1760, "unidad": "ml", "porPorcion": 352.0, "origen": "1,76 l"}, {"nombre": "Perejil", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Perejil, sin cantidad", "sinCantidad": true}], "excluidosCompra": ["pan de barra (opcional)"], "avisos": ["El pan rallado sale en los pasos pero no en la lista de ingredientes.", "Dos líneas de ingredientes tenían restos de texto de la importación; aquí se muestran limpias."], "ingredientesNotionOriginal": ["265 g de carne picada de ternera (M: 'carne picada'; C: 'de ternera')", "2 ½ tallos de apio (amount from C ('3 tallos'))"], "id": "n7", "grupo": "carne-roja"}]}, {"id": "pollo", "nombre": "Pollo", "max": 2, "platos": [{"id": "n8", "no": 8, "nombre": "Pechuga de pollo asada", "grupo": "pollo", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081a6b5ebfcf5250eb9b3", "editado": "2026-10-20", "corte": "Pechuga de pollo", "carbohidratos": ["Patatas"], "verduras": ["Lechuga", "Tomate", "Pepino"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["5 pechugas de pollo", "3 dientes de ajo (propuesta)", "Hierbas frescas (alternativa al pimentón) (opcional)", "1 limón (opcional) (propuesta)", "1 kg de patatas (al horno)"]}, {"titulo": "Ensalada verde", "lineas": ["1 lechuga", "3 tomates", "1 pepino"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Marina las pechugas 30 min con aceite, ajo y especias.", "Corta las patatas en gajos y ásalas en la misma bandeja a 200 °C unos 15 min antes de añadir el pollo.", "Añade las pechugas y hornea juntos unos 20–25 min más, hasta 75 °C interior en el pollo y las patatas doradas.", "Mientras tanto prepara la ensalada verde: lechuga, tomate y pepino.", "Reposa el pollo unos minutos. Sirve con las patatas y la ensalada."]}], "compra": [{"nombre": "Pechuga de pollo", "cantidadReceta": 5, "unidad": "ud", "porPorcion": 1.0, "origen": "5 pechugas de pollo"}, {"nombre": "Ajo", "cantidadReceta": 3, "unidad": "dientes", "porPorcion": 0.6, "origen": "3 dientes (propuesta)"}, {"nombre": "Patatas", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "1 kg"}, {"nombre": "Lechuga", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 lechuga"}, {"nombre": "Tomate", "cantidadReceta": 3, "unidad": "ud", "porPorcion": 0.6, "origen": "3 tomates"}, {"nombre": "Pepino", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pepino"}], "avisos": []}, {"id": "n9", "no": 9, "nombre": "Pollo en salsa", "grupo": "pollo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081bc9f96c38c96bb5f6d", "editado": "2026-10-19", "corte": "Muslo o pechuga de pollo", "carbohidratos": ["Arroz"], "verduras": ["Cebolla", "Pimiento", "Tomate"], "notaNutricionista": "arroz integral.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["1,2 kg de pollo para salsa (muslo o pechuga)", "1 cebolla", "2 dientes de ajo", "1 pimiento", "1 lata de tomate triturado (lata) (o 400 ml de caldo + concentrado)", "400 ml de caldo (alternativa a la lata de tomate) (opcional)", "Concentrado de tomate (con el caldo) (opcional)", "Arroz (para acompañar)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Dora el pollo y reserva. Sofríe cebolla, ajo y pimiento.", "Añade tomate o caldo, especias y el pollo. Cocina 25–35 min hasta que la salsa espese.", "Sirve con arroz."]}], "compra": [{"nombre": "Pollo (muslo o pechuga)", "cantidadReceta": 1200, "unidad": "g", "porPorcion": 240.0, "origen": "1,2 kg"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Pimiento", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pimiento"}, {"nombre": "Tomate triturado", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "1 lata", "nota": "lata estándar de 400 g"}, {"nombre": "Arroz", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Arroz (para acompañar), sin cantidad", "sinCantidad": true}], "avisos": ["Arroz sin cantidad."]}, {"id": "n10", "no": 10, "nombre": "Pollo en cocotte (con verduras)", "grupo": "pollo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081599326d96fded03901", "editado": "2026-10-19", "corte": "Pollo entero", "carbohidratos": ["Patatas"], "verduras": ["Zanahoria", "Cebolla"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["1,65–2,2 kg de pollo entero", "55 g de mantequilla", "4 ½ zanahorias", "4 ½ patatas", "2 cebollas", "1 cabeza de ajo", "1 limón", "Tomillo", "Romero"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Unta mantequilla con hierbas bajo la piel del pollo. Rellena con limón y hierbas.", "Dora el pollo en la cocotte 10–15 min. Coloca las verduras alrededor.", "Tapa y hornea a 200 °C 1–1,5 h hasta 75 °C interior. Reposa 15 min."]}], "compra": [{"nombre": "Pollo entero", "cantidadReceta": 1925, "unidad": "g", "porPorcion": 385.0, "origen": "1,65–2,2 kg", "nota": "punto medio del rango"}, {"nombre": "Mantequilla", "cantidadReceta": 55, "unidad": "g", "porPorcion": 11.0, "origen": "55 g"}, {"nombre": "Zanahoria", "cantidadReceta": 4.5, "unidad": "ud", "porPorcion": 0.9, "origen": "4 ½ zanahorias"}, {"nombre": "Patatas", "cantidadReceta": 4.5, "unidad": "ud", "porPorcion": 0.9, "origen": "4 ½ patatas", "nota": "en unidades, no en gramos"}, {"nombre": "Cebolla", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 cebollas"}, {"nombre": "Ajo", "cantidadReceta": 1, "unidad": "cabezas", "porPorcion": 0.2, "origen": "1 cabeza de ajo"}, {"nombre": "Limón", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 limón"}, {"nombre": "Tomillo", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Tomillo, sin cantidad", "sinCantidad": true}, {"nombre": "Romero", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Romero, sin cantidad", "sinCantidad": true}], "avisos": ["Patatas en unidades (no en gramos): no se suman con las patatas en gramos de otras recetas.", "Tomillo y romero sin cantidad."]}, {"id": "n11", "no": 11, "nombre": "Sancocho de pollo", "grupo": "pollo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc230818aab7ee546d4102d9b", "editado": "2026-10-20", "corte": "Pollo en trozos", "carbohidratos": ["Patatas", "Yuca", "Maíz/arepa", "Plátano verde", "Arroz"], "verduras": ["Cebolla", "Puerro"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["1,2 kg de pollo en trozos", "2 mazorcas de maíz", "2 yucas (o plátanos verdes)", "2 plátanos verdes (alternativa a la yuca) (opcional)", "2 patatas (papas)", "1 cebolla", "2 dientes de ajo", "Cilantro (fresco)", "Ajo porro", "Arroz (para servir) (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Hierve el pollo con cebolla y ajo. Desespuma.", "Añade yuca y maíz; cocina 20 min. Incorpora papas y plátano si se usa.", "Termina con cilantro. Sirve caliente con arroz opcional."]}], "compra": [{"nombre": "Pollo en trozos", "cantidadReceta": 1200, "unidad": "g", "porPorcion": 240.0, "origen": "1,2 kg"}, {"nombre": "Mazorca de maíz", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 mazorcas"}, {"nombre": "Yuca", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 yucas"}, {"nombre": "Patatas", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 patatas", "nota": "en unidades, no en gramos"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Cilantro fresco", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Cilantro fresco, sin cantidad", "sinCantidad": true}, {"nombre": "Ajo porro (puerro)", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Ajo porro, sin cantidad", "sinCantidad": true}], "avisos": ["Cilantro y ajo porro sin cantidad."]}, {"id": "n12", "no": 12, "nombre": "Pernil de pollo asado", "grupo": "pollo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081a289bef91cbdf14aa9", "editado": "2026-10-19", "corte": "Pernil de pollo", "carbohidratos": [], "verduras": [], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["5 perniles de pollo (muslos con pierna)", "Ajo", "Hierbas frescas", "Patatas", "Crema de verduras (espinaca, zanahoria, cebolla, calabacin)", "cilantro"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Marina los perniles. Colócalos en bandeja.", "Hornea a 200 °C 40–50 min, dorando al final.", "Sirve con crema de verduras o ensalada."]}], "compra": [{"nombre": "Pernil de pollo", "cantidadReceta": 5, "unidad": "ud", "porPorcion": 1.0, "origen": "5 perniles"}, {"nombre": "Ajo", "cantidadReceta": null, "unidad": "dientes", "porPorcion": null, "origen": "Ajo, sin cantidad", "sinCantidad": true}, {"nombre": "Hierbas frescas", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Hierbas frescas, sin cantidad", "sinCantidad": true}, {"nombre": "Patatas", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Patatas, sin cantidad", "sinCantidad": true}, {"nombre": "Verduras para la crema (espinaca, zanahoria, cebolla, calabacín)", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Crema de verduras, sin cantidades", "sinCantidad": true}, {"nombre": "Cilantro fresco", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Cilantro fresco, sin cantidad", "sinCantidad": true}], "avisos": ["Ajo, hierbas, patatas, crema de verduras y cilantro sin cantidad."]}, {"id": "n13", "no": 13, "nombre": "Tortillas tipo fajitas de pollo", "grupo": "pollo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc230813e8b0bc32d7e57ed1a", "editado": "2026-10-20", "corte": "Pechuga de pollo", "carbohidratos": ["Tortilla"], "verduras": ["Pimiento", "Cebolla", "Aguacate"], "notaNutricionista": "tortillas integrales o arroz integral; sin nata agria.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["600 g de pechuga de pollo (en tiras)", "2 pimientos", "2 cebollas", "Tortillas de trigo o maíz", "Aguacate", "Cilantro (fresco)", "Lima", "Queso (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Saltea el pollo con las especias hasta dorar. Reserva.", "Saltea pimiento y cebolla. Mezcla con el pollo.", "Calienta las tortillas y sirve para que cada uno arme su fajita."]}], "compra": [{"nombre": "Pechuga de pollo", "cantidadReceta": 600, "unidad": "g", "porPorcion": 120.0, "origen": "600 g en tiras"}, {"nombre": "Pimiento", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 pimientos"}, {"nombre": "Cebolla", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 cebollas"}, {"nombre": "Tortillas de trigo o maíz", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Tortillas de trigo o maíz, sin cantidad", "sinCantidad": true}, {"nombre": "Aguacate", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Aguacate, sin cantidad", "sinCantidad": true}, {"nombre": "Cilantro fresco", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Cilantro fresco, sin cantidad", "sinCantidad": true}, {"nombre": "Lima", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Lima, sin cantidad", "sinCantidad": true}], "avisos": ["Tortillas, aguacate, cilantro y lima sin cantidad."]}, {"id": "n14", "no": 14, "nombre": "Arroz con pollo", "grupo": "pollo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308198af09cd4feb227391", "editado": "2026-10-19", "corte": "Pollo en trozos", "carbohidratos": ["Arroz"], "verduras": ["Cebolla", "Pimiento", "Tomate"], "notaNutricionista": "arroz integral.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["400 g de arroz", "600 g de pollo en trozos", "2 cebollas", "1 pimiento", "2 dientes de ajo", "3 zanahorias", "150 g de alverjas verdes"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Dora el pollo. Sofríe las verduras y añade el arroz.", "Cubre con caldo (proporción habitual 2:1) y cocina tapado hasta que se absorba.", "Reposa y sirve."]}], "compra": [{"nombre": "Arroz", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "400 g"}, {"nombre": "Pollo en trozos", "cantidadReceta": 600, "unidad": "g", "porPorcion": 120.0, "origen": "600 g"}, {"nombre": "Cebolla", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 cebollas"}, {"nombre": "Pimiento", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pimiento"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Zanahoria", "cantidadReceta": 3, "unidad": "ud", "porPorcion": 0.6, "origen": "3 zanahorias"}, {"nombre": "Guisantes (alverjas)", "cantidadReceta": 150, "unidad": "g", "porPorcion": 30.0, "origen": "150 g de alverjas verdes"}], "avisos": []}, {"id": "n15", "no": 15, "nombre": "Tallarines con salsa carbonara y pollo", "grupo": "pollo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308153a499d7088c9b20a7", "editado": "2026-10-20", "corte": "Pechuga de pollo", "carbohidratos": ["Pasta"], "verduras": [], "notaNutricionista": "pasta integral; sin bacon.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["500 g de tallarines", "400 g de pechuga de pollo (en tiras)", "4 huevos (3 yemas + 1 huevo entero)", "150 g de queso rallado", "Ajo"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Cocina el pollo. Cuece la pasta.", "Mezcla yemas, huevo y queso. Fuera del fuego, incorpora la pasta escurrida y la mezcla (con un poco de agua de cocción).", "Añade el pollo. Sirve enseguida."]}], "compra": [{"nombre": "Tallarines", "cantidadReceta": 500, "unidad": "g", "porPorcion": 100.0, "origen": "500 g"}, {"nombre": "Pechuga de pollo", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "400 g en tiras"}, {"nombre": "Huevos", "cantidadReceta": 4, "unidad": "ud", "porPorcion": 0.8, "origen": "4 huevos"}, {"nombre": "Queso rallado", "cantidadReceta": 150, "unidad": "g", "porPorcion": 30.0, "origen": "150 g"}, {"nombre": "Ajo", "cantidadReceta": null, "unidad": "dientes", "porPorcion": null, "origen": "Ajo, sin cantidad", "sinCantidad": true}], "avisos": ["Ajo sin cantidad."]}, {"id": "n16", "no": 16, "nombre": "Sopa soto", "grupo": "pollo", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc2308105abdacfb467ee01df", "editado": "2026-10-20", "corte": "Tiras de pollo (o ternera)", "carbohidratos": ["Arroz", "Patatas"], "verduras": ["Puerro", "Pimiento"], "notaNutricionista": "arroz integral; sin brotes, judías ni champiñones.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["Tiras de ternera o pollo", "Arroz (o patatas)", "Patata (alternativa al arroz) (opcional)", "Judías verdes (3 verduras a elegir) (opcional)", "Brotes de soja (3 verduras a elegir) (opcional)", "Puerro (3 verduras a elegir) (opcional)", "Apio (3 verduras a elegir) (opcional)", "Pimiento (3 verduras a elegir) (opcional)", "Champiñones (3 verduras a elegir) (opcional)", "Salsa soto (o jengibre, cúrcuma, ajo, cilantro)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Cocina la carne en el caldo con las especias.", "Añade las verduras y el arroz o patatas. Cocina hasta que estén tiernos.", "Sirve caliente. Se puede congelar."]}], "compra": [{"nombre": "Tiras de pollo (o ternera)", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Tiras de pollo (o ternera), sin cantidad", "sinCantidad": true}, {"nombre": "Arroz", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Arroz, sin cantidad", "sinCantidad": true}, {"nombre": "Salsa soto", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Salsa soto, sin cantidad", "sinCantidad": true}], "avisos": ["Receta sin cantidades. Las verduras son «3 a elegir» y quedan fuera de la compra.", "El caldo sale en los pasos pero no en la lista de ingredientes."]}]}, {"id": "pavo", "nombre": "Pavo", "max": 1, "platos": [{"id": "n17", "no": 17, "nombre": "Pechuga de pavo asada", "grupo": "pavo", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081329c8cd8b85c416070", "editado": "2026-10-19", "corte": "Pechuga de pavo", "carbohidratos": ["Patatas"], "verduras": ["Lechuga"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["5 pechugas de pavo", "2 dientes de ajo (propuesta)", "200 g de mezcla de ensalada (acompañamiento) (propuesta)", "2 tomates para la ensalada (propuesta)", "1 kg de patatas (acompañamiento) (propuesta)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Marina el pavo igual que el pollo (aceite, ajo y especias, 30 min).", "Hornea a 190–200 °C unos 20–30 min según grosor.", "Sirve con ensalada y patatas."]}], "compra": [{"nombre": "Pechuga de pavo", "cantidadReceta": 5, "unidad": "ud", "porPorcion": 1.0, "origen": "5 pechugas"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes (propuesta)"}, {"nombre": "Mezcla de ensalada", "cantidadReceta": 200, "unidad": "g", "porPorcion": 40.0, "origen": "200 g (propuesta)"}, {"nombre": "Tomate", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 tomates (propuesta)"}, {"nombre": "Patatas", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "1 kg (propuesta)"}], "avisos": []}]}, {"id": "cerdo", "nombre": "Cerdo", "max": 1, "platos": [{"id": "n18", "no": 18, "nombre": "Costillas al horno / Costillas de cerdo", "grupo": "cerdo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308180ac44fa5d07040a11", "editado": "2026-10-19", "corte": "Costillas de cerdo", "carbohidratos": [], "verduras": ["Cebolla", "Pimiento"], "notaNutricionista": "sustituir la cerveza por caldo.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["1,17–1,47 kg de costillas de cerdo", "1 cebolla", "3 dientes de ajo", "1 pimiento rojo", "1 lata de cerveza (o 300 ml de caldo)", "295 ml de caldo (alternativa a la cerveza) (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Marina las costillas 1 h o más con cebolla, ajo, pimiento, cerveza y especias.", "Coloca en bandeja, vierte parte de la marinada y hornea a 180 °C unos 60–75 min.", "Retira un poco de salsa y deja dorar/tostar al final. Sirve con la salsa reducida."]}], "compra": [{"nombre": "Costillas de cerdo", "cantidadReceta": 1320, "unidad": "g", "porPorcion": 264.0, "origen": "1,17–1,47 kg", "nota": "punto medio del rango"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Ajo", "cantidadReceta": 3, "unidad": "dientes", "porPorcion": 0.6, "origen": "3 dientes"}, {"nombre": "Pimiento rojo", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pimiento rojo"}, {"nombre": "Caldo", "cantidadReceta": 300, "unidad": "ml", "porPorcion": 60.0, "origen": "300 ml de caldo en lugar de la cerveza", "nota": "ajuste nutricionista: caldo en vez de cerveza"}], "avisos": []}, {"id": "n19", "no": 19, "nombre": "Steak de lomo asado", "grupo": "cerdo", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081138de0dd3b5f0813b3", "editado": "2026-10-20", "corte": "Lomo de cerdo", "carbohidratos": ["Patatas"], "verduras": ["Lechuga", "Tomate"], "notaNutricionista": null, "notaPagina": "Propuesta: ~150 g de lomo por adulto.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["660 g de lomo de cerdo en filetes (propuesta)", "2 dientes de ajo (propuesta)", "1 kg de patatas"]}, {"titulo": "Ensalada", "lineas": ["1 lechuga", "3 tomates"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Unta la carne con aceite y hierbas.", "Dora en sartén y termina al horno a 180 °C hasta el punto deseado, o asa el lomo entero 20–30 min.", "Mientras tanto, cuece o asa las patatas (en gajos a 200 °C unos 35–40 min) y prepara la ensalada de lechuga y tomate.", "Reposa la carne 5–10 min antes de servir. Sirve con las patatas y la ensalada."]}], "compra": [{"nombre": "Lomo de cerdo en filetes", "cantidadReceta": 660, "unidad": "g", "porPorcion": 132.0, "origen": "660 g (propuesta)"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes (propuesta)"}, {"nombre": "Patatas", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "1 kg"}, {"nombre": "Lechuga", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 lechuga"}, {"nombre": "Tomate", "cantidadReceta": 3, "unidad": "ud", "porPorcion": 0.6, "origen": "3 tomates"}], "avisos": []}, {"id": "n20", "no": 20, "nombre": "Wok oriental de cerdo con verduras y arroz", "grupo": "cerdo", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc230816babf2c790883d6d1d", "editado": "2026-10-19", "corte": "Lomo o aguja de cerdo", "carbohidratos": ["Arroz"], "verduras": ["Pimiento", "Cebolla", "Zanahoria", "Calabacín", "Espárragos"], "notaNutricionista": "arroz integral; brócoli → calabacín o espárragos.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["700 g de cerdo para wok (lomo o aguja) (en tiras)", "Pimiento", "Cebolla", "Zanahoria", "Jengibre", "Ajo", "Arroz", "Calabacin"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Cocina el arroz aparte. Saltea el cerdo a fuego fuerte y reserva.", "Saltea las verduras. Devuelve el cerdo, añade soja, ajo y jengibre.", "Mezcla y sirve sobre el arroz."]}], "compra": [{"nombre": "Cerdo para wok (lomo o aguja)", "cantidadReceta": 700, "unidad": "g", "porPorcion": 140.0, "origen": "700 g"}, {"nombre": "Pimiento", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Pimiento, sin cantidad", "sinCantidad": true}, {"nombre": "Cebolla", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Cebolla, sin cantidad", "sinCantidad": true}, {"nombre": "Zanahoria", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Zanahoria, sin cantidad", "sinCantidad": true}, {"nombre": "Jengibre", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Jengibre, sin cantidad", "sinCantidad": true}, {"nombre": "Ajo", "cantidadReceta": null, "unidad": "dientes", "porPorcion": null, "origen": "Ajo, sin cantidad", "sinCantidad": true}, {"nombre": "Arroz", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Arroz, sin cantidad", "sinCantidad": true}, {"nombre": "Calabacín", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Calabacín, sin cantidad", "sinCantidad": true}], "avisos": ["Solo el cerdo tiene cantidad; las verduras y el arroz no.", "La salsa de soja sale en los pasos pero no en la lista."]}]}, {"id": "pescado-blanco", "nombre": "Pescado blanco", "max": 1, "platos": [{"id": "n21", "no": 21, "nombre": "Dorada o merluza asada con ensalada verde y patatas", "grupo": "pescado-blanco", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc230813bbb33c87d1f086fe4", "editado": "2026-10-19", "corte": "Dorada o merluza", "carbohidratos": ["Patatas"], "verduras": ["Lechuga", "Pepino"], "notaNutricionista": null, "notaPagina": "Receta propuesta – ajustar cantidades a gusto.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["900 g de filetes de dorada o merluza (unos 180 g por persona)", "1 kg de patatas", "1 cebolla (opcional, en juliana)", "2 dientes de ajo", "1 limón", "1 puñado de perejil fresco (propuesta)", "1 lechuga grande (o 2 cogollos)", "1 pepino (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Precalienta el horno a 200 °C.", "Pela y corta las patatas en rodajas finas (y la cebolla si la usas). Ponlas en una bandeja con 2 cucharadas de aceite y hornea 25–30 min hasta que estén casi tiernas.", "Coloca el pescado sobre las patatas. Añade ajo picado, perejil, un chorrito de aceite y zumo de medio limón.", "Hornea 10–15 min más, hasta que el pescado se separe fácilmente.", "Mientras tanto, lava y corta la lechuga (y el pepino). Aliña con aceite y limón o vinagre.", "Sirve el pescado con las patatas, la ensalada y gajos de limón."]}], "compra": [{"nombre": "Dorada o merluza (filetes)", "cantidadReceta": 900, "unidad": "g", "porPorcion": 180.0, "origen": "900 g"}, {"nombre": "Patatas", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "1 kg"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Limón", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 limón"}, {"nombre": "Perejil fresco", "cantidadReceta": 1, "unidad": "manojo", "porPorcion": 0.2, "origen": "1 puñado (propuesta)"}, {"nombre": "Lechuga", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 lechuga grande"}], "avisos": []}]}, {"id": "pescado-azul", "nombre": "Pescado azul", "max": 1, "platos": [{"id": "n22", "no": 22, "nombre": "Trucha", "grupo": "pescado-azul", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc230812b88a8d35be6b90841", "editado": "2026-10-20", "corte": "Trucha", "carbohidratos": ["Patatas"], "verduras": ["Calabacín"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["5 truchas limpias", "2 limones", "3 dientes de ajo", "1 manojo de perejil", "1 kg de patatas (cocidas o al horno)", "2 calabacines (a la plancha)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Cuece las patatas en agua 20–25 min (o ásalas en gajos a 200 °C unos 35–40 min).", "Rellena las truchas con ajo y perejil.", "Ásalas a la plancha o al horno a 200 °C 15–20 min.", "Corta los calabacines en rodajas y hazlos a la plancha 3–4 min por lado.", "Sirve las truchas con limón, las patatas y el calabacín."]}], "compra": [{"nombre": "Trucha limpia", "cantidadReceta": 5, "unidad": "ud", "porPorcion": 1.0, "origen": "5 truchas"}, {"nombre": "Limón", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 limones"}, {"nombre": "Ajo", "cantidadReceta": 3, "unidad": "dientes", "porPorcion": 0.6, "origen": "3 dientes"}, {"nombre": "Perejil fresco", "cantidadReceta": 1, "unidad": "manojo", "porPorcion": 0.2, "origen": "1 manojo"}, {"nombre": "Patatas", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "1 kg"}, {"nombre": "Calabacín", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 calabacines"}], "avisos": []}, {"id": "n23", "no": 23, "nombre": "Salmón con espárragos y patatas", "grupo": "pescado-azul", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081d8b7bdd87a98505b70", "editado": "2026-10-19", "corte": "Salmón", "carbohidratos": ["Patatas"], "verduras": ["Espárragos"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["5 filetes de salmón, filetes", "2–3 manojos de espárragos", "1 kg de patatas", "1 limón (propuesta)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Cuece o asa las patatas. Saltea o hornea los espárragos.", "Cocina el salmón a la plancha o al horno 10–12 min.", "Sirve todo junto con un chorrito de limón."]}], "compra": [{"nombre": "Salmón (filetes)", "cantidadReceta": 5, "unidad": "ud", "porPorcion": 1.0, "origen": "5 filetes"}, {"nombre": "Espárragos", "cantidadReceta": 2.5, "unidad": "manojo", "porPorcion": 0.5, "origen": "2–3 manojos", "nota": "punto medio del rango"}, {"nombre": "Patatas", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "1 kg"}, {"nombre": "Limón", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 limón (propuesta)"}], "avisos": []}, {"id": "n24", "no": 24, "nombre": "Arroz con atún", "grupo": "pescado-azul", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc230817bb7a1e05970a0ab0a", "editado": "2026-10-19", "corte": "Atún en lata", "carbohidratos": ["Arroz"], "verduras": ["Cebolla", "Pimiento", "Tomate"], "notaNutricionista": "arroz integral.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["400 g de arroz", "2 latas de atún en aceite (lata)", "1 cebolla", "1 pimiento", "2 dientes de ajo", "Tomate", "Perejil"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe cebolla, ajo y pimiento. Añade tomate y el atún escurrido.", "Incorpora el arroz y agua o caldo. Cocina hasta que se absorba.", "Espolvorea perejil y sirve."]}], "compra": [{"nombre": "Arroz", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "400 g"}, {"nombre": "Atún en aceite", "cantidadReceta": 2, "unidad": "latas", "porPorcion": 0.4, "origen": "2 latas"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Pimiento", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pimiento"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Tomate", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Tomate, sin cantidad", "sinCantidad": true}, {"nombre": "Perejil fresco", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Perejil, sin cantidad", "sinCantidad": true}], "avisos": ["Tomate y perejil sin cantidad."]}, {"id": "n25", "no": 25, "nombre": "Ensalada de verano", "grupo": "pescado-azul", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081cfb829c403370698bf", "editado": "2026-10-19", "corte": "Melva o sardinas en conserva", "carbohidratos": ["Patatas"], "verduras": ["Cebolla", "Pimiento", "Tomate"], "notaNutricionista": null, "notaPagina": "Receta incompleta en el documento original (faltan cantidades).", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["Patata", "Cebolla", "Pimiento verde", "Tomate", "Aceitunas", "Huevos (cocidos)", "Melva en conserva o sardinas", "Menta (vinagreta)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Cuece las patatas, pela y corta en rodajas.", "Prepara un moja con tomate, pimiento y cebolla. Aliña con vinagreta.", "Mezcla con cuidado y sirve con huevo, aceitunas y pescado."]}], "compra": [{"nombre": "Patatas", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Patata, sin cantidad", "sinCantidad": true}, {"nombre": "Cebolla", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Cebolla, sin cantidad", "sinCantidad": true}, {"nombre": "Pimiento verde", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Pimiento verde, sin cantidad", "sinCantidad": true}, {"nombre": "Tomate", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Tomate, sin cantidad", "sinCantidad": true}, {"nombre": "Aceitunas", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Aceitunas, sin cantidad", "sinCantidad": true}, {"nombre": "Huevos", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Huevos, sin cantidad", "sinCantidad": true}, {"nombre": "Melva o sardinas en conserva", "cantidadReceta": null, "unidad": "latas", "porPorcion": null, "origen": "Melva o sardinas en conserva, sin cantidad", "sinCantidad": true}, {"nombre": "Menta fresca", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Menta, sin cantidad", "sinCantidad": true}], "avisos": ["Receta incompleta en Notion: ninguna cantidad."]}]}, {"id": "huevos", "nombre": "Huevos", "max": 1, "platos": [{"id": "n26", "no": 26, "nombre": "arroz con huevo", "grupo": "huevos", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23080879208f99b89876723", "editado": "2026-10-19", "corte": "Huevos", "carbohidratos": ["Arroz"], "verduras": [], "notaNutricionista": "arroz integral; acompañar con verdura.", "notaPagina": "Receta propuesta (la página en Notion estaba vacía).", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["400 g de arroz", "8 huevos (propuesta)", "1 cebolla (propuesta)", "aguacate (2)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Lava el arroz y cuécelo en el doble de agua 30–35 min (integral). Reposa 5 min.", "Sofríe la cebolla y el ajo picados en 1 cucharada de aceite; mezcla con el arroz.", "Saltea el calabacín y la zanahoria en tiras con 1 cucharada de aceite, 6–8 min.", "Fríe o haz a la plancha los huevos con el aceite restante.", "Sirve el arroz con los huevos encima y la verdura al lado."]}], "compra": [{"nombre": "Arroz", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "400 g"}, {"nombre": "Huevos", "cantidadReceta": 8, "unidad": "ud", "porPorcion": 1.6, "origen": "8 huevos (propuesta)"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla (propuesta)"}, {"nombre": "Aguacate", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "aguacate (2)"}], "avisos": ["Ajo, calabacín y zanahoria salen en los pasos pero no en la lista de ingredientes."]}, {"id": "n27", "no": 27, "nombre": "Caldo de papa", "grupo": "huevos", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081b68c07e930c6c22dba", "editado": "2026-10-20", "corte": "Huevos cocidos", "carbohidratos": ["Patatas"], "verduras": ["Cebolla"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["1 kg de patata (papas)", "1 cebolla", "2 dientes de ajo", "Cilantro (fresco)", "Huevos (cocidos) (opcional)", "Queso (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe cebolla y ajo. Añade papas en trozos y cubre con caldo.", "Cocina hasta que las papas se deshagan un poco. Añade cilantro.", "Sirve con huevo o queso si se desea."]}], "compra": [{"nombre": "Patatas", "cantidadReceta": 1000, "unidad": "g", "porPorcion": 200.0, "origen": "1 kg"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Cilantro fresco", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Cilantro fresco, sin cantidad", "sinCantidad": true}], "avisos": ["El huevo está marcado como opcional aunque el plato es del grupo Huevos.", "El caldo sale en los pasos pero no en la lista."]}, {"id": "n28", "no": 28, "nombre": "Omelet de huevos (con patata y espinaca)", "grupo": "huevos", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081fcaba6df274f815397", "editado": "2026-10-19", "corte": "Huevos", "carbohidratos": ["Patatas"], "verduras": ["Espinacas", "Cebolla"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["12–15 huevos", "3 patatas", "200 g de espinaca", "Cebolla"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe patata y cebolla. Añade las espinacas.", "Bate los huevos, mezcla con las verduras y cuaja en sartén a fuego medio.", "Dobla o voltea y sirve."]}], "compra": [{"nombre": "Huevos", "cantidadReceta": 13.5, "unidad": "ud", "porPorcion": 2.7, "origen": "12–15 huevos", "nota": "punto medio del rango"}, {"nombre": "Patatas", "cantidadReceta": 3, "unidad": "ud", "porPorcion": 0.6, "origen": "3 patatas", "nota": "en unidades, no en gramos"}, {"nombre": "Espinacas", "cantidadReceta": 200, "unidad": "g", "porPorcion": 40.0, "origen": "200 g"}, {"nombre": "Cebolla", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Cebolla, sin cantidad", "sinCantidad": true}], "avisos": ["Patatas en unidades (no en gramos).", "Cebolla sin cantidad."]}]}, {"id": "legumbres", "nombre": "Legumbres", "max": 1, "platos": [{"id": "n29", "no": 29, "nombre": "Lentejas con arroz", "grupo": "legumbres", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308126a638faeb9f804da2", "editado": "2026-10-20", "corte": "Lentejas", "carbohidratos": ["Arroz"], "verduras": ["Cebolla", "Zanahoria", "Pimiento"], "notaNutricionista": "arroz integral.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["400 g de lentejas", "200 g de arroz", "1 cebolla", "2 dientes de ajo", "1 zanahoria", "1 pimiento"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe la cebolla, ajo y verduras. Añade las lentejas y cubre con agua o caldo.", "Cocina 25–30 min. Incorpora el arroz y cocina hasta que todo esté tierno.", "Rectifica sal y sirve."]}], "compra": [{"nombre": "Lentejas", "cantidadReceta": 400, "unidad": "g", "porPorcion": 80.0, "origen": "400 g"}, {"nombre": "Arroz", "cantidadReceta": 200, "unidad": "g", "porPorcion": 40.0, "origen": "200 g"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Zanahoria", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 zanahoria"}, {"nombre": "Pimiento", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 pimiento"}], "avisos": []}, {"id": "n30", "no": 30, "nombre": "Fríjoles", "grupo": "legumbres", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081c1a30cd08cd900ee24", "editado": "2026-10-19", "corte": "Fríjoles", "carbohidratos": ["Arroz"], "verduras": ["Cebolla", "Tomate"], "notaNutricionista": "arroz integral.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["500 g de fríjoles (lata o frasco vidrio)", "2 cebolla", "2 dientes de ajo", "4 tomate", "Arroz (acompañamiento)", "Salchichas (2)", "Aguacate (2)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Si son secos, remoja y cocina hasta tiernos. Si son de lata, escurre.", "Sofríe cebolla, ajo y tomate. Añade los frijoles y un poco de su caldo. Cocina 15–20 min.", "Sirve con arroz."]}], "compra": [{"nombre": "Fríjoles (lata o frasco)", "cantidadReceta": 500, "unidad": "g", "porPorcion": 100.0, "origen": "500 g"}, {"nombre": "Cebolla", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 cebollas"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Tomate", "cantidadReceta": 4, "unidad": "ud", "porPorcion": 0.8, "origen": "4 tomates"}, {"nombre": "Arroz", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Arroz (acompañamiento), sin cantidad", "sinCantidad": true}, {"nombre": "Salchichas", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "Salchichas (2)"}, {"nombre": "Aguacate", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "Aguacate (2)"}], "avisos": ["Arroz sin cantidad."]}]}, {"id": "sandwiches", "nombre": "Sándwiches", "max": 3, "platos": [{"id": "n31", "no": 31, "nombre": "Sándwich de jamón, queso, lechuga y tomate", "grupo": "sandwiches", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081b0b06dd7a85237a6d6", "editado": "2026-10-19", "corte": "Jamón", "carbohidratos": ["Pan"], "verduras": ["Lechuga", "Tomate"], "notaNutricionista": "brioche → pan integral; poca o sin mayonesa.", "notaPagina": "Cantidades propuestas: ~2 rebanadas de pan, 50 g de jamón y 30 g de queso por persona adulta.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["10 rebanadas de pan integral de molde (propuesta)", "250 g de jamón (propuesta)", "150 g de queso para sándwich (propuesta)", "½ lechuga (propuesta)", "2 tomates (propuesta)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Monta los sándwiches con los ingredientes.", "Sirve tal cual o tostados."]}], "compra": [{"nombre": "Pan integral de molde", "cantidadReceta": 10, "unidad": "rebanadas", "porPorcion": 2.0, "origen": "10 rebanadas (propuesta)"}, {"nombre": "Jamón", "cantidadReceta": 250, "unidad": "g", "porPorcion": 50.0, "origen": "250 g (propuesta)"}, {"nombre": "Queso para sándwich", "cantidadReceta": 150, "unidad": "g", "porPorcion": 30.0, "origen": "150 g (propuesta)"}, {"nombre": "Lechuga", "cantidadReceta": 0.5, "unidad": "ud", "porPorcion": 0.1, "origen": "½ lechuga (propuesta)"}, {"nombre": "Tomate", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 tomates (propuesta)"}], "avisos": []}, {"id": "n31-1", "no": 31, "nombre": "Sándwich de jamón, queso, lechuga y tomate (1)", "grupo": "sandwiches", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc230803da53cfeae175c4d65", "editado": "2026-10-19", "corte": "Jamón", "carbohidratos": ["Pan"], "verduras": ["Lechuga", "Tomate"], "notaNutricionista": "brioche → pan integral; poca o sin mayonesa.", "notaPagina": "Cantidades propuestas: ~2 rebanadas de pan, 50 g de jamón y 30 g de queso por persona adulta.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["10 rebanadas de pan integral de molde (propuesta)", "250 g de jamón (propuesta)", "150 g de queso para sándwich (propuesta)", "½ lechuga (propuesta)", "2 tomates (propuesta)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Monta los sándwiches con los ingredientes.", "Sirve tal cual o tostados."]}], "compra": [{"nombre": "Pan integral de molde", "cantidadReceta": 10, "unidad": "rebanadas", "porPorcion": 2.0, "origen": "10 rebanadas (propuesta)"}, {"nombre": "Jamón", "cantidadReceta": 250, "unidad": "g", "porPorcion": 50.0, "origen": "250 g (propuesta)"}, {"nombre": "Queso para sándwich", "cantidadReceta": 150, "unidad": "g", "porPorcion": 30.0, "origen": "150 g (propuesta)"}, {"nombre": "Lechuga", "cantidadReceta": 0.5, "unidad": "ud", "porPorcion": 0.1, "origen": "½ lechuga (propuesta)"}, {"nombre": "Tomate", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 tomates (propuesta)"}], "avisos": []}, {"id": "n31-2", "no": 31, "nombre": "Sándwich de jamón, queso, lechuga y tomate (2)", "grupo": "sandwiches", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc2308026aff9c0adb3ca2859", "editado": "2026-10-19", "corte": "Jamón", "carbohidratos": ["Pan"], "verduras": ["Lechuga", "Tomate"], "notaNutricionista": "brioche → pan integral; poca o sin mayonesa.", "notaPagina": "Cantidades propuestas: ~2 rebanadas de pan, 50 g de jamón y 30 g de queso por persona adulta.", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["10 rebanadas de pan integral de molde (propuesta)", "250 g de jamón (propuesta)", "150 g de queso para sándwich (propuesta)", "½ lechuga (propuesta)", "2 tomates (propuesta)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Monta los sándwiches con los ingredientes.", "Sirve tal cual o tostados."]}], "compra": [{"nombre": "Pan integral de molde", "cantidadReceta": 10, "unidad": "rebanadas", "porPorcion": 2.0, "origen": "10 rebanadas (propuesta)"}, {"nombre": "Jamón", "cantidadReceta": 250, "unidad": "g", "porPorcion": 50.0, "origen": "250 g (propuesta)"}, {"nombre": "Queso para sándwich", "cantidadReceta": 150, "unidad": "g", "porPorcion": 30.0, "origen": "150 g (propuesta)"}, {"nombre": "Lechuga", "cantidadReceta": 0.5, "unidad": "ud", "porPorcion": 0.1, "origen": "½ lechuga (propuesta)"}, {"nombre": "Tomate", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 tomates (propuesta)"}], "avisos": []}]}, {"id": "sin-proteina", "nombre": "Sin proteína", "max": 1, "platos": [{"id": "n32", "no": 32, "nombre": "Arepas con queso", "grupo": "sin-proteina", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc230810999dfd9c40ffb1d19", "editado": "2026-10-23", "corte": null, "carbohidratos": ["Maíz/arepa"], "verduras": [], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["600 g de harina de maíz precocida (≈8 arepas)", "300 g de queso para arepas (mozzarella o similar)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Calienta o asa las arepas. Ábrelas y rellena con queso.", "Vuelve a calentar hasta que el queso funda. Sirve."]}], "compra": [{"nombre": "Harina de maíz precocida", "cantidadReceta": 600, "unidad": "g", "porPorcion": 120.0, "origen": "600 g"}, {"nombre": "Queso para arepas (mozzarella)", "cantidadReceta": 300, "unidad": "g", "porPorcion": 60.0, "origen": "300 g"}], "avisos": []}, {"id": "n33", "no": 33, "nombre": "Tallarines con calabacín, cebolla caramelizada, tomates cherry y burrata", "grupo": "sin-proteina", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308133bdf6fb44ec78ddab", "editado": "2026-10-19", "corte": null, "carbohidratos": ["Pasta"], "verduras": ["Calabacín", "Cebolla", "Tomate"], "notaNutricionista": "pasta integral; menos burrata o añadir pollo o huevo.", "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["390 g de tallarines", "2 calabacines", "2 cebollas", "195 g de tomates cherry", "1 burrata", "Perejil"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Carameliza la cebolla a fuego lento. Saltea el calabacín y los cherry.", "Cuece la pasta. Mezcla con las verduras.", "Sirve con la burrata desmenuzada y perejil."]}], "compra": [{"nombre": "Tallarines", "cantidadReceta": 390, "unidad": "g", "porPorcion": 78.0, "origen": "390 g"}, {"nombre": "Calabacín", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 calabacines"}, {"nombre": "Cebolla", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 cebollas"}, {"nombre": "Tomates cherry", "cantidadReceta": 195, "unidad": "g", "porPorcion": 39.0, "origen": "195 g"}, {"nombre": "Burrata", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 burrata"}, {"nombre": "Perejil fresco", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Perejil, sin cantidad", "sinCantidad": true}], "avisos": []}, {"id": "n34", "no": 34, "nombre": "Crema de verduras", "grupo": "sin-proteina", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc2308170b630feea2f2e37de", "editado": "2026-10-20", "corte": null, "carbohidratos": ["Patatas"], "verduras": ["Calabacín", "Zanahoria", "Cebolla", "Puerro"], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["2 calabacines", "3 zanahorias", "2 patatas", "1 cebolla", "1 puerro", "Nata (o leche) (opcional)", "Leche (alternativa a la nata) (opcional)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe cebolla y puerro. Añade el resto de verduras y el caldo.", "Cocina 20–25 min. Tritura. Ajusta textura y sal.", "Sirve caliente, sola o con pollo asado."]}], "compra": [{"nombre": "Calabacín", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 calabacines"}, {"nombre": "Zanahoria", "cantidadReceta": 3, "unidad": "ud", "porPorcion": 0.6, "origen": "3 zanahorias"}, {"nombre": "Patatas", "cantidadReceta": 2, "unidad": "ud", "porPorcion": 0.4, "origen": "2 patatas", "nota": "en unidades, no en gramos"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Puerro", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 puerro"}], "avisos": ["Patatas en unidades (no en gramos).", "El caldo sale en los pasos pero no en la lista."]}, {"id": "n35", "no": 35, "nombre": "Sopa de verdura", "grupo": "sin-proteina", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc230817a8836cca7ba111c02", "editado": "2026-10-20", "corte": null, "carbohidratos": ["Arroz", "Pasta"], "verduras": ["Tomate", "Zanahoria", "Cebolla", "Puerro"], "notaNutricionista": "arroz integral; apio → puerro.", "notaPagina": "Receta incompleta en el documento original (faltan cantidades).", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["Tomate", "Apio", "Zanahoria", "Cebolla", "Ajo", "Arroz (o fideos)", "Fideos finos (alternativa al arroz) (opcional)", "Perejil", "Tomillo"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe las verduras. Cubre con caldo y hierve 20 min.", "Añade arroz o fideos y cocina hasta que estén hechos.", "Rectifica y sirve."]}], "compra": [{"nombre": "Tomate", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Tomate, sin cantidad", "sinCantidad": true}, {"nombre": "Apio", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Apio, sin cantidad", "sinCantidad": true}, {"nombre": "Zanahoria", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Zanahoria, sin cantidad", "sinCantidad": true}, {"nombre": "Cebolla", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Cebolla, sin cantidad", "sinCantidad": true}, {"nombre": "Ajo", "cantidadReceta": null, "unidad": "dientes", "porPorcion": null, "origen": "Ajo, sin cantidad", "sinCantidad": true}, {"nombre": "Arroz", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Arroz, sin cantidad", "sinCantidad": true}, {"nombre": "Perejil fresco", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Perejil, sin cantidad", "sinCantidad": true}, {"nombre": "Tomillo", "cantidadReceta": null, "unidad": "manojo", "porPorcion": null, "origen": "Tomillo, sin cantidad", "sinCantidad": true}], "avisos": ["Receta incompleta en Notion: ninguna cantidad."]}, {"id": "n36", "no": 36, "nombre": "Sopa de calabaza con leche de coco (& pechuga pavo)", "grupo": "sin-proteina", "estado": "Aprobado", "url": "https://app.notion.com/p/3f7a5f3fc23081b1a721d02dd271dafa", "editado": "2026-10-20", "corte": null, "carbohidratos": [], "verduras": [], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["1,1 kg de calabaza", "1 cebolla", "2 dientes de ajo", "1 cucharada de jengibre", "440 ml de leche de coco", "825 ml de caldo de verduras", "Lima (para servir)", "Cilantro (fresco) (para servir) (opcional)", "pechuga de pavo asada (5)", "tortilla de maiz o chips"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Sofríe cebolla, ajo y jengibre. Añade calabaza y curry.", "Cubre con caldo y cocina 15–20 min. Tritura.", "Incorpora la leche de coco sin que hierva. Sirve con cilantro y lima."]}], "compra": [{"nombre": "Calabaza", "cantidadReceta": 1100, "unidad": "g", "porPorcion": 220.0, "origen": "1,1 kg"}, {"nombre": "Cebolla", "cantidadReceta": 1, "unidad": "ud", "porPorcion": 0.2, "origen": "1 cebolla"}, {"nombre": "Ajo", "cantidadReceta": 2, "unidad": "dientes", "porPorcion": 0.4, "origen": "2 dientes"}, {"nombre": "Jengibre", "cantidadReceta": 1, "unidad": "cucharadas", "porPorcion": 0.2, "origen": "1 cucharada"}, {"nombre": "Leche de coco", "cantidadReceta": 440, "unidad": "ml", "porPorcion": 88.0, "origen": "440 ml"}, {"nombre": "Caldo de verduras", "cantidadReceta": 825, "unidad": "ml", "porPorcion": 165.0, "origen": "825 ml"}, {"nombre": "Lima", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Lima (para servir), sin cantidad", "sinCantidad": true}, {"nombre": "Pechuga de pavo asada", "cantidadReceta": 5, "unidad": "ud", "porPorcion": 1.0, "origen": "pechuga de pavo asada (5)"}, {"nombre": "Tortillas de maíz o chips", "cantidadReceta": null, "unidad": "ud", "porPorcion": null, "origen": "Tortillas de maíz o chips, sin cantidad", "sinCantidad": true}], "avisos": ["El curry sale en los pasos (especia, fuera de la compra).", "Lima y tortillas sin cantidad."]}, {"id": "n37", "no": 37, "nombre": "Pizza", "grupo": "sin-proteina", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081c893f3e500f248b2af", "editado": "2026-10-20", "corte": null, "carbohidratos": ["Masa pizza"], "verduras": ["Tomate"], "notaNutricionista": "masa integral recomendada (elegir pizza de masa integral si la hay).", "notaPagina": "Pizzas preparadas (sin masa casera).", "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["3 pizzas medianas preparadas (≈30 cm)"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Hornea las pizzas según el envase (normalmente 220 °C, 10–15 min).", "Corta y sirve caliente."]}], "compra": [{"nombre": "Pizza preparada mediana", "cantidadReceta": 3, "unidad": "ud", "porPorcion": 0.6, "origen": "3 pizzas medianas (≈30 cm)"}], "avisos": []}, {"id": "n38", "no": 38, "nombre": "Ensalada mixta con naranja, queso azul y nueces", "grupo": "sin-proteina", "estado": "Revisar", "url": "https://app.notion.com/p/3f7a5f3fc23081bda3c4cbf0991c0bac", "editado": "2026-10-19", "corte": null, "carbohidratos": [], "verduras": [], "notaNutricionista": null, "notaPagina": null, "ingredientesNotion": [{"titulo": "Ingredientes (5 personas)", "lineas": ["Mezcla de lechugas", "1–2 naranja (en gajos)", "Queso azul (desmenuzado)", "Nueces"]}], "pasos": [{"titulo": "Preparación", "lineas": ["Lava y seca las lechugas. Añade naranja, queso y nueces.", "Aliña justo antes de servir."]}], "compra": [{"nombre": "Mezcla de lechugas", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Mezcla de lechugas, sin cantidad", "sinCantidad": true}, {"nombre": "Naranja", "cantidadReceta": 1.5, "unidad": "ud", "porPorcion": 0.3, "origen": "1–2 naranjas", "nota": "punto medio del rango"}, {"nombre": "Queso azul", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Queso azul, sin cantidad", "sinCantidad": true}, {"nombre": "Nueces", "cantidadReceta": null, "unidad": "g", "porPorcion": null, "origen": "Nueces, sin cantidad", "sinCantidad": true}], "avisos": ["Lechugas, queso azul y nueces sin cantidad."]}]}]};
+const PERSONAS=[{id:'Llan',w:1.00},{id:'Lluma',w:0.80},{id:'Ale',w:1.05},{id:'Isa',w:0.90},{id:'Tori',w:0.65}];
+const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const DC=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const COMIDAS=[{id:'a',n:'Almuerzo'},{id:'c',n:'Cena'}];
+const EMOJI={'carne-roja':'🥩','pollo':'🍗','pavo':'🦃','cerdo':'🐖','pescado-blanco':'🐟','pescado-azul':'🍣','huevos':'🥚','legumbres':'🫘','sandwiches':'🥪','sin-proteina':'🥗'};
+const GRUPOS=DATA.grupos.map(g=>({id:g.id,nombre:g.nombre,max:g.max}));
+const MENUS=DATA.grupos.flatMap(g=>g.platos.map(p=>({id:p.id,grupo:g.id,no:p.no,nombre:p.nombre,plato:p,ing:p.compra.map(c=>[c.nombre,c.porPorcion,c.unidad])})));
+const PASOS=['Elegir menús','Días y comidas','Resumen de la semana','Comensales','Ingredientes','Stock en casa','Lista de la compra'];
+const NP=PASOS.length;
+const KEY='cansocho-menu-v3';
+const SLOTS=[];for(let d=0;d<7;d++)for(const c of COMIDAS)SLOTS.push(d+'-'+c.id);
+const UNIDAD={g:'g',ud:'ud',dientes:'dientes',ml:'ml',cucharadas:'cucharadas',manojo:'manojo',tallos:'tallos',cabezas:'cabezas',latas:'latas',rebanadas:'rebanadas'};
+const uTxt=u=>UNIDAD[u]||u;
 
-function nuevoEstado(){return {step:1,picked:[],days:[],assign:{},diners:{},stock:{},bought:{},confirmReset:false};}
-let S = cargar();
-let VER = null; // menú abierto en la ficha
-function cargar(){
-  try{const s=JSON.parse(localStorage.getItem(KEY));
-    if(s&&Array.isArray(s.picked)){s.picked=s.picked.filter(id=>MENUS.some(m=>m.id===id));return Object.assign(nuevoEstado(),s,{confirmReset:false});}}catch(e){}
-  return nuevoEstado();
-}
+function nuevoEstado(){const on={};SLOTS.forEach(s=>on[s]=true);return {step:1,picked:[],on,assign:{},diners:{},stock:{},bought:{},confirmReset:false};}
+let S=cargar(), VER=null, LAST=null, UI_MSG='';
+function cargar(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.picked)&&s.on){s.picked=s.picked.filter(id=>MENUS.some(m=>m.id===id));return Object.assign(nuevoEstado(),s,{confirmReset:false});}}catch(e){}return nuevoEstado();}
 function guardar(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const menuById = id => MENUS.find(m=>m.id===id);
-const grupoById = id => GRUPOS.find(g=>g.id===id);
-const diasOrdenados = () => [...S.days].sort((a,b)=>a-b);
-const pesoDia = d => (S.diners[d]||[]).reduce((t,p)=>t+PERSONAS.find(x=>x.id===p).w,0);
-const fmtNum = n => (Math.round(n*100)/100).toLocaleString('es-ES');
-const enGrupo = g => S.picked.filter(id=>menuById(id).grupo===g).length;
-const etiqueta = m => (m.no?`Nº ${m.no} · `:'')+m.nombre;
-
-// Redondeo: g a 10 g y ml a 50 ml hacia arriba; el resto a entero hacia arriba
-function redondear(v,u){ if(u==='g') return Math.ceil(v/10-1e-9)*10; if(u==='ml') return Math.ceil(v/50-1e-9)*50; return Math.ceil(v-1e-9); }
-
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const menuById=id=>MENUS.find(m=>m.id===id);
+const grupoById=id=>GRUPOS.find(g=>g.id===id);
+const enGrupo=g=>S.picked.filter(id=>menuById(id).grupo===g).length;
+const etiqueta=m=>`Nº ${m.no} · ${m.nombre}`;
+const slotsOn=()=>SLOTS.filter(s=>S.on[s]);
+const slotNombre=s=>{const [d,c]=s.split('-');return `${DIAS[d]} · ${c==='a'?'Almuerzo':'Cena'}`;};
+const asignados=()=>slotsOn().filter(s=>S.assign[s]&&S.picked.includes(S.assign[s]));
+const peso=s=>(S.diners[s]||PERSONAS.map(p=>p.id)).reduce((t,p)=>t+PERSONAS.find(x=>x.id===p).w,0);
+const fmtNum=n=>(Math.round(n*100)/100).toLocaleString('es-ES');
+function redondear(v,u){if(u==='g')return Math.ceil(v/10-1e-9)*10;if(u==='ml')return Math.ceil(v/50-1e-9)*50;return Math.ceil(v-1e-9);}
+function limpiar(){ // quita asignaciones de menús no elegidos o huecos apagados
+  for(const s in S.assign){if(!S.on[s]||!S.picked.includes(S.assign[s]))delete S.assign[s];}
+}
 function ingredientes(){
   const map=new Map();
-  diasOrdenados().forEach(d=>{
-    const m=menuById(S.assign[d]); if(!m) return;
-    const peso=pesoDia(d);
-    m.ing.forEach(([n,q,u])=>{
-      const sin = q===null||q===undefined;
-      const k=n+'|'+(sin?'sc':u);
-      if(!map.has(k)) map.set(k,{key:k,nombre:n,unidad:u,sinCantidad:sin,raw:0,menus:[]});
-      const it=map.get(k); if(!sin) it.raw+=q*peso; it.menus.push(m.nombre);
-    });
-  });
-  return [...map.values()].map(it=>({...it,total:it.sinCantidad?null:redondear(it.raw,it.unidad)})).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
+  asignados().forEach(s=>{const m=menuById(S.assign[s]);const w=peso(s);
+    m.ing.forEach(([n,q,u])=>{const sin=q===null||q===undefined;const k=n+'|'+(sin?'sc':u);
+      if(!map.has(k))map.set(k,{key:k,nombre:n,unidad:u,sinCantidad:sin,raw:0,menus:[]});
+      const it=map.get(k);if(!sin)it.raw+=q*w;it.menus.push(m.nombre);});});
+  return [...map.values()].map(it=>({...it,total:it.sinCantidad?null:redondear(it.raw,it.unidad)})).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')||(a.sinCantidad-b.sinCantidad));
 }
-function compra(){
-  return ingredientes().map(it=>{
-    if(it.sinCantidad) return {...it,stock:0,need:null};
-    const st=Number(S.stock[it.key])||0; return {...it,stock:st,need:Math.max(0,it.total-st)};
-  }).filter(it=>it.sinCantidad||it.need>0);
-}
+function compra(){return ingredientes().map(it=>{if(it.sinCantidad)return {...it,need:null};const st=Number(S.stock[it.key])||0;return {...it,stock:st,need:Math.max(0,it.total-st)};}).filter(it=>it.sinCantidad||it.need>0);}
+// Validación: solo bloquea lo imprescindible; lo demás son avisos
 function validar(step){
-  if(step===1){const n=S.picked.length;return n===NUM_MENUS?'':`Elige ${NUM_MENUS} menús en total (llevas ${n}).`;}
-  if(step===2){
-    if(S.days.length!==NUM_MENUS) return `Elige ${NUM_MENUS} días (llevas ${S.days.length}).`;
-    const asign=S.days.map(d=>S.assign[d]).filter(Boolean);
-    if(asign.length<NUM_MENUS) return `Asigna un menú a cada día (faltan ${NUM_MENUS-asign.length}).`;
-    if(new Set(asign).size!==asign.length) return 'Cada menú solo puede ir en un día.';
-    return '';
-  }
-  if(step===3){const sin=diasOrdenados().filter(d=>!(S.diners[d]||[]).length);return sin.length?`Cada día necesita al menos un comensal (${sin.map(d=>DIAS[d]).join(', ')}).`:'';}
-  if(step===5){const bad=ingredientes().some(it=>{const v=S.stock[it.key];return v!==undefined&&v!==''&&(isNaN(Number(v))||Number(v)<0);});return bad?'Revisa el stock: solo números de 0 en adelante.':'';}
+  if(step===1)return S.picked.length?'':'Elige al menos un menú.';
+  if(step===2)return asignados().length?'':'Asigna al menos un menú a una comida.';
+  if(step===4){const sin=asignados().filter(s=>S.diners[s]&&!S.diners[s].length);return sin.length?`Cada comida necesita al menos un comensal (${sin.map(slotNombre).join(', ')}).`:'';}
+  if(step===6){const bad=ingredientes().some(it=>{const v=S.stock[it.key];return v!==undefined&&v!==''&&(isNaN(Number(v))||Number(v)<0);});return bad?'Revisa el stock: solo números de 0 en adelante.':'';}
   return '';
 }
-function validoHasta(step){for(let i=1;i<step;i++) if(validar(i)) return false; return true;}
-
+function validoHasta(step){for(let i=1;i<step;i++)if(validar(i))return false;return true;}
 function render(){
+  limpiar();
   if(!validoHasta(S.step)){let s=1;while(s<S.step&&!validar(s))s++;S.step=s;}
-  document.getElementById('stepLabel').textContent=`Paso ${S.step} de 6`;
+  document.getElementById('stepLabel').textContent=`Paso ${S.step} de ${NP}`;
   document.getElementById('stepName').textContent=PASOS[S.step-1];
   document.getElementById('dots').innerHTML=PASOS.map((_,i)=>`<span class="${i+1<S.step?'done':i+1===S.step?'cur':''}"></span>`).join('');
-  document.getElementById('main').innerHTML=[null,paso1,paso2,paso3,paso4,paso5,paso6][S.step]();
-  const err=validar(S.step);
-  const back=document.getElementById('back'),next=document.getElementById('next');
-  back.disabled=S.step===1; next.style.visibility=S.step===6?'hidden':'visible'; next.disabled=!!err;
-  const msg=document.getElementById('msg');
-  if(msg){msg.textContent=err||(S.step<6?'✓ Listo, pulsa Siguiente.':'');msg.className='msg'+(err?'':' ok');}
-  renderModal();
-  guardar();
+  document.getElementById('main').innerHTML=[null,paso1,paso2,paso3,paso4,paso5,paso6,paso7][S.step]();
+  const err=validar(S.step);const back=document.getElementById('back'),next=document.getElementById('next');
+  back.disabled=S.step===1;next.style.visibility=S.step===NP?'hidden':'visible';next.disabled=!!err;
+  const msg=document.getElementById('msg');if(msg){msg.textContent=err||'';msg.className='msg'+(err?'':' ok');}
+  renderModal();guardar();
 }
+function avisoCuenta(){const n=S.picked.length,t=slotsOn().length;
+  if(n===t)return `<div class="okbox" id="cuenta">✓ ${n} menús para ${t} comidas en casa.</div>`;
+  return `<div class="warnbox" id="cuenta">⚠️ Has elegido ${n} menús para ${t} comidas en casa${n<t?` (faltan ${t-n})`:` (sobran ${n-t})`}. Puedes seguir igualmente.</div>`;}
 function paso1(){
-  const n=S.picked.length;
-  let h=`<h2>Elige ${NUM_MENUS} menús</h2><p class="sub">Por grupo de proteína, respetando el máximo semanal. Toca el nombre para ver la receta y el círculo para elegirlo. Seleccionados: <b>${n} / ${NUM_MENUS}</b></p><div id="msg" class="msg"></div>`;
-  GRUPOS.forEach(g=>{
-    const ms=MENUS.filter(m=>m.grupo===g.id); if(!ms.length) return;
-    const k=enGrupo(g.id);
-    h+=`<div class="grp" data-grupo="${g.id}"><h3>${g.emoji} ${g.nombre}${ms[0].fuente==='notion'?'<span class="tag n">Notion</span>':'<span class="tag">ejemplo</span>'}</h3><span class="${k>=g.max?'full':''}">máx. ${g.max} · elegidos ${k}</span></div>`;
-    h+=ms.map(m=>{const on=S.picked.includes(m.id);const dis=!on&&(n>=NUM_MENUS||k>=g.max);
-      const sub=m.fuente==='notion'?[m.plato.corte,...(m.plato.carbohidratos||[])].filter(Boolean).join(' · '):m.ing.map(i=>i[0]).join(', ');
+  const n=S.picked.length,t=slotsOn().length;
+  let h=`<h2>Elige los menús de la semana</h2><p class="sub">Objetivo: <b>${t}</b> menús (almuerzo y cena de los días en casa). Toca el nombre para ver la receta y el círculo para elegirlo. Elegidos: <b id="cnt">${n} / ${t}</b></p>${avisoCuenta()}<div id="msg" class="msg"></div>`;
+  if(UI_MSG)h+=`<div class="msg" id="limite">${esc(UI_MSG)}</div>`;
+  GRUPOS.forEach(g=>{const ms=MENUS.filter(m=>m.grupo===g.id);const k=enGrupo(g.id);
+    h+=`<div class="grp" data-grupo="${g.id}"><h3>${EMOJI[g.id]||''} ${g.nombre}</h3><span class="${k>=g.max?'full':''}">máx. ${g.max} · elegidos ${k}</span></div>`;
+    h+=ms.map(m=>{const on=S.picked.includes(m.id);const dis=!on&&k>=g.max;const p=m.plato;
+      const sub=[p.corte,...(p.carbohidratos||[])].filter(Boolean).join(' · ')||(p.verduras||[]).join(', ');
       return `<div class="dish ${on?'on':''} ${dis?'dis':''}" data-menu="${m.id}">
-        <button class="info" data-act="ver" data-id="${m.id}" aria-label="Ver receta de ${esc(m.nombre)}">${m.no?`<span class="num">${m.no}</span>`:''}<span><div class="t">${esc(m.nombre)}</div><div class="d">${esc(sub)}</div><div class="ver">Ver receta ›</div></span></button>
-        <button class="sel" data-act="pick" data-id="${m.id}" ${dis?'disabled':''} aria-pressed="${on}" aria-label="${on?'Quitar':'Elegir'} ${esc(m.nombre)}"><span class="chk">${on?'✓':''}</span></button></div>`;}).join('');
-  });
-  if(UI_MSG) h=h.replace('<div id="msg" class="msg"></div>',`<div id="msg" class="msg"></div><div class="msg" id="limite">${esc(UI_MSG)}</div>`);
+       <button class="info" data-act="ver" data-id="${m.id}" aria-label="Ver receta de ${esc(m.nombre)}"><span class="num">${m.no}</span><span><div class="t">${esc(m.nombre)}</div><div class="d">${esc(sub)}${p.estado==='Revisar'?' · por revisar':''}</div><div class="ver">Ver receta ›</div></span></button>
+       <button class="sel" data-act="pick" data-id="${m.id}" ${dis?'disabled':''} aria-pressed="${on}" aria-label="${on?'Quitar':'Elegir'} ${esc(m.nombre)}"><span class="chk">${on?'✓':''}</span></button></div>`;}).join('');});
   return h;
 }
-let UI_MSG='';
-function renderModal(){
-  const box=document.getElementById('modal');
-  if(!VER){box.innerHTML='';document.body.style.overflow='';return;}
-  const m=menuById(VER); document.body.style.overflow='hidden';
-  let bd='';
-  if(m.fuente==='notion'){
-    const p=m.plato;
-    bd+=`<div class="meta" style="font-size:.85rem;opacity:.75;margin-top:8px">Corte: ${esc(p.corte||'—')} · Estado: ${esc(p.estado)}</div>`;
-    if(p.notaNutricionista) bd+=`<div class="nota"><b>Ajuste nutricionista:</b> ${esc(p.notaNutricionista)}</div>`;
-    if(p.notaPagina) bd+=`<div class="nota">${esc(p.notaPagina)}</div>`;
-    p.ingredientesNotion.forEach(s=>{bd+=`<h4>${esc(s.titulo)} · como en Notion</h4><ul>${s.lineas.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;});
-    bd+=`<h4>Para la compra · por 1 porción adulta</h4><table class="por">${p.compra.map(c=>`<tr><td>${esc(c.nombre)}${c.nota?`<div class="small" style="font-size:.78rem;opacity:.65">${esc(c.nota)}</div>`:''}</td><td>${c.sinCantidad?'sin cantidad':fmtNum(c.porPorcion)+' '+uTxt(c.unidad)}</td></tr>`).join('')}</table>
-      <div style="font-size:.78rem;opacity:.65;margin-top:6px">Receta para ${CARNE.porcionesReceta} porciones ÷ ${CARNE.porcionesReceta}. Sin sal, aceite, agua, especias ni caldo en pastilla.</div>`;
-    p.pasos.forEach(s=>{bd+=`<h4>${esc(s.titulo)}</h4><ol>${s.lineas.map(l=>`<li>${esc(l)}</li>`).join('')}</ol>`;});
-    (p.avisos||[]).forEach(a=>bd+=`<div class="aviso">⚠️ ${esc(a)}</div>`);
-  }else{
-    bd+=`<h4>Ingredientes · por 1 porción adulta</h4><table class="por">${m.ing.map(([n,q,u])=>`<tr><td>${esc(n)}</td><td>${fmtNum(q)} ${uTxt(u)}</td></tr>`).join('')}</table>
-      <div class="aviso">Menú de ejemplo: todavía sin pasos de preparación. Este grupo se cargará de Notion más adelante.</div>`;
-  }
-  box.innerHTML=`<div class="ov" data-act="cerrar" id="ov"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt" data-sheet="1">
-    <div class="hd"><h2 id="mt">${esc(etiqueta(m))}</h2><div class="meta">${esc(grupoById(m.grupo).nombre)} · ${m.fuente==='notion'?'Receta de Notion':'Menú de ejemplo'}</div></div>
-    <div class="bd">${bd}</div>
-    <div class="ft"><button class="btn primary" data-act="cerrar" id="cerrar">Cerrar</button></div></div></div>`;
-}
 function paso2(){
-  const dias=diasOrdenados();
-  const usados=d=>Object.entries(S.assign).filter(([k])=>Number(k)!==d&&S.days.includes(Number(k))).map(([,v])=>v);
-  return `<h2>¿Qué días coméis estos menús?</h2><p class="sub">Elige ${NUM_MENUS} días: <b>${S.days.length} / ${NUM_MENUS}</b></p>
-  <div class="chips days">${DIAS_CORTO.map((d,i)=>{const on=S.days.includes(i);const dis=!on&&S.days.length>=NUM_MENUS;
-    return `<button class="chip ${on?'on':''}" data-act="day" data-d="${i}" ${dis?'disabled':''} aria-pressed="${on}" aria-label="${DIAS[i]}">${d}</button>`;}).join('')}</div>
-  <div id="msg" class="msg"></div>
-  ${dias.length?'<h2 style="font-size:1.05rem;margin:6px 0 10px">Asigna un menú a cada día</h2>':''}
-  ${dias.map(d=>{const u=usados(d);return `<div class="card"><b>${DIAS[d]}</b>
-    <select data-act="assign" data-d="${d}" aria-label="Menú del ${DIAS[d]}"><option value="">— Elige menú —</option>
-    ${S.picked.map(id=>{const m=menuById(id);return `<option value="${id}" ${S.assign[d]===id?'selected':''} ${u.includes(id)?'disabled':''}>${esc(etiqueta(m))}${u.includes(id)?' (ya asignado)':''}</option>`;}).join('')}
-    </select></div>`;}).join('')}`;
+  const libres=d=>S.picked.filter(id=>!Object.entries(S.assign).some(([s,v])=>v===id&&s!==d));
+  const huecos=slotsOn().filter(s=>!S.assign[s]).length, sinUsar=S.picked.filter(id=>!Object.values(S.assign).includes(id)).length;
+  let h=`<h2>Días y comidas</h2><p class="sub">Marca qué comidas hacéis en casa y elige el menú de cada una. Por defecto, almuerzo y cena los 7 días.</p>${avisoCuenta()}`;
+  if(huecos&&sinUsar)h+=`<button class="mini2" data-act="auto">✨ Rellenar ${Math.min(huecos,sinUsar)} ${Math.min(huecos,sinUsar)===1?'hueco':'huecos'} con los menús sin asignar</button>`;
+  if(huecos)h+=`<div class="warnbox" id="huecos">⚠️ ${huecos} comida${huecos>1?'s':''} en casa sin menú.</div>`;
+  h+=`<div id="msg" class="msg"></div>`;
+  for(let d=0;d<7;d++){h+=`<div class="card slotday" data-dia="${d}"><b>${DIAS[d]}</b>`;
+    COMIDAS.forEach(c=>{const s=d+'-'+c.id,on=!!S.on[s],lib=libres(s);
+      h+=`<div class="slot"><button class="tg ${on?'on':''}" data-act="slot" data-s="${s}" aria-pressed="${on}" aria-label="${c.n} del ${DIAS[d].toLowerCase()}: ${on?'en casa':'fuera'}">${c.n}<small>${on?'🏠 En casa':'🚫 Fuera'}</small></button>
+      <select data-act="assign" data-s="${s}" ${on?'':'disabled'} aria-label="Menú: ${c.n} del ${DIAS[d].toLowerCase()}"><option value="">${on?'— Elige menú —':'Fuera de casa'}</option>
+      ${on?S.picked.map(id=>{const m=menuById(id);const used=!lib.includes(id);return `<option value="${id}" ${S.assign[s]===id?'selected':''} ${used?'disabled':''}>${esc(etiqueta(m))}${used?' (ya asignado)':''}</option>`;}).join(''):''}</select></div>`;});
+    h+=`</div>`;}
+  return h;
 }
 function paso3(){
-  return `<h2>¿Quién come cada día?</h2><p class="sub">Toca un nombre para quitarlo o añadirlo.</p><div id="msg" class="msg"></div>`+
-  diasOrdenados().map(d=>{const m=menuById(S.assign[d]);const sel=S.diners[d]||[];
-    return `<div class="card"><div class="daytitle"><b>${DIAS[d]}</b><small>${esc(etiqueta(m))}<br>${sel.length} pers. · ${fmtNum(pesoDia(d))} porciones</small></div>
-    <div class="chips" style="margin-top:10px">${PERSONAS.map(p=>`<button class="chip ${sel.includes(p.id)?'on':''}" data-act="diner" data-d="${d}" data-p="${p.id}" aria-pressed="${sel.includes(p.id)}">${p.id}</button>`).join('')}</div></div>`;}).join('');
+  const on=slotsOn().length,asg=asignados().length;
+  let h=`<h2>Resumen de la semana</h2><p class="sub">${asg} de ${on} comidas en casa con menú. Toca un plato para ver la receta.</p>`;
+  h+=asg<on?`<div class="warnbox">⚠️ ${on-asg} comida${on-asg>1?'s':''} sin menú (marcadas en amarillo).</div>`:`<div class="okbox">✓ Todas las comidas en casa tienen menú.</div>`;
+  h+=`<div class="edits"><button class="btn" data-act="ir" data-step="1">✏️ Cambiar menús</button><button class="btn" data-act="ir" data-step="2">✏️ Editar días</button></div>`;
+  for(let d=0;d<7;d++){h+=`<div class="wk" data-semana="${d}"><div class="dn">${DC[d]}</div><div class="ml">`;
+    COMIDAS.forEach(c=>{const s=d+'-'+c.id;
+      if(!S.on[s])h+=`<div class="cell off" data-slot="${s}"><div class="k">${c.n}</div><div class="v">Fuera de casa</div></div>`;
+      else if(S.assign[s]){const m=menuById(S.assign[s]);h+=`<button class="cell" data-slot="${s}" data-act="ver" data-id="${m.id}"><div class="k">${c.n} · ${esc(grupoById(m.grupo).nombre)}</div><div class="v">${esc(etiqueta(m))}</div></button>`;}
+      else h+=`<button class="cell empty" data-slot="${s}" data-act="ir" data-step="2"><div class="k">${c.n}</div><div class="v">— Sin menú · toca para asignar —</div></button>`;});
+    h+=`</div></div>`;}
+  return h+`<div id="msg" class="msg"></div>`;
 }
 function paso4(){
-  const it=ingredientes();
-  return `<h2>Ingredientes necesarios</h2><p class="sub">Total de la semana según quién come (porciones por edad). ${it.length} ingredientes.</p><div id="msg" class="msg"></div>
-  <div class="card">${it.map(i=>`<div class="row" data-ing="${esc(i.key)}"><div><div class="n">${esc(i.nombre)}</div><div class="s">${esc([...new Set(i.menus)].join(' · '))}</div></div><div class="q">${i.sinCantidad?'a decidir':fmtNum(i.total)+' '+uTxt(i.unidad)}</div></div>`).join('')}</div>
-  ${it.some(i=>i.sinCantidad)?'<p class="sub" style="font-size:.85rem">«a decidir»: Notion no indica cantidad.</p>':''}`;
+  return `<h2>¿Quién come cada comida?</h2><p class="sub">Toca un nombre para quitarlo o añadirlo. Por defecto, todos.</p><div id="msg" class="msg"></div>`+
+  asignados().map(s=>{const m=menuById(S.assign[s]);const sel=S.diners[s]||PERSONAS.map(p=>p.id);
+    return `<div class="card" data-comida="${s}"><div class="daytitle"><b>${slotNombre(s)}</b><small>${esc(etiqueta(m))}<br>${sel.length} pers. · ${fmtNum(peso(s))} porciones</small></div>
+    <div class="chips" style="margin-top:10px">${PERSONAS.map(p=>`<button class="chip ${sel.includes(p.id)?'on':''}" data-act="diner" data-s="${s}" data-p="${p.id}" aria-pressed="${sel.includes(p.id)}">${p.id}</button>`).join('')}</div></div>`;}).join('');
 }
-function paso5(){
-  const it=ingredientes();
+function paso5(){const it=ingredientes();
+  return `<h2>Ingredientes necesarios</h2><p class="sub">De las recetas de Notion (5 porciones), según quién come cada comida. ${it.length} ingredientes. Sin sal, aceite, agua, especias ni caldo en pastilla.</p><div id="msg" class="msg"></div>
+  <div class="card">${it.map(i=>`<div class="row" data-ing="${esc(i.key)}"><div><div class="n">${esc(i.nombre)}</div><div class="s">${esc([...new Set(i.menus)].join(' · '))}</div></div><div class="q">${i.sinCantidad?'a decidir':fmtNum(i.total)+' '+uTxt(i.unidad)}</div></div>`).join('')}</div>
+  ${it.some(i=>i.sinCantidad)?'<p class="sub" style="font-size:.85rem">«a decidir»: Notion no indica cantidad.</p>':''}`;}
+function paso6(){const it=ingredientes();
   return `<h2>¿Cuánto hay en casa?</h2><p class="sub">Apunta lo que ya tenéis. Deja 0 si no hay nada.</p><div id="msg" class="msg"></div>
-  <div class="card">${it.map(i=>{
-    if(i.sinCantidad) return `<div class="row"><div><div class="n">${esc(i.nombre)}</div><div class="s">Sin cantidad en Notion: decide en la tienda</div></div></div>`;
+  <div class="card">${it.map(i=>{if(i.sinCantidad)return `<div class="row"><div><div class="n">${esc(i.nombre)}</div><div class="s">Sin cantidad en Notion: decide en la tienda</div></div></div>`;
     const v=S.stock[i.key]??0;const step=i.unidad==='g'?50:i.unidad==='ml'?100:1;
     return `<div class="row"><div><div class="n">${esc(i.nombre)}</div><div class="s">Necesitas ${fmtNum(i.total)} ${uTxt(i.unidad)}</div></div>
     <div class="stepper"><button data-act="st" data-k="${esc(i.key)}" data-delta="-${step}" aria-label="Menos ${esc(i.nombre)}">−</button>
     <input type="number" inputmode="decimal" min="0" step="${step}" value="${esc(v)}" data-act="stock" data-k="${esc(i.key)}" aria-label="Stock de ${esc(i.nombre)}">
-    <span class="u">${uTxt(i.unidad)}</span>
-    <button data-act="st" data-k="${esc(i.key)}" data-delta="${step}" aria-label="Más ${esc(i.nombre)}">+</button></div></div>`;}).join('')}</div>`;
-}
-function paso6(){
-  const c=compra();const hechos=c.filter(i=>S.bought[i.key]).length;
+    <span class="u">${uTxt(i.unidad)}</span><button data-act="st" data-k="${esc(i.key)}" data-delta="${step}" aria-label="Más ${esc(i.nombre)}">+</button></div></div>`;}).join('')}</div>`;}
+function paso7(){const c=compra();const hechos=c.filter(i=>S.bought[i.key]).length;
   return `<h2>Lista de la compra</h2>
   ${c.length?`<div class="counter" id="counter">${hechos} de ${c.length} en el carrito${hechos===c.length?' 🎉':''}</div>
   <div class="card">${c.map(i=>{const on=!!S.bought[i.key];return `<button class="shop ${on?'done':''}" data-act="buy" data-k="${esc(i.key)}" aria-pressed="${on}"><span class="box">${on?'✓':''}</span><span class="n">${esc(i.nombre)}${i.sinCantidad?`<span style="display:block;font-size:.78rem;opacity:.65;text-decoration:none">${esc([...new Set(i.menus)].join(', '))}</span>`:''}</span><span class="q">${i.sinCantidad?'a decidir':fmtNum(i.need)+' '+uTxt(i.unidad)}</span></button>`;}).join('')}</div>`
   :`<div class="card empty">✅ Tenéis todo en casa. No hace falta comprar nada.</div>`}
-  ${S.confirmReset?`<div class="confirm"><p><b>¿Empezar una nueva semana?</b><br>Se borran los menús, días, comensales, stock y la lista.</p>
-    <div class="two"><button class="btn" data-act="resetNo">Cancelar</button><button class="btn danger solid" data-act="resetYes">Sí, borrar</button></div></div>`
-  :`<button class="btn danger" data-act="reset">🔄 Nueva semana</button>`}`;
+  ${S.confirmReset?`<div class="confirm"><p><b>¿Empezar una nueva semana?</b><br>Se borran los menús, días, comensales, stock y la lista.</p><div class="two"><button class="btn" data-act="resetNo">Cancelar</button><button class="btn danger solid" data-act="resetYes">Sí, borrar</button></div></div>`
+  :`<button class="btn danger" data-act="reset">🔄 Nueva semana</button>`}`;}
+function renderModal(){
+  const box=document.getElementById('modal');if(!VER){box.innerHTML='';document.body.style.overflow='';return;}
+  const m=menuById(VER),p=m.plato;document.body.style.overflow='hidden';
+  let bd=`<div class="meta" style="font-size:.85rem;opacity:.75;margin-top:8px">${p.corte?'Corte: '+esc(p.corte)+' · ':''}Estado: ${esc(p.estado)}</div>`;
+  if(p.notaNutricionista)bd+=`<div class="nota"><b>Ajuste nutricionista:</b> ${esc(p.notaNutricionista)}</div>`;
+  if(p.notaPagina)bd+=`<div class="nota">${esc(p.notaPagina)}</div>`;
+  p.ingredientesNotion.forEach(s=>{bd+=`<h4>${esc(s.titulo)} · como en Notion</h4><ul>${s.lineas.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;});
+  bd+=`<h4>Para la compra · por 1 porción adulta</h4><table class="por">${p.compra.map(c=>`<tr><td>${esc(c.nombre)}${c.nota?`<div style="font-size:.78rem;opacity:.65">${esc(c.nota)}</div>`:''}</td><td>${c.sinCantidad?'sin cantidad':fmtNum(c.porPorcion)+' '+uTxt(c.unidad)}</td></tr>`).join('')}</table>
+   <div style="font-size:.78rem;opacity:.65;margin-top:6px">Receta para ${DATA.porcionesReceta} porciones ÷ ${DATA.porcionesReceta}. Sin sal, aceite, agua, especias ni caldo en pastilla.</div>`;
+  p.pasos.forEach(s=>{bd+=`<h4>${esc(s.titulo)}</h4><ol>${s.lineas.map(l=>`<li>${esc(l)}</li>`).join('')}</ol>`;});
+  (p.avisos||[]).forEach(a=>bd+=`<div class="aviso">⚠️ ${esc(a)}</div>`);
+  box.innerHTML=`<div class="ov" data-act="cerrar" id="ov"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt" data-sheet="1">
+   <div class="hd"><h2 id="mt">${esc(etiqueta(m))}</h2><div class="meta">${esc(grupoById(m.grupo).nombre)} · Receta de Notion</div></div>
+   <div class="bd">${bd}</div><div class="ft"><button class="btn primary" data-act="cerrar" id="cerrar">Cerrar</button></div></div></div>`;
 }
 document.addEventListener('click',e=>{
-  const b=e.target.closest('[data-act]'); if(!b||b.disabled) return;
-  const a=b.dataset.act;
-  if(a==='cerrar'){ if(b.id==='ov'&&e.target.closest('[data-sheet]')) return; VER=null; renderModal(); const f=document.querySelector(`[data-act=ver][data-id="${LAST}"]`); if(f) f.focus(); return; }
-  UI_MSG='';
+  const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const a=b.dataset.act;
+  if(a==='cerrar'){if(b.id==='ov'&&e.target.closest('[data-sheet]'))return;VER=null;renderModal();const f=document.querySelector(`[data-act=ver][data-id="${LAST}"]`);if(f)f.focus();return;}
   if(a==='ver'){VER=b.dataset.id;LAST=VER;renderModal();document.getElementById('cerrar').focus();return;}
-  if(a==='pick'){const id=b.dataset.id;const m=menuById(id);const g=grupoById(m.grupo);
-    if(S.picked.includes(id)){S.picked=S.picked.filter(x=>x!==id);for(const d in S.assign) if(S.assign[d]===id) delete S.assign[d];}
-    else if(enGrupo(g.id)>=g.max) UI_MSG=`Máximo ${g.max} de ${g.nombre} por semana.`;
-    else if(S.picked.length<NUM_MENUS) S.picked.push(id);
-  }else if(a==='day'){const d=Number(b.dataset.d);
-    if(S.days.includes(d)){S.days=S.days.filter(x=>x!==d);delete S.assign[d];delete S.diners[d];}
-    else if(S.days.length<NUM_MENUS){S.days.push(d);S.diners[d]=PERSONAS.map(p=>p.id);}
-  }else if(a==='diner'){const d=b.dataset.d,p=b.dataset.p;const l=S.diners[d]||[];
-    S.diners[d]=l.includes(p)?l.filter(x=>x!==p):PERSONAS.map(x=>x.id).filter(x=>x===p||l.includes(x));
+  UI_MSG='';
+  if(a==='pick'){const id=b.dataset.id,g=grupoById(menuById(id).grupo);
+    if(S.picked.includes(id))S.picked=S.picked.filter(x=>x!==id);
+    else if(enGrupo(g.id)>=g.max)UI_MSG=`Máximo ${g.max} de ${g.nombre} por semana.`;
+    else S.picked.push(id);
+  }else if(a==='slot'){const s=b.dataset.s;S.on[s]=!S.on[s];
+  }else if(a==='auto'){const libres=S.picked.filter(id=>!Object.values(S.assign).includes(id));slotsOn().filter(s=>!S.assign[s]).forEach(s=>{if(libres.length)S.assign[s]=libres.shift();});
+  }else if(a==='ir'){S.step=Number(b.dataset.step);scrollTo(0,0);
+  }else if(a==='diner'){const s=b.dataset.s,p=b.dataset.p;const l=S.diners[s]||PERSONAS.map(x=>x.id);S.diners[s]=l.includes(p)?l.filter(x=>x!==p):PERSONAS.map(x=>x.id).filter(x=>x===p||l.includes(x));
   }else if(a==='st'){const k=b.dataset.k;S.stock[k]=Math.max(0,(Number(S.stock[k])||0)+Number(b.dataset.delta));
   }else if(a==='buy'){const k=b.dataset.k;S.bought[k]=!S.bought[k];
-  }else if(a==='reset'){S.confirmReset=true;
-  }else if(a==='resetNo'){S.confirmReset=false;
-  }else if(a==='resetYes'){S=nuevoEstado();
+  }else if(a==='reset'){S.confirmReset=true;}else if(a==='resetNo'){S.confirmReset=false;}else if(a==='resetYes'){S=nuevoEstado();
   }else return;
   render();
 });
-let LAST=null;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&VER){VER=null;renderModal();}});
 document.addEventListener('change',e=>{const t=e.target;
-  if(t.dataset.act==='assign'){const d=t.dataset.d;if(t.value)S.assign[d]=t.value;else delete S.assign[d];render();}
-  if(t.dataset.act==='stock'){const v=t.value;S.stock[t.dataset.k]=v===''?0:Math.max(0,Number(v));render();}
-});
-document.addEventListener('input',e=>{const t=e.target;if(t.dataset.act==='stock'){S.stock[t.dataset.k]=t.value;guardar();
-  const err=validar(5);document.getElementById('next').disabled=!!err;const m=document.getElementById('msg');m.textContent=err||'✓ Listo, pulsa Siguiente.';m.className='msg'+(err?'':' ok');}});
-document.getElementById('next').onclick=()=>{if(!validar(S.step)&&S.step<6){S.step++;S.confirmReset=false;UI_MSG='';render();scrollTo(0,0);}};
+  if(t.dataset.act==='assign'){const s=t.dataset.s;if(t.value){for(const k in S.assign)if(S.assign[k]===t.value&&k!==s)delete S.assign[k];S.assign[s]=t.value;}else delete S.assign[s];render();}
+  if(t.dataset.act==='stock'){const v=t.value;S.stock[t.dataset.k]=v===''?0:Math.max(0,Number(v));render();}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.act==='stock'){S.stock[t.dataset.k]=t.value;guardar();const err=validar(6);document.getElementById('next').disabled=!!err;const m=document.getElementById('msg');m.textContent=err;m.className='msg'+(err?'':' ok');}});
+document.getElementById('next').onclick=()=>{if(!validar(S.step)&&S.step<NP){S.step++;S.confirmReset=false;UI_MSG='';render();scrollTo(0,0);}};
 document.getElementById('back').onclick=()=>{if(S.step>1){S.step--;S.confirmReset=false;UI_MSG='';render();scrollTo(0,0);}};
 render();
 </script>
