@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b1838">
+<title>Family App - CanSocho</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:linear-gradient(160deg,#0f0c29,#302b63 60%,#24243e);background-attachment:fixed;color:#f2f2ff;font-size:17px;line-height:1.4;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;padding:16px 16px 120px}
+header h1{font-size:1.35rem;font-weight:600;text-align:center;letter-spacing:.3px;color:#e3e0ff}
+.progress{margin:14px 0 18px}
+.progress .label{display:flex;justify-content:space-between;font-size:.85rem;opacity:.8;margin-bottom:8px}
+.dots{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.dots span{height:6px;border-radius:3px;background:rgba(255,255,255,.15)}
+.dots span.done{background:#a78bfa}
+.dots span.cur{background:#c4b5fd;box-shadow:0 0 8px #a78bfa}
+h2{font-size:1.25rem;font-weight:600;margin-bottom:6px}
+.sub{opacity:.75;font-size:.95rem;margin-bottom:14px}
+.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px;margin-bottom:10px}
+.pick{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:inherit;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);border-radius:16px;padding:14px;margin-bottom:10px;min-height:64px;cursor:pointer}
+.pick.on{border-color:#a78bfa;background:rgba(167,139,250,.2)}
+.pick:disabled{opacity:.4}
+.pick .emoji{font-size:1.6rem;width:36px;text-align:center}
+.pick .t{font-weight:600}
+.pick .d{font-size:.85rem;opacity:.7}
+.pick .chk{margin-left:auto;width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.pick.on .chk{background:#a78bfa;border-color:#a78bfa;color:#1b1838}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;color:inherit;min-height:48px;padding:10px 14px;border-radius:24px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);cursor:pointer;font-size:1rem}
+.chip.on{background:#a78bfa;border-color:#a78bfa;color:#1b1838;font-weight:600}
+.chip:disabled{opacity:.35}
+.days .chip{flex:1 1 calc(25% - 8px);text-align:center;padding:10px 4px}
+select{width:100%;font:inherit;font-size:1rem;min-height:52px;padding:10px 12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:#2a2650;color:#fff;margin-top:8px}
+.daytitle{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.daytitle b{font-size:1.05rem}
+.daytitle small{opacity:.7;font-size:.85rem;text-align:right}
+.msg{min-height:1.4em;font-size:.92rem;color:#fcd34d;margin:6px 0 10px}
+.msg.ok{color:#86efac}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.row:last-child{border-bottom:none}
+.row .n{font-weight:500}
+.row .s{font-size:.82rem;opacity:.65}
+.row .q{font-weight:700;white-space:nowrap;color:#ddd6fe}
+.stepper{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.stepper button{font:inherit;width:44px;height:44px;border-radius:12px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:1.3rem;cursor:pointer}
+.stepper input{width:60px;height:44px;text-align:center;font:inherit;font-size:1rem;border-radius:10px;border:1.5px solid rgba(255,255,255,.25);background:#2a2650;color:#fff}
+.stepper .u{font-size:.75rem;opacity:.7;width:46px;text-align:left;overflow-wrap:anywhere}
+.shop{display:flex;align-items:center;gap:14px;width:100%;font:inherit;color:inherit;text-align:left;background:none;border:none;border-bottom:1px solid rgba(255,255,255,.08);padding:14px 2px;min-height:60px;cursor:pointer}
+.shop .box{width:30px;height:30px;border-radius:8px;border:2px solid rgba(255,255,255,.4);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.shop.done{opacity:.45}
+.shop.done .n{text-decoration:line-through}
+.shop.done .box{background:#86efac;border-color:#86efac;color:#1b1838}
+.shop .q{margin-left:auto;font-weight:700;white-space:nowrap}
+.counter{font-size:1rem;font-weight:600;text-align:center;margin:6px 0 12px;color:#ddd6fe}
+.btn{font:inherit;font-size:1.05rem;min-height:54px;border-radius:14px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.09);color:#fff;cursor:pointer;padding:0 16px}
+.btn.primary{background:#a78bfa;border-color:#a78bfa;color:#1b1838;font-weight:700}
+.btn:disabled{opacity:.35}
+.btn.danger{background:rgba(248,113,113,.18);border-color:#f87171;color:#fecaca;width:100%;margin-top:18px}
+.btn.danger.solid{background:#f87171;color:#1b1838;font-weight:700}
+.confirm{margin-top:12px;padding:14px;border-radius:14px;border:1.5px solid #f87171;background:rgba(248,113,113,.1)}
+.confirm p{margin-bottom:10px}
+.confirm .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.confirm .btn{margin-top:0}
+nav.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(20,17,45,.92);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.12);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+nav.bar .in{max-width:480px;margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.empty{text-align:center;padding:24px 8px;opacity:.8}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #fcd34d;outline-offset:2px}
+
+.grp{margin:18px 0 8px;display:flex;justify-content:space-between;align-items:baseline}
+.grp h3{font-size:1.08rem;font-weight:600}
+.grp span{font-size:.85rem;opacity:.8}
+.grp span.full{color:#86efac;opacity:1}
+.tag{font-size:.7rem;padding:1px 7px;border-radius:8px;background:rgba(255,255,255,.12);margin-left:6px;vertical-align:middle;font-weight:500}
+.tag.n{background:rgba(134,239,172,.2);color:#bbf7d0}
+.dish{display:flex;align-items:stretch;gap:0;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);border-radius:16px;margin-bottom:10px;overflow:hidden}
+.dish.on{border-color:#a78bfa;background:rgba(167,139,250,.2)}
+.dish.dis{opacity:.45}
+.dish .info{flex:1;font:inherit;color:inherit;text-align:left;background:none;border:none;padding:12px 10px 12px 14px;cursor:pointer;min-height:64px;display:flex;gap:10px;align-items:center}
+.dish .info .num{font-weight:700;color:#c4b5fd;min-width:30px}
+.dish .info .t{font-weight:600}
+.dish .info .d{font-size:.82rem;opacity:.7}
+.dish .info .ver{font-size:.78rem;color:#c4b5fd;margin-top:2px}
+.dish .sel{width:64px;flex-shrink:0;border:none;border-left:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dish .sel:disabled{cursor:not-allowed}
+.dish .sel .chk{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center}
+.dish.on .sel .chk{background:#a78bfa;border-color:#a78bfa;color:#1b1838}
+.ov{position:fixed;inset:0;background:rgba(5,4,20,.7);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#1e1a42;border:1px solid rgba(255,255,255,.15);border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:88vh;display:flex;flex-direction:column}
+.sheet .hd{padding:16px 16px 10px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sheet .hd h2{font-size:1.15rem;margin:0}
+.sheet .hd .meta{font-size:.82rem;opacity:.7;margin-top:4px}
+.sheet .bd{padding:6px 16px 10px;overflow-y:auto}
+.sheet .ft{padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.1)}
+.sheet .ft .btn{width:100%}
+.sheet h4{font-size:.98rem;margin:14px 0 6px;color:#ddd6fe}
+.sheet ul,.sheet ol{padding-left:22px}
+.sheet li{margin:4px 0;font-size:.95rem}
+.sheet .nota{font-size:.88rem;background:rgba(134,239,172,.1);border-left:3px solid #86efac;padding:8px 10px;border-radius:8px;margin-top:10px}
+.sheet .aviso{font-size:.85rem;color:#fcd34d;margin-top:6px}
+.sheet .por{font-size:.9rem}
+.sheet .por td{padding:4px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.sheet .por td:last-child{text-align:right;font-weight:600;white-space:nowrap;padding-left:10px}
+.sheet table{width:100%;border-collapse:collapse}
+</style>
+</head>
+<body>
+<div class="app">
+  <header><h1>🍽️ Family App – CanSocho</h1></header>
+  <div class="progress"><div class="label"><span id="stepLabel"></span><span id="stepName"></span></div><div class="dots" id="dots"></div></div>
+  <main id="main"></main>
+</div>
+<nav class="bar"><div class="in">
+  <button class="btn" id="back">← Atrás</button>
+  <button class="btn primary" id="next">Siguiente →</button>
+</div></nav>
+<div id="modal"></div>
+<script>
+const CARNE = {
+ "fuente": "Notion · 1. Almuerzo & Cena (collection://9931f3d4-5c46-46c2-a922-dc9c16865d1f)",
+ "leido": "2026-10-24",
+ "grupo": "Carne roja",
+ "maxSemana": 2,
+ "porcionesReceta": 5,
+ "reglas": "porPorcion = cantidadReceta / 5. Sin sal, pimienta, agua, aceite, vinagre, azúcar, especias secas ni pastillas de caldo. Rangos → punto medio. 1 lata de tomate = 400 g. Opcionales fuera de la compra.",
+ "platos": [
+  {
+   "no": 1,
+   "nombre": "Chili con carne",
+   "estado": "Aprobado",
+   "url": "https://app.notion.com/p/3f7a5f3fc23081c196f7f419d711615c",
+   "editado": "2026-10-20",
+   "corte": "Carne picada de vacuno",
+   "carbohidratos": [
+    "Arroz"
+   ],
+   "verduras": [
+    "Cebolla",
+    "Pimiento",
+    "Tomate"
+   ],
+   "notaNutricionista": "arroz integral; sin nata agria, cheddar ni tortillas.",
+   "ingredientesNotion": [
+    {
+     "titulo": "Ingredientes (5 personas)",
+     "lineas": [
+      "1 cebolla (grande, picada)",
+      "1 pimiento rojo (en cubitos)",
+      "2 ½ dientes de ajo (picados)",
+      "415–500 g de carne de vacuno picada (o 665 g de aguja en cubos)",
+      "1 ⅔ cucharadas de concentrado de tomate",
+      "335 g de tomate triturado (1 lata de 400 g)",
+      "335 g de alubias rojas escurridas (1 lata de 400 g)",
+      "210–335 ml de caldo de vacuno",
+      "Arroz integral (para servir)",
+      "Cilantro (fresco) (para servir) (opcional)",
+      "Lima (para servir) (opcional)",
+      "Jalapeño (para servir) (opcional)"
+     ]
+    }
+   ],
+   "pasos": [
+    {
+     "titulo": "Preparación",
+     "lineas": [
+      "Sofríe la cebolla y el pimiento 6–8 min en aceite. Añade el ajo 1 min.",
+      "Sube el fuego, dora la carne. Incorpora las especias y el concentrado; cocina 1–2 min.",
+      "Añade el tomate, las alubias y caldo suficiente para cubrir. Hierve suave 30–40 min (picada) o 1½–2½ h (cubos) hasta espesar.",
+      "Rectifica picante y acidez. Sirve sobre arroz integral con los acompañamientos (cilantro, lima, jalapeño) aparte."
+     ]
+    }
+   ],
+   "compra": [
+    {
+     "nombre": "Cebolla",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 cebolla (grande)"
+    },
+    {
+     "nombre": "Pimiento rojo",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 pimiento rojo"
+    },
+    {
+     "nombre": "Ajo",
+     "cantidadReceta": 2.5,
+     "unidad": "dientes",
+     "porPorcion": 0.5,
+     "origen": "2 ½ dientes de ajo"
+    },
+    {
+     "nombre": "Carne picada de vacuno",
+     "cantidadReceta": 457.5,
+     "unidad": "g",
+     "porPorcion": 91.5,
+     "origen": "415–500 g",
+     "nota": "punto medio del rango"
+    },
+    {
+     "nombre": "Concentrado de tomate",
+     "cantidadReceta": 1.67,
+     "unidad": "cucharadas",
+     "porPorcion": 0.334,
+     "origen": "1 ⅔ cucharadas"
+    },
+    {
+     "nombre": "Tomate triturado",
+     "cantidadReceta": 335,
+     "unidad": "g",
+     "porPorcion": 67.0,
+     "origen": "335 g (1 lata de 400 g)"
+    },
+    {
+     "nombre": "Alubias rojas cocidas",
+     "cantidadReceta": 335,
+     "unidad": "g",
+     "porPorcion": 67.0,
+     "origen": "335 g escurridas (1 lata de 400 g)"
+    },
+    {
+     "nombre": "Caldo de vacuno",
+     "cantidadReceta": 272.5,
+     "unidad": "ml",
+     "porPorcion": 54.5,
+     "origen": "210–335 ml",
+     "nota": "punto medio del rango"
+    },
+    {
+     "nombre": "Arroz integral",
+     "cantidadReceta": null,
+     "unidad": "g",
+     "porPorcion": null,
+     "origen": "Arroz integral (para servir), sin cantidad",
+     "sinCantidad": true
+    }
+   ],
+   "excluidosCompra": [
+    "aceite",
+    "especias",
+    "Cilantro, lima y jalapeño (opcionales)"
+   ]
+  },
+  {
+   "no": 2,
+   "nombre": "Entrecot de ternera",
+   "estado": "Aprobado",
+   "url": "https://app.notion.com/p/3f7a5f3fc2308178bf00f6068ee6c93f",
+   "editado": "2026-10-19",
+   "corte": "Entrecot de ternera",
+   "carbohidratos": [
+    "Patatas"
+   ],
+   "verduras": [
+    "Aguacate",
+    "Tomate",
+    "Cebolla"
+   ],
+   "notaNutricionista": null,
+   "ingredientesNotion": [
+    {
+     "titulo": "Ingredientes (5 personas)",
+     "lineas": [
+      "5 entrecots de ternera (unos 180–220 g cada uno)",
+      "Patata (acompañamiento: papas saladas o patatas)"
+     ]
+    },
+    {
+     "titulo": "Guacamole (5 personas)",
+     "lineas": [
+      "3 aguacates maduros",
+      "4 tomates",
+      "1½ cebolla blanca",
+      "1–2 limones (o limas), el zumo",
+      "1 manojo pequeño de cilantro fresco"
+     ]
+    }
+   ],
+   "pasos": [
+    {
+     "titulo": "Preparación",
+     "lineas": [
+      "Saca la carne del frío 30 min antes.",
+      "Dora en sartén muy caliente 2–4 min por lado según punto deseado.",
+      "Deja reposar 3–5 min. Sirve con papas o patatas y el guacamole."
+     ]
+    },
+    {
+     "titulo": "Guacamole",
+     "lineas": [
+      "Pica muy fino la cebolla y el cilantro; trocea el tomate en dados pequeños (sin semillas).",
+      "Aplasta los aguacates con un tenedor y mezcla enseguida con el zumo de limón.",
+      "Incorpora tomate, cebolla y cilantro; sala al gusto.",
+      "Prepáralo justo antes de servir (o cubre con film en contacto para que no se oscurezca)."
+     ]
+    }
+   ],
+   "compra": [
+    {
+     "nombre": "Entrecot de ternera",
+     "cantidadReceta": 1000,
+     "unidad": "g",
+     "porPorcion": 200.0,
+     "origen": "5 entrecots de 180–220 g",
+     "nota": "5 × 200 g (punto medio)"
+    },
+    {
+     "nombre": "Patatas",
+     "cantidadReceta": null,
+     "unidad": "g",
+     "porPorcion": null,
+     "origen": "Patata, sin cantidad",
+     "sinCantidad": true
+    },
+    {
+     "nombre": "Aguacate",
+     "cantidadReceta": 3,
+     "unidad": "ud",
+     "porPorcion": 0.6,
+     "origen": "3 aguacates maduros"
+    },
+    {
+     "nombre": "Tomate",
+     "cantidadReceta": 4,
+     "unidad": "ud",
+     "porPorcion": 0.8,
+     "origen": "4 tomates"
+    },
+    {
+     "nombre": "Cebolla",
+     "cantidadReceta": 1.5,
+     "unidad": "ud",
+     "porPorcion": 0.3,
+     "origen": "1½ cebolla blanca"
+    },
+    {
+     "nombre": "Limón",
+     "cantidadReceta": 1.5,
+     "unidad": "ud",
+     "porPorcion": 0.3,
+     "origen": "1–2 limones",
+     "nota": "punto medio del rango"
+    },
+    {
+     "nombre": "Cilantro fresco",
+     "cantidadReceta": 1,
+     "unidad": "manojo",
+     "porPorcion": 0.2,
+     "origen": "1 manojo pequeño"
+    }
+   ],
+   "excluidosCompra": [
+    "sal"
+   ]
+  },
+  {
+   "no": 3,
+   "nombre": "Goulash de carne",
+   "estado": "Revisar",
+   "url": "https://app.notion.com/p/3f7a5f3fc23081f19ba2fc650f441c2c",
+   "editado": "2026-10-19",
+   "corte": "Ternera o aguja en cubos",
+   "carbohidratos": [
+    "Arroz",
+    "Pan"
+   ],
+   "verduras": [
+    "Cebolla",
+    "Tomate",
+    "Pimiento",
+    "Zanahoria"
+   ],
+   "notaNutricionista": "arroz o pan integral.",
+   "ingredientesNotion": [
+    {
+     "titulo": "Ingredientes (5 personas)",
+     "lineas": [
+      "640 g de carne de ternera o aguja en cubos",
+      "1 ½ cebollas (grandes)",
+      "2 ½ dientes de ajo",
+      "1 lata de tomate triturado (lata) (o 2 tomates)",
+      "1 ½ tomates (alternativa a la lata) (opcional)",
+      "1 pimiento",
+      "1 ½ zanahorias",
+      "400 ml de caldo",
+      "Arroz (para servir (o pan)) (opcional)",
+      "Pan (para servir (o arroz)) (opcional)"
+     ]
+    }
+   ],
+   "pasos": [
+    {
+     "titulo": "Preparación",
+     "lineas": [
+      "Dora la carne en tandas y reserva. Sofríe la cebolla hasta que se dore.",
+      "Añade ajo y pimentón (sin quemar). Incorpora la carne, tomate, verduras, laurel y caldo.",
+      "Cocina a fuego suave 1,5–2 h hasta que la carne esté tierna. Rectifica y sirve con arroz o pan."
+     ]
+    }
+   ],
+   "compra": [
+    {
+     "nombre": "Ternera o aguja en cubos",
+     "cantidadReceta": 640,
+     "unidad": "g",
+     "porPorcion": 128.0,
+     "origen": "640 g"
+    },
+    {
+     "nombre": "Cebolla",
+     "cantidadReceta": 1.5,
+     "unidad": "ud",
+     "porPorcion": 0.3,
+     "origen": "1 ½ cebollas"
+    },
+    {
+     "nombre": "Ajo",
+     "cantidadReceta": 2.5,
+     "unidad": "dientes",
+     "porPorcion": 0.5,
+     "origen": "2 ½ dientes"
+    },
+    {
+     "nombre": "Tomate triturado",
+     "cantidadReceta": 400,
+     "unidad": "g",
+     "porPorcion": 80.0,
+     "origen": "1 lata",
+     "nota": "lata estándar de 400 g"
+    },
+    {
+     "nombre": "Pimiento",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 pimiento"
+    },
+    {
+     "nombre": "Zanahoria",
+     "cantidadReceta": 1.5,
+     "unidad": "ud",
+     "porPorcion": 0.3,
+     "origen": "1 ½ zanahorias"
+    },
+    {
+     "nombre": "Caldo",
+     "cantidadReceta": 400,
+     "unidad": "ml",
+     "porPorcion": 80.0,
+     "origen": "400 ml"
+    }
+   ],
+   "excluidosCompra": [
+    "pimentón y laurel (especias)",
+    "tomates alternativos (opcional)",
+    "arroz o pan para servir (opcional)"
+   ]
+  },
+  {
+   "no": 4,
+   "nombre": "Arepas rellenas con carne desmechada",
+   "estado": "Revisar",
+   "url": "https://app.notion.com/p/3f7a5f3fc23081b9aef5f10021422052",
+   "editado": "2026-10-23",
+   "corte": "Carne de res para desmechar",
+   "carbohidratos": [
+    "Maíz/arepa"
+   ],
+   "verduras": [
+    "Cebolla",
+    "Tomate"
+   ],
+   "notaNutricionista": null,
+   "notaPagina": "Propuesta: ~75 g de harina por arepa, 1–2 arepas por persona.",
+   "ingredientesNotion": [
+    {
+     "titulo": "Ingredientes (5 personas)",
+     "lineas": [
+      "600 g de harina de maíz precocida (≈8 arepas) (propuesta)",
+      "500 g de pulled pork",
+      "250 g de queso para arepas (mozzarella rallado)"
+     ]
+    }
+   ],
+   "pasos": [
+    {
+     "titulo": "Preparación",
+     "lineas": [
+      "Cocina la carne en agua 1,5 h hasta que esté tierna; desmecha.",
+      "Sofríe cebolla, ajo y tomate picados con el aceite y el comino; añade la carne y un poco de caldo hasta que quede jugosa.",
+      "Mezcla la harina con 730 ml de agua tibia, amasa 2–3 min y reposa 5 min. Forma las arepas (~75 g de harina cada una).",
+      "Ásalas en sartén o plancha 5–6 min por lado y termina 10 min al horno si son gruesas.",
+      "Abre y rellena con la carne y el queso. Sirve calientes."
+     ]
+    }
+   ],
+   "compra": [
+    {
+     "nombre": "Harina de maíz precocida",
+     "cantidadReceta": 600,
+     "unidad": "g",
+     "porPorcion": 120.0,
+     "origen": "600 g (propuesta)"
+    },
+    {
+     "nombre": "Pulled pork",
+     "cantidadReceta": 500,
+     "unidad": "g",
+     "porPorcion": 100.0,
+     "origen": "500 g de pulled pork",
+     "nota": "¿cerdo en un plato de carne roja?"
+    },
+    {
+     "nombre": "Mozzarella rallada",
+     "cantidadReceta": 250,
+     "unidad": "g",
+     "porPorcion": 50.0,
+     "origen": "250 g de queso para arepas"
+    }
+   ],
+   "excluidosCompra": [
+    "agua",
+    "aceite",
+    "comino",
+    "caldo (poco)"
+   ],
+   "avisos": [
+    "Cebolla, ajo y tomate salen en los pasos pero no en la lista de ingredientes.",
+    "La lista dice «pulled pork» (cerdo), pero el plato y el corte son de res."
+   ]
+  },
+  {
+   "no": 5,
+   "nombre": "Verduras al wok con carne de vacío y arroz",
+   "estado": "Aprobado",
+   "url": "https://app.notion.com/p/3f7a5f3fc230810b9735f2efd4783a4d",
+   "editado": "2026-10-19",
+   "corte": "Vacío de ternera",
+   "carbohidratos": [
+    "Arroz"
+   ],
+   "verduras": [
+    "Cebolla",
+    "Tomate",
+    "Zanahoria",
+    "Calabacín"
+   ],
+   "notaNutricionista": "arroz integral.",
+   "ingredientesNotion": [
+    {
+     "titulo": "Ingredientes (5 personas)",
+     "lineas": [
+      "4 ½–5 ½ dientes de ajo",
+      "2 cebollas",
+      "2 tomates",
+      "2 zanahorias",
+      "1 calabacín",
+      "440–550 g de carne de vacío (en trozos)",
+      "330–440 g de arroz (blanco)"
+     ]
+    }
+   ],
+   "pasos": [
+    {
+     "titulo": "Preparación",
+     "lineas": [
+      "Sofríe ajo y cebolla. Añade la carne y sella.",
+      "Incorpora tomate, zanahoria y calabacín. Añade jengibre y salsa de soja.",
+      "Cocina 20 min a fuego medio. Sirve con el arroz cocido aparte."
+     ]
+    }
+   ],
+   "compra": [
+    {
+     "nombre": "Ajo",
+     "cantidadReceta": 5,
+     "unidad": "dientes",
+     "porPorcion": 1.0,
+     "origen": "4 ½–5 ½ dientes",
+     "nota": "punto medio"
+    },
+    {
+     "nombre": "Cebolla",
+     "cantidadReceta": 2,
+     "unidad": "ud",
+     "porPorcion": 0.4,
+     "origen": "2 cebollas"
+    },
+    {
+     "nombre": "Tomate",
+     "cantidadReceta": 2,
+     "unidad": "ud",
+     "porPorcion": 0.4,
+     "origen": "2 tomates"
+    },
+    {
+     "nombre": "Zanahoria",
+     "cantidadReceta": 2,
+     "unidad": "ud",
+     "porPorcion": 0.4,
+     "origen": "2 zanahorias"
+    },
+    {
+     "nombre": "Calabacín",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 calabacín"
+    },
+    {
+     "nombre": "Carne de vacío",
+     "cantidadReceta": 495,
+     "unidad": "g",
+     "porPorcion": 99.0,
+     "origen": "440–550 g",
+     "nota": "punto medio"
+    },
+    {
+     "nombre": "Arroz",
+     "cantidadReceta": 385,
+     "unidad": "g",
+     "porPorcion": 77.0,
+     "origen": "330–440 g de arroz blanco",
+     "nota": "punto medio"
+    }
+   ],
+   "excluidosCompra": [
+    "aceite"
+   ],
+   "avisos": [
+    "Jengibre y salsa de soja salen en los pasos pero no en la lista de ingredientes."
+   ]
+  },
+  {
+   "no": 6,
+   "nombre": "Espagueti a la boloñesa",
+   "estado": "Aprobado",
+   "url": "https://app.notion.com/p/3f7a5f3fc2308127af80eba05de77951",
+   "editado": "2026-10-19",
+   "corte": "Carne picada",
+   "carbohidratos": [
+    "Pasta"
+   ],
+   "verduras": [
+    "Cebolla",
+    "Zanahoria",
+    "Tomate",
+    "Puerro"
+   ],
+   "notaNutricionista": "pasta integral; apio → puerro u omitir.",
+   "ingredientesNotion": [
+    {
+     "titulo": "Ingredientes (5 personas)",
+     "lineas": [
+      "500 g de espagueti",
+      "500 g de carne picada",
+      "1 cebolla",
+      "2 dientes de ajo",
+      "1 zanahoria",
+      "1 apio",
+      "1 lata de tomate triturado (lata)",
+      "2 cucharadas de concentrado de tomate"
+     ]
+    }
+   ],
+   "pasos": [
+    {
+     "titulo": "Preparación",
+     "lineas": [
+      "Sofríe las verduras. Añade la carne y dora. Incorpora tomate y concentrado.",
+      "Cocina a fuego suave 30–40 min. Cuece la pasta al dente.",
+      "Mezcla o sirve la salsa sobre la pasta."
+     ]
+    }
+   ],
+   "compra": [
+    {
+     "nombre": "Espaguetis",
+     "cantidadReceta": 500,
+     "unidad": "g",
+     "porPorcion": 100.0,
+     "origen": "500 g"
+    },
+    {
+     "nombre": "Carne picada",
+     "cantidadReceta": 500,
+     "unidad": "g",
+     "porPorcion": 100.0,
+     "origen": "500 g"
+    },
+    {
+     "nombre": "Cebolla",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 cebolla"
+    },
+    {
+     "nombre": "Ajo",
+     "cantidadReceta": 2,
+     "unidad": "dientes",
+     "porPorcion": 0.4,
+     "origen": "2 dientes"
+    },
+    {
+     "nombre": "Zanahoria",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 zanahoria"
+    },
+    {
+     "nombre": "Apio",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 apio",
+     "nota": "la nota dice apio → puerro u omitir"
+    },
+    {
+     "nombre": "Tomate triturado",
+     "cantidadReceta": 400,
+     "unidad": "g",
+     "porPorcion": 80.0,
+     "origen": "1 lata",
+     "nota": "lata estándar de 400 g"
+    },
+    {
+     "nombre": "Concentrado de tomate",
+     "cantidadReceta": 2,
+     "unidad": "cucharadas",
+     "porPorcion": 0.4,
+     "origen": "2 cucharadas"
+    }
+   ],
+   "excluidosCompra": [
+    "aceite"
+   ]
+  },
+  {
+   "no": 7,
+   "nombre": "Sopa de la abuela (con albóndigas)",
+   "estado": "Aprobado",
+   "url": "https://app.notion.com/p/3f7a5f3fc23081b3ad07d270b6b7fa45",
+   "editado": "2026-10-20",
+   "corte": "Carne picada de ternera",
+   "carbohidratos": [
+    "Pasta",
+    "Pan"
+   ],
+   "verduras": [
+    "Cebolla",
+    "Puerro",
+    "Zanahoria"
+   ],
+   "notaNutricionista": "fideos y pan rallado integrales; apio → puerro.",
+   "ingredientesNotion": [
+    {
+     "titulo": "Ingredientes (5 personas)",
+     "lineas": [
+      "265 g de carne picada de ternera",
+      "1 huevo",
+      "2 cebollas",
+      "2 puerros",
+      "2 ½ zanahorias",
+      "2 ½ tallos de apio",
+      "175 g de fideos finos",
+      "1,76 l de caldo de ternera",
+      "Perejil",
+      "Pan de barra (para servir) (opcional)"
+     ]
+    }
+   ],
+   "pasos": [
+    {
+     "titulo": "Preparación",
+     "lineas": [
+      "Forma albóndigas con carne, huevo y pan rallado.",
+      "Sofríe las verduras. Añade el caldo y las albóndigas. Cocina 45–60 min.",
+      "Añade los fideos los últimos 10 min. Sirve con pan."
+     ]
+    }
+   ],
+   "compra": [
+    {
+     "nombre": "Carne picada de ternera",
+     "cantidadReceta": 265,
+     "unidad": "g",
+     "porPorcion": 53.0,
+     "origen": "265 g"
+    },
+    {
+     "nombre": "Huevos",
+     "cantidadReceta": 1,
+     "unidad": "ud",
+     "porPorcion": 0.2,
+     "origen": "1 huevo"
+    },
+    {
+     "nombre": "Cebolla",
+     "cantidadReceta": 2,
+     "unidad": "ud",
+     "porPorcion": 0.4,
+     "origen": "2 cebollas"
+    },
+    {
+     "nombre": "Puerro",
+     "cantidadReceta": 2,
+     "unidad": "ud",
+     "porPorcion": 0.4,
+     "origen": "2 puerros"
+    },
+    {
+     "nombre": "Zanahoria",
+     "cantidadReceta": 2.5,
+     "unidad": "ud",
+     "porPorcion": 0.5,
+     "origen": "2 ½ zanahorias"
+    },
+    {
+     "nombre": "Apio",
+     "cantidadReceta": 2.5,
+     "unidad": "tallos",
+     "porPorcion": 0.5,
+     "origen": "2 ½ tallos",
+     "nota": "la nota dice apio → puerro"
+    },
+    {
+     "nombre": "Fideos finos",
+     "cantidadReceta": 175,
+     "unidad": "g",
+     "porPorcion": 35.0,
+     "origen": "175 g"
+    },
+    {
+     "nombre": "Caldo de ternera",
+     "cantidadReceta": 1760,
+     "unidad": "ml",
+     "porPorcion": 352.0,
+     "origen": "1,76 l"
+    },
+    {
+     "nombre": "Perejil",
+     "cantidadReceta": null,
+     "unidad": "manojo",
+     "porPorcion": null,
+     "origen": "Perejil, sin cantidad",
+     "sinCantidad": true
+    }
+   ],
+   "excluidosCompra": [
+    "pan de barra (opcional)"
+   ],
+   "avisos": [
+    "El pan rallado sale en los pasos pero no en la lista de ingredientes.",
+    "Dos líneas de ingredientes tenían restos de texto de la importación; aquí se muestran limpias."
+   ],
+   "ingredientesNotionOriginal": [
+    "265 g de carne picada de ternera (M: 'carne picada'; C: 'de ternera')",
+    "2 ½ tallos de apio (amount from C ('3 tallos'))"
+   ]
+  }
+ ]
+};
+const PERSONAS = [{id:'Llan',w:1.00},{id:'Lluma',w:0.80},{id:'Ale',w:1.05},{id:'Isa',w:0.90},{id:'Tori',w:0.65}];
+const DIAS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const DIAS_CORTO = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const NUM_MENUS = 5;
+// Grupos de proteína con el máximo semanal de Notion
+const GRUPOS = [
+  {id:'carne',nombre:'Carne roja',emoji:'🥩',max:2},
+  {id:'pollo',nombre:'Pollo',emoji:'🍗',max:2},
+  {id:'cerdo',nombre:'Cerdo',emoji:'🐖',max:1},
+  {id:'pblanco',nombre:'Pescado blanco',emoji:'🐟',max:1},
+  {id:'pazul',nombre:'Pescado azul',emoji:'🍣',max:1},
+  {id:'huevos',nombre:'Huevos',emoji:'🥚',max:1},
+  {id:'legumbres',nombre:'Legumbres',emoji:'🫘',max:1},
+  {id:'sinprot',nombre:'Sin proteína',emoji:'🥗',max:1}
+];
+// Menús de ejemplo (temporal, hasta cargar los demás grupos de Notion). Cantidades por 1 porción adulta
+const EJEMPLOS = [
+  ['e1','pollo','Pollo asado con patatas',[['Muslos de pollo',250,'g'],['Patatas',250,'g'],['Cebolla',0.5,'ud'],['Pimiento rojo',0.5,'ud'],['Limón',0.25,'ud']]],
+  ['e6','pollo','Arroz con pollo y verduras',[['Arroz',80,'g'],['Pechuga de pollo',150,'g'],['Pimiento rojo',0.5,'ud'],['Guisantes',50,'g'],['Cebolla',0.5,'ud']]],
+  ['e8','cerdo','Lomo de cerdo con pimientos',[['Lomo de cerdo',150,'g'],['Pimiento rojo',0.5,'ud'],['Pimiento verde',0.5,'ud'],['Patatas',200,'g'],['Ajo',1,'dientes']]],
+  ['e4','pblanco','Merluza al horno con verduras',[['Merluza',180,'g'],['Patatas',200,'g'],['Calabacín',0.5,'ud'],['Tomate',1,'ud'],['Limón',0.25,'ud']]],
+  ['e7','pazul','Salmón con espárragos y arroz',[['Salmón',150,'g'],['Espárragos verdes',100,'g'],['Arroz',70,'g'],['Limón',0.25,'ud'],['Ajo',1,'dientes']]],
+  ['e3','huevos','Tortilla de patatas con ensalada',[['Huevos',2,'ud'],['Patatas',200,'g'],['Cebolla',0.5,'ud'],['Lechuga',0.25,'ud'],['Tomate',1,'ud']]],
+  ['e2','legumbres','Lentejas estofadas',[['Lentejas',80,'g'],['Chorizo',40,'g'],['Zanahoria',1,'ud'],['Patatas',100,'g'],['Cebolla',0.5,'ud']]],
+  ['e9','legumbres','Garbanzos con espinacas y huevo',[['Garbanzos cocidos',150,'g'],['Espinacas',100,'g'],['Huevos',1,'ud'],['Tomate',1,'ud'],['Ajo',1,'dientes']]],
+  ['e10','sinprot','Crema de calabaza con pan',[['Calabaza',300,'g'],['Zanahoria',1,'ud'],['Puerro',0.5,'ud'],['Queso fresco',40,'g'],['Pan',60,'g']]]
+];
+const MENUS = [
+  ...CARNE.platos.map(p=>({id:'n'+p.no,grupo:'carne',no:p.no,nombre:p.nombre,fuente:'notion',plato:p,
+     ing:p.compra.map(c=>[c.nombre,c.porPorcion,c.unidad])})),
+  ...EJEMPLOS.map(([id,g,n,ing])=>({id,grupo:g,nombre:n,fuente:'ejemplo',ing}))
+];
+const PASOS = ['Elegir menús','Elegir días','Comensales','Ingredientes','Stock en casa','Lista de la compra'];
+const KEY = 'cansocho-simple-v2';
+const UNIDAD = {g:'g',ud:'ud',dientes:'dientes',ml:'ml',cucharadas:'cucharadas',manojo:'manojo',tallos:'tallos'};
+const uTxt = u => UNIDAD[u]||u;
+
+function nuevoEstado(){return {step:1,picked:[],days:[],assign:{},diners:{},stock:{},bought:{},confirmReset:false};}
+let S = cargar();
+let VER = null; // menú abierto en la ficha
+function cargar(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));
+    if(s&&Array.isArray(s.picked)){s.picked=s.picked.filter(id=>MENUS.some(m=>m.id===id));return Object.assign(nuevoEstado(),s,{confirmReset:false});}}catch(e){}
+  return nuevoEstado();
+}
+function guardar(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const menuById = id => MENUS.find(m=>m.id===id);
+const grupoById = id => GRUPOS.find(g=>g.id===id);
+const diasOrdenados = () => [...S.days].sort((a,b)=>a-b);
+const pesoDia = d => (S.diners[d]||[]).reduce((t,p)=>t+PERSONAS.find(x=>x.id===p).w,0);
+const fmtNum = n => (Math.round(n*100)/100).toLocaleString('es-ES');
+const enGrupo = g => S.picked.filter(id=>menuById(id).grupo===g).length;
+const etiqueta = m => (m.no?`Nº ${m.no} · `:'')+m.nombre;
+
+// Redondeo: g a 10 g y ml a 50 ml hacia arriba; el resto a entero hacia arriba
+function redondear(v,u){ if(u==='g') return Math.ceil(v/10-1e-9)*10; if(u==='ml') return Math.ceil(v/50-1e-9)*50; return Math.ceil(v-1e-9); }
+
+function ingredientes(){
+  const map=new Map();
+  diasOrdenados().forEach(d=>{
+    const m=menuById(S.assign[d]); if(!m) return;
+    const peso=pesoDia(d);
+    m.ing.forEach(([n,q,u])=>{
+      const sin = q===null||q===undefined;
+      const k=n+'|'+(sin?'sc':u);
+      if(!map.has(k)) map.set(k,{key:k,nombre:n,unidad:u,sinCantidad:sin,raw:0,menus:[]});
+      const it=map.get(k); if(!sin) it.raw+=q*peso; it.menus.push(m.nombre);
+    });
+  });
+  return [...map.values()].map(it=>({...it,total:it.sinCantidad?null:redondear(it.raw,it.unidad)})).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
+}
+function compra(){
+  return ingredientes().map(it=>{
+    if(it.sinCantidad) return {...it,stock:0,need:null};
+    const st=Number(S.stock[it.key])||0; return {...it,stock:st,need:Math.max(0,it.total-st)};
+  }).filter(it=>it.sinCantidad||it.need>0);
+}
+function validar(step){
+  if(step===1){const n=S.picked.length;return n===NUM_MENUS?'':`Elige ${NUM_MENUS} menús en total (llevas ${n}).`;}
+  if(step===2){
+    if(S.days.length!==NUM_MENUS) return `Elige ${NUM_MENUS} días (llevas ${S.days.length}).`;
+    const asign=S.days.map(d=>S.assign[d]).filter(Boolean);
+    if(asign.length<NUM_MENUS) return `Asigna un menú a cada día (faltan ${NUM_MENUS-asign.length}).`;
+    if(new Set(asign).size!==asign.length) return 'Cada menú solo puede ir en un día.';
+    return '';
+  }
+  if(step===3){const sin=diasOrdenados().filter(d=>!(S.diners[d]||[]).length);return sin.length?`Cada día necesita al menos un comensal (${sin.map(d=>DIAS[d]).join(', ')}).`:'';}
+  if(step===5){const bad=ingredientes().some(it=>{const v=S.stock[it.key];return v!==undefined&&v!==''&&(isNaN(Number(v))||Number(v)<0);});return bad?'Revisa el stock: solo números de 0 en adelante.':'';}
+  return '';
+}
+function validoHasta(step){for(let i=1;i<step;i++) if(validar(i)) return false; return true;}
+
+function render(){
+  if(!validoHasta(S.step)){let s=1;while(s<S.step&&!validar(s))s++;S.step=s;}
+  document.getElementById('stepLabel').textContent=`Paso ${S.step} de 6`;
+  document.getElementById('stepName').textContent=PASOS[S.step-1];
+  document.getElementById('dots').innerHTML=PASOS.map((_,i)=>`<span class="${i+1<S.step?'done':i+1===S.step?'cur':''}"></span>`).join('');
+  document.getElementById('main').innerHTML=[null,paso1,paso2,paso3,paso4,paso5,paso6][S.step]();
+  const err=validar(S.step);
+  const back=document.getElementById('back'),next=document.getElementById('next');
+  back.disabled=S.step===1; next.style.visibility=S.step===6?'hidden':'visible'; next.disabled=!!err;
+  const msg=document.getElementById('msg');
+  if(msg){msg.textContent=err||(S.step<6?'✓ Listo, pulsa Siguiente.':'');msg.className='msg'+(err?'':' ok');}
+  renderModal();
+  guardar();
+}
+function paso1(){
+  const n=S.picked.length;
+  let h=`<h2>Elige ${NUM_MENUS} menús</h2><p class="sub">Por grupo de proteína, respetando el máximo semanal. Toca el nombre para ver la receta y el círculo para elegirlo. Seleccionados: <b>${n} / ${NUM_MENUS}</b></p><div id="msg" class="msg"></div>`;
+  GRUPOS.forEach(g=>{
+    const ms=MENUS.filter(m=>m.grupo===g.id); if(!ms.length) return;
+    const k=enGrupo(g.id);
+    h+=`<div class="grp" data-grupo="${g.id}"><h3>${g.emoji} ${g.nombre}${ms[0].fuente==='notion'?'<span class="tag n">Notion</span>':'<span class="tag">ejemplo</span>'}</h3><span class="${k>=g.max?'full':''}">máx. ${g.max} · elegidos ${k}</span></div>`;
+    h+=ms.map(m=>{const on=S.picked.includes(m.id);const dis=!on&&(n>=NUM_MENUS||k>=g.max);
+      const sub=m.fuente==='notion'?[m.plato.corte,...(m.plato.carbohidratos||[])].filter(Boolean).join(' · '):m.ing.map(i=>i[0]).join(', ');
+      return `<div class="dish ${on?'on':''} ${dis?'dis':''}" data-menu="${m.id}">
+        <button class="info" data-act="ver" data-id="${m.id}" aria-label="Ver receta de ${esc(m.nombre)}">${m.no?`<span class="num">${m.no}</span>`:''}<span><div class="t">${esc(m.nombre)}</div><div class="d">${esc(sub)}</div><div class="ver">Ver receta ›</div></span></button>
+        <button class="sel" data-act="pick" data-id="${m.id}" ${dis?'disabled':''} aria-pressed="${on}" aria-label="${on?'Quitar':'Elegir'} ${esc(m.nombre)}"><span class="chk">${on?'✓':''}</span></button></div>`;}).join('');
+  });
+  if(UI_MSG) h=h.replace('<div id="msg" class="msg"></div>',`<div id="msg" class="msg"></div><div class="msg" id="limite">${esc(UI_MSG)}</div>`);
+  return h;
+}
+let UI_MSG='';
+function renderModal(){
+  const box=document.getElementById('modal');
+  if(!VER){box.innerHTML='';document.body.style.overflow='';return;}
+  const m=menuById(VER); document.body.style.overflow='hidden';
+  let bd='';
+  if(m.fuente==='notion'){
+    const p=m.plato;
+    bd+=`<div class="meta" style="font-size:.85rem;opacity:.75;margin-top:8px">Corte: ${esc(p.corte||'—')} · Estado: ${esc(p.estado)}</div>`;
+    if(p.notaNutricionista) bd+=`<div class="nota"><b>Ajuste nutricionista:</b> ${esc(p.notaNutricionista)}</div>`;
+    if(p.notaPagina) bd+=`<div class="nota">${esc(p.notaPagina)}</div>`;
+    p.ingredientesNotion.forEach(s=>{bd+=`<h4>${esc(s.titulo)} · como en Notion</h4><ul>${s.lineas.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>`;});
+    bd+=`<h4>Para la compra · por 1 porción adulta</h4><table class="por">${p.compra.map(c=>`<tr><td>${esc(c.nombre)}${c.nota?`<div class="small" style="font-size:.78rem;opacity:.65">${esc(c.nota)}</div>`:''}</td><td>${c.sinCantidad?'sin cantidad':fmtNum(c.porPorcion)+' '+uTxt(c.unidad)}</td></tr>`).join('')}</table>
+      <div style="font-size:.78rem;opacity:.65;margin-top:6px">Receta para ${CARNE.porcionesReceta} porciones ÷ ${CARNE.porcionesReceta}. Sin sal, aceite, agua, especias ni caldo en pastilla.</div>`;
+    p.pasos.forEach(s=>{bd+=`<h4>${esc(s.titulo)}</h4><ol>${s.lineas.map(l=>`<li>${esc(l)}</li>`).join('')}</ol>`;});
+    (p.avisos||[]).forEach(a=>bd+=`<div class="aviso">⚠️ ${esc(a)}</div>`);
+  }else{
+    bd+=`<h4>Ingredientes · por 1 porción adulta</h4><table class="por">${m.ing.map(([n,q,u])=>`<tr><td>${esc(n)}</td><td>${fmtNum(q)} ${uTxt(u)}</td></tr>`).join('')}</table>
+      <div class="aviso">Menú de ejemplo: todavía sin pasos de preparación. Este grupo se cargará de Notion más adelante.</div>`;
+  }
+  box.innerHTML=`<div class="ov" data-act="cerrar" id="ov"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt" data-sheet="1">
+    <div class="hd"><h2 id="mt">${esc(etiqueta(m))}</h2><div class="meta">${esc(grupoById(m.grupo).nombre)} · ${m.fuente==='notion'?'Receta de Notion':'Menú de ejemplo'}</div></div>
+    <div class="bd">${bd}</div>
+    <div class="ft"><button class="btn primary" data-act="cerrar" id="cerrar">Cerrar</button></div></div></div>`;
+}
+function paso2(){
+  const dias=diasOrdenados();
+  const usados=d=>Object.entries(S.assign).filter(([k])=>Number(k)!==d&&S.days.includes(Number(k))).map(([,v])=>v);
+  return `<h2>¿Qué días coméis estos menús?</h2><p class="sub">Elige ${NUM_MENUS} días: <b>${S.days.length} / ${NUM_MENUS}</b></p>
+  <div class="chips days">${DIAS_CORTO.map((d,i)=>{const on=S.days.includes(i);const dis=!on&&S.days.length>=NUM_MENUS;
+    return `<button class="chip ${on?'on':''}" data-act="day" data-d="${i}" ${dis?'disabled':''} aria-pressed="${on}" aria-label="${DIAS[i]}">${d}</button>`;}).join('')}</div>
+  <div id="msg" class="msg"></div>
+  ${dias.length?'<h2 style="font-size:1.05rem;margin:6px 0 10px">Asigna un menú a cada día</h2>':''}
+  ${dias.map(d=>{const u=usados(d);return `<div class="card"><b>${DIAS[d]}</b>
+    <select data-act="assign" data-d="${d}" aria-label="Menú del ${DIAS[d]}"><option value="">— Elige menú —</option>
+    ${S.picked.map(id=>{const m=menuById(id);return `<option value="${id}" ${S.assign[d]===id?'selected':''} ${u.includes(id)?'disabled':''}>${esc(etiqueta(m))}${u.includes(id)?' (ya asignado)':''}</option>`;}).join('')}
+    </select></div>`;}).join('')}`;
+}
+function paso3(){
+  return `<h2>¿Quién come cada día?</h2><p class="sub">Toca un nombre para quitarlo o añadirlo.</p><div id="msg" class="msg"></div>`+
+  diasOrdenados().map(d=>{const m=menuById(S.assign[d]);const sel=S.diners[d]||[];
+    return `<div class="card"><div class="daytitle"><b>${DIAS[d]}</b><small>${esc(etiqueta(m))}<br>${sel.length} pers. · ${fmtNum(pesoDia(d))} porciones</small></div>
+    <div class="chips" style="margin-top:10px">${PERSONAS.map(p=>`<button class="chip ${sel.includes(p.id)?'on':''}" data-act="diner" data-d="${d}" data-p="${p.id}" aria-pressed="${sel.includes(p.id)}">${p.id}</button>`).join('')}</div></div>`;}).join('');
+}
+function paso4(){
+  const it=ingredientes();
+  return `<h2>Ingredientes necesarios</h2><p class="sub">Total de la semana según quién come (porciones por edad). ${it.length} ingredientes.</p><div id="msg" class="msg"></div>
+  <div class="card">${it.map(i=>`<div class="row" data-ing="${esc(i.key)}"><div><div class="n">${esc(i.nombre)}</div><div class="s">${esc([...new Set(i.menus)].join(' · '))}</div></div><div class="q">${i.sinCantidad?'a decidir':fmtNum(i.total)+' '+uTxt(i.unidad)}</div></div>`).join('')}</div>
+  ${it.some(i=>i.sinCantidad)?'<p class="sub" style="font-size:.85rem">«a decidir»: Notion no indica cantidad.</p>':''}`;
+}
+function paso5(){
+  const it=ingredientes();
+  return `<h2>¿Cuánto hay en casa?</h2><p class="sub">Apunta lo que ya tenéis. Deja 0 si no hay nada.</p><div id="msg" class="msg"></div>
+  <div class="card">${it.map(i=>{
+    if(i.sinCantidad) return `<div class="row"><div><div class="n">${esc(i.nombre)}</div><div class="s">Sin cantidad en Notion: decide en la tienda</div></div></div>`;
+    const v=S.stock[i.key]??0;const step=i.unidad==='g'?50:i.unidad==='ml'?100:1;
+    return `<div class="row"><div><div class="n">${esc(i.nombre)}</div><div class="s">Necesitas ${fmtNum(i.total)} ${uTxt(i.unidad)}</div></div>
+    <div class="stepper"><button data-act="st" data-k="${esc(i.key)}" data-delta="-${step}" aria-label="Menos ${esc(i.nombre)}">−</button>
+    <input type="number" inputmode="decimal" min="0" step="${step}" value="${esc(v)}" data-act="stock" data-k="${esc(i.key)}" aria-label="Stock de ${esc(i.nombre)}">
+    <span class="u">${uTxt(i.unidad)}</span>
+    <button data-act="st" data-k="${esc(i.key)}" data-delta="${step}" aria-label="Más ${esc(i.nombre)}">+</button></div></div>`;}).join('')}</div>`;
+}
+function paso6(){
+  const c=compra();const hechos=c.filter(i=>S.bought[i.key]).length;
+  return `<h2>Lista de la compra</h2>
+  ${c.length?`<div class="counter" id="counter">${hechos} de ${c.length} en el carrito${hechos===c.length?' 🎉':''}</div>
+  <div class="card">${c.map(i=>{const on=!!S.bought[i.key];return `<button class="shop ${on?'done':''}" data-act="buy" data-k="${esc(i.key)}" aria-pressed="${on}"><span class="box">${on?'✓':''}</span><span class="n">${esc(i.nombre)}${i.sinCantidad?`<span style="display:block;font-size:.78rem;opacity:.65;text-decoration:none">${esc([...new Set(i.menus)].join(', '))}</span>`:''}</span><span class="q">${i.sinCantidad?'a decidir':fmtNum(i.need)+' '+uTxt(i.unidad)}</span></button>`;}).join('')}</div>`
+  :`<div class="card empty">✅ Tenéis todo en casa. No hace falta comprar nada.</div>`}
+  ${S.confirmReset?`<div class="confirm"><p><b>¿Empezar una nueva semana?</b><br>Se borran los menús, días, comensales, stock y la lista.</p>
+    <div class="two"><button class="btn" data-act="resetNo">Cancelar</button><button class="btn danger solid" data-act="resetYes">Sí, borrar</button></div></div>`
+  :`<button class="btn danger" data-act="reset">🔄 Nueva semana</button>`}`;
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b||b.disabled) return;
+  const a=b.dataset.act;
+  if(a==='cerrar'){ if(b.id==='ov'&&e.target.closest('[data-sheet]')) return; VER=null; renderModal(); const f=document.querySelector(`[data-act=ver][data-id="${LAST}"]`); if(f) f.focus(); return; }
+  UI_MSG='';
+  if(a==='ver'){VER=b.dataset.id;LAST=VER;renderModal();document.getElementById('cerrar').focus();return;}
+  if(a==='pick'){const id=b.dataset.id;const m=menuById(id);const g=grupoById(m.grupo);
+    if(S.picked.includes(id)){S.picked=S.picked.filter(x=>x!==id);for(const d in S.assign) if(S.assign[d]===id) delete S.assign[d];}
+    else if(enGrupo(g.id)>=g.max) UI_MSG=`Máximo ${g.max} de ${g.nombre} por semana.`;
+    else if(S.picked.length<NUM_MENUS) S.picked.push(id);
+  }else if(a==='day'){const d=Number(b.dataset.d);
+    if(S.days.includes(d)){S.days=S.days.filter(x=>x!==d);delete S.assign[d];delete S.diners[d];}
+    else if(S.days.length<NUM_MENUS){S.days.push(d);S.diners[d]=PERSONAS.map(p=>p.id);}
+  }else if(a==='diner'){const d=b.dataset.d,p=b.dataset.p;const l=S.diners[d]||[];
+    S.diners[d]=l.includes(p)?l.filter(x=>x!==p):PERSONAS.map(x=>x.id).filter(x=>x===p||l.includes(x));
+  }else if(a==='st'){const k=b.dataset.k;S.stock[k]=Math.max(0,(Number(S.stock[k])||0)+Number(b.dataset.delta));
+  }else if(a==='buy'){const k=b.dataset.k;S.bought[k]=!S.bought[k];
+  }else if(a==='reset'){S.confirmReset=true;
+  }else if(a==='resetNo'){S.confirmReset=false;
+  }else if(a==='resetYes'){S=nuevoEstado();
+  }else return;
+  render();
+});
+let LAST=null;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&VER){VER=null;renderModal();}});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.dataset.act==='assign'){const d=t.dataset.d;if(t.value)S.assign[d]=t.value;else delete S.assign[d];render();}
+  if(t.dataset.act==='stock'){const v=t.value;S.stock[t.dataset.k]=v===''?0:Math.max(0,Number(v));render();}
+});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.act==='stock'){S.stock[t.dataset.k]=t.value;guardar();
+  const err=validar(5);document.getElementById('next').disabled=!!err;const m=document.getElementById('msg');m.textContent=err||'✓ Listo, pulsa Siguiente.';m.className='msg'+(err?'':' ok');}});
+document.getElementById('next').onclick=()=>{if(!validar(S.step)&&S.step<6){S.step++;S.confirmReset=false;UI_MSG='';render();scrollTo(0,0);}};
+document.getElementById('back').onclick=()=>{if(S.step>1){S.step--;S.confirmReset=false;UI_MSG='';render();scrollTo(0,0);}};
+render();
+</script>
+</body>
+</html>
