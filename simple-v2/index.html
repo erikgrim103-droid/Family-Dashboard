@@ -128,6 +128,32 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .wk .cell.off .v{font-weight:400}
 .edits{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 4px}
 .edits .btn{min-height:48px;font-size:.92rem}
+.b2{display:inline-block;margin-top:4px;font-size:.74rem;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(134,239,172,.16);border:1px solid rgba(134,239,172,.5);color:#bbf7d0}
+.wk .cell.lo{border-color:rgba(134,239,172,.45)}
+.slot .ex{grid-column:1/-1;font-size:.84rem}
+.slot .ex .lk{font:inherit;font-size:.86rem;width:100%;min-height:44px;border-radius:12px;border:1.5px dashed rgba(134,239,172,.6);background:rgba(134,239,172,.08);color:#bbf7d0;cursor:pointer;padding:6px 10px;text-align:left}
+.slot .ex .on2{color:#bbf7d0;padding:4px 2px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0 12px;position:sticky;top:0;z-index:3;background:rgba(27,24,56,.92);backdrop-filter:blur(8px);padding:6px 0}
+.tab{font:inherit;font-size:.84rem;min-height:48px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;line-height:1.15;padding:4px}
+.tab.on{background:#a78bfa;border-color:#a78bfa;color:#1b1838;font-weight:700}
+.tab small{display:block;font-size:.72rem;opacity:.8}
+.cat{font-size:.8rem;text-transform:uppercase;letter-spacing:.6px;opacity:.75;margin:14px 2px 6px}
+.xrow{border-bottom:1px solid rgba(255,255,255,.08);padding:10px 0}
+.xrow:last-child{border-bottom:none}
+.xh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.xh .n{font-weight:600}
+.xdel{font:inherit;min-width:44px;min-height:40px;border-radius:10px;border:1.5px solid rgba(248,113,113,.5);background:rgba(248,113,113,.1);color:#fecaca;cursor:pointer;font-size:.8rem}
+.xg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.xg .lb{font-size:.74rem;opacity:.7;margin-bottom:3px}
+.xg .stepper{gap:4px}
+.xg .stepper button{width:40px;height:42px}
+.xg .stepper input{width:100%;min-width:0;height:42px}
+.xg .stepper{display:grid;grid-template-columns:40px 1fr 40px}
+.addf{display:grid;gap:8px}
+.addf input{width:100%;height:48px;text-align:left;padding:0 12px;background:#2a2650;color:#fff;border:1.5px solid rgba(255,255,255,.25);border-radius:12px}
+.addf input::placeholder{color:rgba(255,255,255,.5)}
+.addf .two2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.addf select{margin-top:0}
 .mini2{font:inherit;font-size:.9rem;min-height:46px;border-radius:12px;border:1.5px solid rgba(167,139,250,.6);background:rgba(167,139,250,.15);color:#fff;cursor:pointer;width:100%;margin:6px 0 10px}
 </style>
 </head>
@@ -151,16 +177,28 @@ const COMIDAS=[{id:'a',n:'Almuerzo'},{id:'c',n:'Cena'}];
 const EMOJI={'carne-roja':'🥩','pollo':'🍗','pavo':'🦃','cerdo':'🐖','pescado-blanco':'🐟','pescado-azul':'🍣','huevos':'🥚','legumbres':'🫘','sandwiches':'🥪','sin-proteina':'🥗'};
 const GRUPOS=DATA.grupos.map(g=>({id:g.id,nombre:g.nombre,max:g.max}));
 const MENUS=DATA.grupos.flatMap(g=>g.platos.map(p=>({id:p.id,grupo:g.id,no:p.no,nombre:p.nombre,plato:p,ing:p.compra.map(c=>[c.nombre,c.porPorcion,c.unidad])})));
+const XCATS={des:['Lácteos','Huevos y embutidos','Panadería','Cereales','Frutas','Snacks'],hogar:['Hogar']};
+const XLISTA={des:'Desayunos y meriendas',hogar:'Hogar (no alimentación)'};
+const XUNI=['ud','paquetes','kg','l','briks','bolsas','botellas','rollos','cajas','bandejas','barras','docenas'];
+const XDEF={des:[['Actimel','Lácteos','ud'],['Yogur','Lácteos','ud'],['Queso cremoso','Lácteos','ud'],['Mantequilla','Lácteos','ud'],['Leche','Lácteos','briks'],
+ ['Huevos','Huevos y embutidos','docenas'],['Salchichas','Huevos y embutidos','paquetes'],
+ ['Pan','Panadería','barras'],['Tortillas de trigo','Panadería','paquetes'],['Magdalenas','Panadería','paquetes'],['Napolitanas de chocolate','Panadería','ud'],
+ ['Cereales','Cereales','cajas'],
+ ['Naranjas','Frutas','kg'],['Mandarinas','Frutas','kg'],['Manzanas','Frutas','kg'],['Fresas','Frutas','bandejas'],['Arándanos','Frutas','bandejas'],
+ ['Patatas fritas de bolsa','Snacks','bolsas']],
+ hogar:[['Servilletas','Hogar','paquetes'],['Toallitas húmedas','Hogar','paquetes'],['Zumo de limón','Hogar','botellas'],['Papel de cocina','Hogar','rollos'],['Papel higiénico','Hogar','rollos'],['Bolsas de basura 10 L','Hogar','rollos']]};
+const slug=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function xDefecto(){const o={};for(const l in XDEF)o[l]=XDEF[l].map(([n,c,u])=>({id:l+'-'+slug(n),nombre:n,cat:c,unidad:u,semana:1,propio:false}));return o;}
 const PASOS=['Elegir menús','Días y comidas','Resumen de la semana','Comensales','Ingredientes','Stock en casa','Lista de la compra'];
 const NP=PASOS.length;
-const KEY='cansocho-menu-v3';
+const KEY='cansocho-menu-v4', KEY_ANT='cansocho-menu-v3';
 const SLOTS=[];for(let d=0;d<7;d++)for(const c of COMIDAS)SLOTS.push(d+'-'+c.id);
 const UNIDAD={g:'g',ud:'ud',dientes:'dientes',ml:'ml',cucharadas:'cucharadas',manojo:'manojo',tallos:'tallos',cabezas:'cabezas',latas:'latas',rebanadas:'rebanadas'};
 const uTxt=u=>UNIDAD[u]||u;
 
-function nuevoEstado(){const on={};SLOTS.forEach(s=>on[s]=true);return {step:1,picked:[],on,assign:{},diners:{},stock:{},bought:{},confirmReset:false};}
+function nuevoEstado(){const on={};SLOTS.forEach(s=>on[s]=true);return {step:1,picked:[],on,assign:{},lo:{},diners:{},stock:{},bought:{},lista:'menu',xitems:xDefecto(),xstock:{},xbought:{},confirmReset:false};}
 let S=cargar(), VER=null, LAST=null, UI_MSG='';
-function cargar(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.picked)&&s.on){s.picked=s.picked.filter(id=>MENUS.some(m=>m.id===id));return Object.assign(nuevoEstado(),s,{confirmReset:false});}}catch(e){}return nuevoEstado();}
+function cargar(){try{const s=JSON.parse(localStorage.getItem(KEY))||JSON.parse(localStorage.getItem(KEY_ANT));if(s&&Array.isArray(s.picked)&&s.on){s.picked=s.picked.filter(id=>MENUS.some(m=>m.id===id));const e=Object.assign(nuevoEstado(),s,{confirmReset:false});if(!e.xitems||!e.xitems.des||!e.xitems.hogar)e.xitems=xDefecto();return e;}}catch(e){}return nuevoEstado();}
 function guardar(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const menuById=id=>MENUS.find(m=>m.id===id);
@@ -170,18 +208,27 @@ const etiqueta=m=>`Nº ${m.no} · ${m.nombre}`;
 const slotsOn=()=>SLOTS.filter(s=>S.on[s]);
 const slotNombre=s=>{const [d,c]=s.split('-');return `${DIAS[d]} · ${c==='a'?'Almuerzo':'Cena'}`;};
 const asignados=()=>slotsOn().filter(s=>S.assign[s]&&S.picked.includes(S.assign[s]));
+const sobraPara=s1=>Object.keys(S.lo).find(k=>S.lo[k]===s1);
+const platoDe=s=>S.assign[s]||(S.lo[s]&&S.assign[S.lo[s]]);
+const comidas=()=>slotsOn().filter(s=>platoDe(s));
+const huecosL=()=>slotsOn().filter(s=>!platoDe(s));
+const objetivo=()=>slotsOn().length-Object.keys(S.lo).length;
+const slotCorto=s=>{const [d,c]=s.split('-');return `${DC[d]} · ${c==='a'?'almuerzo':'cena'}`;};
 const peso=s=>(S.diners[s]||PERSONAS.map(p=>p.id)).reduce((t,p)=>t+PERSONAS.find(x=>x.id===p).w,0);
 const fmtNum=n=>(Math.round(n*100)/100).toLocaleString('es-ES');
 function redondear(v,u){if(u==='g')return Math.ceil(v/10-1e-9)*10;if(u==='ml')return Math.ceil(v/50-1e-9)*50;return Math.ceil(v-1e-9);}
 function limpiar(){ // quita asignaciones de menús no elegidos o huecos apagados
   for(const s in S.assign){if(!S.on[s]||!S.picked.includes(S.assign[s]))delete S.assign[s];}
+  const usados=new Set();
+  SLOTS.forEach(s2=>{const s1=S.lo[s2];if(!s1)return;
+    if(!S.on[s2]||!S.on[s1]||!S.assign[s1]||S.assign[s2]||SLOTS.indexOf(s1)>=SLOTS.indexOf(s2)||usados.has(s1))delete S.lo[s2];else usados.add(s1);});
 }
 function ingredientes(){
   const map=new Map();
-  asignados().forEach(s=>{const m=menuById(S.assign[s]);const w=peso(s);
+  asignados().forEach(s=>{const m=menuById(S.assign[s]);const l2=sobraPara(s);const w=peso(s)+(l2?peso(l2):0);
     m.ing.forEach(([n,q,u])=>{const sin=q===null||q===undefined;const k=n+'|'+(sin?'sc':u);
       if(!map.has(k))map.set(k,{key:k,nombre:n,unidad:u,sinCantidad:sin,raw:0,menus:[]});
-      const it=map.get(k);if(!sin)it.raw+=q*w;it.menus.push(m.nombre);});});
+      const it=map.get(k);if(!sin)it.raw+=q*w;it.menus.push(m.nombre+(l2?' (2 comidas)':''));});});
   return [...map.values()].map(it=>({...it,total:it.sinCantidad?null:redondear(it.raw,it.unidad)})).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')||(a.sinCantidad-b.sinCantidad));
 }
 function compra(){return ingredientes().map(it=>{if(it.sinCantidad)return {...it,need:null};const st=Number(S.stock[it.key])||0;return {...it,stock:st,need:Math.max(0,it.total-st)};}).filter(it=>it.sinCantidad||it.need>0);}
@@ -189,8 +236,8 @@ function compra(){return ingredientes().map(it=>{if(it.sinCantidad)return {...it
 function validar(step){
   if(step===1)return S.picked.length?'':'Elige al menos un menú.';
   if(step===2)return asignados().length?'':'Asigna al menos un menú a una comida.';
-  if(step===4){const sin=asignados().filter(s=>S.diners[s]&&!S.diners[s].length);return sin.length?`Cada comida necesita al menos un comensal (${sin.map(slotNombre).join(', ')}).`:'';}
-  if(step===6){const bad=ingredientes().some(it=>{const v=S.stock[it.key];return v!==undefined&&v!==''&&(isNaN(Number(v))||Number(v)<0);});return bad?'Revisa el stock: solo números de 0 en adelante.':'';}
+  if(step===4){const sin=comidas().filter(s=>S.diners[s]&&!S.diners[s].length);return sin.length?`Cada comida necesita al menos un comensal (${sin.map(slotNombre).join(', ')}).`:'';}
+  if(step===6){const bad=ingredientes().some(it=>{const v=S.stock[it.key];return v!==undefined&&v!==''&&(isNaN(Number(v))||Number(v)<0);});const xbad=['des','hogar'].some(l=>S.xitems[l].some(i=>[i.semana,S.xstock[i.id]].some(v=>v!==undefined&&v!==''&&(isNaN(Number(v))||Number(v)<0))));return (bad||xbad)?'Revisa el stock: solo números de 0 en adelante.':'';}
   return '';
 }
 function validoHasta(step){for(let i=1;i<step;i++)if(validar(i))return false;return true;}
@@ -206,12 +253,12 @@ function render(){
   const msg=document.getElementById('msg');if(msg){msg.textContent=err||'';msg.className='msg'+(err?'':' ok');}
   renderModal();guardar();
 }
-function avisoCuenta(){const n=S.picked.length,t=slotsOn().length;
-  if(n===t)return `<div class="okbox" id="cuenta">✓ ${n} menús para ${t} comidas en casa.</div>`;
-  return `<div class="warnbox" id="cuenta">⚠️ Has elegido ${n} menús para ${t} comidas en casa${n<t?` (faltan ${t-n})`:` (sobran ${n-t})`}. Puedes seguir igualmente.</div>`;}
+function avisoCuenta(){const n=S.picked.length,t=objetivo(),L=Object.keys(S.lo).length,x=L?` (${L} con sobras)`:'';
+  if(n===t)return `<div class="okbox" id="cuenta">✓ ${n} menús para ${t} comidas en casa${x}.</div>`;
+  return `<div class="warnbox" id="cuenta">⚠️ Has elegido ${n} menús para ${t} comidas en casa${x}${n<t?` (faltan ${t-n})`:` (sobran ${n-t})`}. Puedes seguir igualmente.</div>`;}
 function paso1(){
-  const n=S.picked.length,t=slotsOn().length;
-  let h=`<h2>Elige los menús de la semana</h2><p class="sub">Objetivo: <b>${t}</b> menús (almuerzo y cena de los días en casa). Toca el nombre para ver la receta y el círculo para elegirlo. Elegidos: <b id="cnt">${n} / ${t}</b></p>${avisoCuenta()}<div id="msg" class="msg"></div>`;
+  const n=S.picked.length,t=objetivo();
+  let h=`<h2>Elige los menús de la semana</h2><p class="sub">Objetivo: <b>${t}</b> menús (almuerzo y cena de los días en casa, sin contar las sobras). Toca el nombre para ver la receta y el círculo para elegirlo. Elegidos: <b id="cnt">${n} / ${t}</b></p>${avisoCuenta()}<div id="msg" class="msg"></div>`;
   if(UI_MSG)h+=`<div class="msg" id="limite">${esc(UI_MSG)}</div>`;
   GRUPOS.forEach(g=>{const ms=MENUS.filter(m=>m.grupo===g.id);const k=enGrupo(g.id);
     h+=`<div class="grp" data-grupo="${g.id}"><h3>${EMOJI[g.id]||''} ${g.nombre}</h3><span class="${k>=g.max?'full':''}">máx. ${g.max} · elegidos ${k}</span></div>`;
@@ -224,57 +271,97 @@ function paso1(){
 }
 function paso2(){
   const libres=d=>S.picked.filter(id=>!Object.entries(S.assign).some(([s,v])=>v===id&&s!==d));
-  const huecos=slotsOn().filter(s=>!S.assign[s]).length, sinUsar=S.picked.filter(id=>!Object.values(S.assign).includes(id)).length;
-  let h=`<h2>Días y comidas</h2><p class="sub">Marca qué comidas hacéis en casa y elige el menú de cada una. Por defecto, almuerzo y cena los 7 días.</p>${avisoCuenta()}`;
-  if(huecos&&sinUsar)h+=`<button class="mini2" data-act="auto">✨ Rellenar ${Math.min(huecos,sinUsar)} ${Math.min(huecos,sinUsar)===1?'hueco':'huecos'} con los menús sin asignar</button>`;
+  const huecos=huecosL().length, sinUsar=S.picked.filter(id=>!Object.values(S.assign).includes(id)).length;
+  let h=`<h2>Días y comidas</h2><p class="sub">Marca qué comidas hacéis en casa y elige el menú de cada una. Por defecto, almuerzo y cena los 7 días. Si un plato da para dos comidas, usa «🍲 Sobras».</p>${avisoCuenta()}`;
+  if(huecos&&sinUsar){const k=Math.min(huecos,sinUsar);h+=`<button class="mini2" data-act="auto">✨ Rellenar ${k} ${k===1?'hueco':'huecos'} con los menús sin asignar</button>`;}
   if(huecos)h+=`<div class="warnbox" id="huecos">⚠️ ${huecos} comida${huecos>1?'s':''} en casa sin menú.</div>`;
   h+=`<div id="msg" class="msg"></div>`;
   for(let d=0;d<7;d++){h+=`<div class="card slotday" data-dia="${d}"><b>${DIAS[d]}</b>`;
-    COMIDAS.forEach(c=>{const s=d+'-'+c.id,on=!!S.on[s],lib=libres(s);
-      h+=`<div class="slot"><button class="tg ${on?'on':''}" data-act="slot" data-s="${s}" aria-pressed="${on}" aria-label="${c.n} del ${DIAS[d].toLowerCase()}: ${on?'en casa':'fuera'}">${c.n}<small>${on?'🏠 En casa':'🚫 Fuera'}</small></button>
+    COMIDAS.forEach(c=>{const s=d+'-'+c.id,on=!!S.on[s],lib=libres(s),i=SLOTS.indexOf(s);
+      const fuentes=SLOTS.slice(0,i).filter(s1=>S.on[s1]&&S.assign[s1]&&(!sobraPara(s1)||sobraPara(s1)===s));
+      h+=`<div class="slot" data-fila="${s}"><button class="tg ${on?'on':''}" data-act="slot" data-s="${s}" aria-pressed="${on}" aria-label="${c.n} del ${DIAS[d].toLowerCase()}: ${on?'en casa':'fuera'}">${c.n}<small>${on?'🏠 En casa':'🚫 Fuera'}</small></button>
       <select data-act="assign" data-s="${s}" ${on?'':'disabled'} aria-label="Menú: ${c.n} del ${DIAS[d].toLowerCase()}"><option value="">${on?'— Elige menú —':'Fuera de casa'}</option>
-      ${on?S.picked.map(id=>{const m=menuById(id);const used=!lib.includes(id);return `<option value="${id}" ${S.assign[s]===id?'selected':''} ${used?'disabled':''}>${esc(etiqueta(m))}${used?' (ya asignado)':''}</option>`;}).join(''):''}</select></div>`;});
+      ${on?`<optgroup label="Cocinar">${S.picked.map(id=>{const m=menuById(id);const used=!lib.includes(id);return `<option value="${id}" ${S.assign[s]===id?'selected':''} ${used?'disabled':''}>${esc(etiqueta(m))}${used?' (ya asignado)':''}</option>`;}).join('')}</optgroup>`:''}
+      ${on&&fuentes.length?`<optgroup label="🍲 Sobras (sirve 2 comidas)">${fuentes.map(s1=>`<option value="sobra:${s1}" ${S.lo[s]===s1?'selected':''}>🍲 Sobras de ${slotCorto(s1)} · Nº ${menuById(S.assign[s1]).no}</option>`).join('')}</optgroup>`:''}</select>`;
+      if(on&&S.assign[s]){const l2=sobraPara(s),nx=SLOTS[i+1];
+        if(l2)h+=`<div class="ex"><div class="on2">🍲 Sirve 2 comidas: también ${slotNombre(l2).toLowerCase()}</div></div>`;
+        else if(nx&&S.on[nx]&&!platoDe(nx))h+=`<div class="ex"><button class="lk" data-act="sobra" data-from="${s}" data-to="${nx}">🍲 Cocinar doble: sobras para ${slotNombre(nx).toLowerCase()}</button></div>`;}
+      if(on&&S.lo[s])h+=`<div class="ex"><div class="on2">🍲 Sobras de ${slotNombre(S.lo[s]).toLowerCase()}: no se cocina, ya está en la compra.</div></div>`;
+      h+=`</div>`;});
     h+=`</div>`;}
   return h;
 }
 function paso3(){
-  const on=slotsOn().length,asg=asignados().length;
-  let h=`<h2>Resumen de la semana</h2><p class="sub">${asg} de ${on} comidas en casa con menú. Toca un plato para ver la receta.</p>`;
+  const on=slotsOn().length,asg=comidas().length,L=Object.keys(S.lo).length;
+  let h=`<h2>Resumen de la semana</h2><p class="sub">${asg} de ${on} comidas en casa con menú${L?` · ${L} con sobras (se cocina ${asg-L} veces)`:''}. Toca un plato para ver la receta.</p>`;
   h+=asg<on?`<div class="warnbox">⚠️ ${on-asg} comida${on-asg>1?'s':''} sin menú (marcadas en amarillo).</div>`:`<div class="okbox">✓ Todas las comidas en casa tienen menú.</div>`;
   h+=`<div class="edits"><button class="btn" data-act="ir" data-step="1">✏️ Cambiar menús</button><button class="btn" data-act="ir" data-step="2">✏️ Editar días</button></div>`;
   for(let d=0;d<7;d++){h+=`<div class="wk" data-semana="${d}"><div class="dn">${DC[d]}</div><div class="ml">`;
     COMIDAS.forEach(c=>{const s=d+'-'+c.id;
       if(!S.on[s])h+=`<div class="cell off" data-slot="${s}"><div class="k">${c.n}</div><div class="v">Fuera de casa</div></div>`;
-      else if(S.assign[s]){const m=menuById(S.assign[s]);h+=`<button class="cell" data-slot="${s}" data-act="ver" data-id="${m.id}"><div class="k">${c.n} · ${esc(grupoById(m.grupo).nombre)}</div><div class="v">${esc(etiqueta(m))}</div></button>`;}
+      else if(S.assign[s]){const m=menuById(S.assign[s]);const l2=sobraPara(s);h+=`<button class="cell ${l2?'lo':''}" data-slot="${s}" data-act="ver" data-id="${m.id}" ${l2?'data-sirve2="1"':''}><div class="k">${c.n} · ${esc(grupoById(m.grupo).nombre)}</div><div class="v">${esc(etiqueta(m))}</div>${l2?`<span class="b2">🍲 sirve 2 comidas · también ${slotCorto(l2)}</span>`:''}</button>`;}
+      else if(S.lo[s]){const m=menuById(S.assign[S.lo[s]]);h+=`<button class="cell lo" data-slot="${s}" data-act="ver" data-id="${m.id}" data-sirve2="1"><div class="k">${c.n} · Sobras</div><div class="v">${esc(etiqueta(m))}</div><span class="b2">🍲 sirve 2 comidas · de ${slotCorto(S.lo[s])}</span></button>`;}
       else h+=`<button class="cell empty" data-slot="${s}" data-act="ir" data-step="2"><div class="k">${c.n}</div><div class="v">— Sin menú · toca para asignar —</div></button>`;});
     h+=`</div></div>`;}
   return h+`<div id="msg" class="msg"></div>`;
 }
 function paso4(){
-  return `<h2>¿Quién come cada comida?</h2><p class="sub">Toca un nombre para quitarlo o añadirlo. Por defecto, todos.</p><div id="msg" class="msg"></div>`+
-  asignados().map(s=>{const m=menuById(S.assign[s]);const sel=S.diners[s]||PERSONAS.map(p=>p.id);
-    return `<div class="card" data-comida="${s}"><div class="daytitle"><b>${slotNombre(s)}</b><small>${esc(etiqueta(m))}<br>${sel.length} pers. · ${fmtNum(peso(s))} porciones</small></div>
+  return `<h2>¿Quién come cada comida?</h2><p class="sub">Toca un nombre para quitarlo o añadirlo. Por defecto, todos. Si hay sobras, se cocina una vez para las dos comidas.</p><div id="msg" class="msg"></div>`+
+  comidas().map(s=>{const m=menuById(platoDe(s));const sel=S.diners[s]||PERSONAS.map(p=>p.id);const l2=sobraPara(s);
+    const extra=S.lo[s]?`<br>🍲 Sobras de ${slotCorto(S.lo[s])}`:l2?`<br>🍲 Se cocina para ${fmtNum(peso(s)+peso(l2))} porciones (con ${slotCorto(l2)})`:'';
+    return `<div class="card" data-comida="${s}"><div class="daytitle"><b>${slotNombre(s)}</b><small>${esc(etiqueta(m))}<br>${sel.length} pers. · ${fmtNum(peso(s))} porciones${extra}</small></div>
     <div class="chips" style="margin-top:10px">${PERSONAS.map(p=>`<button class="chip ${sel.includes(p.id)?'on':''}" data-act="diner" data-s="${s}" data-p="${p.id}" aria-pressed="${sel.includes(p.id)}">${p.id}</button>`).join('')}</div></div>`;}).join('');
 }
 function paso5(){const it=ingredientes();
   return `<h2>Ingredientes necesarios</h2><p class="sub">De las recetas de Notion (5 porciones), según quién come cada comida. ${it.length} ingredientes. Sin sal, aceite, agua, especias ni caldo en pastilla.</p><div id="msg" class="msg"></div>
   <div class="card">${it.map(i=>`<div class="row" data-ing="${esc(i.key)}"><div><div class="n">${esc(i.nombre)}</div><div class="s">${esc([...new Set(i.menus)].join(' · '))}</div></div><div class="q">${i.sinCantidad?'a decidir':fmtNum(i.total)+' '+uTxt(i.unidad)}</div></div>`).join('')}</div>
   ${it.some(i=>i.sinCantidad)?'<p class="sub" style="font-size:.85rem">«a decidir»: Notion no indica cantidad.</p>':''}`;}
-function paso6(){const it=ingredientes();
-  return `<h2>¿Cuánto hay en casa?</h2><p class="sub">Apunta lo que ya tenéis. Deja 0 si no hay nada.</p><div id="msg" class="msg"></div>
+const xItem=id=>S.xitems.des.find(i=>i.id===id)||S.xitems.hogar.find(i=>i.id===id);
+const xSing=u=>({paquetes:'paquete',briks:'brik',bolsas:'bolsa',botellas:'botella',rollos:'rollo',cajas:'caja',bandejas:'bandeja',barras:'barra',docenas:'docena'}[u]||u);
+function xNeed(i){return Math.max(0,(Number(i.semana)||0)-(Number(S.xstock[i.id])||0));}
+function xCompraL(l){return S.xitems[l].filter(i=>xNeed(i)>0);}
+function tabs(step){
+  const c=step===7?{menu:[compra().filter(i=>S.bought[i.key]).length,compra().length],des:[xCompraL('des').filter(i=>S.xbought[i.id]).length,xCompraL('des').length],hogar:[xCompraL('hogar').filter(i=>S.xbought[i.id]).length,xCompraL('hogar').length]}:null;
+  return `<div class="tabs" role="tablist">${[['menu','🍽️ Menús'],['des','🥣 Desayunos'],['hogar','🧻 Hogar']].map(([k,n])=>`<button class="tab ${S.lista===k?'on':''}" role="tab" aria-selected="${S.lista===k}" data-act="tab" data-l="${k}">${n}${c?`<small data-tabcnt="${k}">${c[k][0]}/${c[k][1]}</small>`:''}</button>`).join('')}</div>`;}
+function addForm(l){
+  return `<div class="card addf" data-add="${l}"><b>➕ Añadir artículo</b><input type="text" id="xn" maxlength="40" placeholder="Nombre (p. ej. Galletas)" aria-label="Nombre del artículo">
+  <div class="two2">${l==='des'?`<select id="xc" aria-label="Categoría">${XCATS.des.map(c=>`<option>${c}</option>`).join('')}</select>`:'<input type="hidden" id="xc" value="Hogar">'}<select id="xu" aria-label="Unidad">${XUNI.map(u=>`<option>${u}</option>`).join('')}</select></div>
+  <button class="btn primary" data-act="xadd" data-l="${l}">Añadir a ${l==='des'?'desayunos':'hogar'}</button></div>`;}
+function stepperX(i,f,val,lbl){const st=i.unidad==='kg'?0.5:1;
+  return `<div><div class="lb">${lbl} (${esc(i.unidad)})</div><div class="stepper"><button data-act="xstep" data-id="${i.id}" data-f="${f}" data-delta="-${st}" aria-label="Menos ${esc(i.nombre)}">−</button><input type="number" inputmode="decimal" min="0" step="${st}" value="${esc(val)}" data-act="x${f}" data-id="${i.id}" aria-label="${lbl}: ${esc(i.nombre)}"><button data-act="xstep" data-id="${i.id}" data-f="${f}" data-delta="${st}" aria-label="Más ${esc(i.nombre)}">+</button></div></div>`;}
+function xStock(l){
+  let h=`<h2>${XLISTA[l]}</h2><p class="sub">Indica cuánto queréis para la semana y cuánto hay en casa. Se compra la diferencia.</p><div id="msg" class="msg"></div>`;
+  if(UI_MSG)h+=`<div class="msg" id="limite">${esc(UI_MSG)}</div>`;
+  XCATS[l].forEach(c=>{const it=S.xitems[l].filter(i=>i.cat===c);if(!it.length)return;
+    if(l==='des')h+=`<div class="cat">${c}</div>`;
+    h+=`<div class="card">${it.map(i=>`<div class="xrow" data-x="${i.id}"><div class="xh"><span class="n">${esc(i.nombre)}</span>${i.propio?`<button class="xdel" data-act="xdel" data-id="${i.id}" aria-label="Quitar ${esc(i.nombre)}">✕ Quitar</button>`:''}</div>
+    <div class="xg">${stepperX(i,'sem',i.semana,'Para la semana')}${stepperX(i,'st',S.xstock[i.id]??0,'En casa')}</div></div>`).join('')}</div>`;});
+  return h+addForm(l);}
+function xCompra(l){const c=xCompraL(l);const hechos=c.filter(i=>S.xbought[i.id]).length;
+  let h=`<h2>Compra · ${XLISTA[l]}</h2>`;
+  if(UI_MSG)h+=`<div class="msg" id="limite">${esc(UI_MSG)}</div>`;
+  if(!c.length)return h+`<div class="card empty">✅ No hace falta comprar nada de esta lista.</div>`+addForm(l);
+  h+=`<div class="counter" id="xcounter">${hechos} de ${c.length} en el carrito${hechos===c.length?' 🎉':''}</div>`;
+  XCATS[l].forEach(cat=>{const it=c.filter(i=>i.cat===cat);if(!it.length)return;if(l==='des')h+=`<div class="cat">${cat}</div>`;
+    h+=`<div class="card">${it.map(i=>{const on=!!S.xbought[i.id];return `<button class="shop ${on?'done':''}" data-act="xbuy" data-id="${i.id}" aria-pressed="${on}"><span class="box">${on?'✓':''}</span><span class="n">${esc(i.nombre)}</span><span class="q">${fmtNum(xNeed(i))} ${esc(xNeed(i)===1?xSing(i.unidad):i.unidad)}</span></button>`;}).join('')}</div>`;});
+  return h+addForm(l);}
+function paso6(){if(S.lista!=='menu')return tabs(6)+xStock(S.lista);const it=ingredientes();
+  return tabs(6)+`<h2>¿Cuánto hay en casa?</h2><p class="sub">Apunta lo que ya tenéis. Deja 0 si no hay nada.</p><div id="msg" class="msg"></div>
   <div class="card">${it.map(i=>{if(i.sinCantidad)return `<div class="row"><div><div class="n">${esc(i.nombre)}</div><div class="s">Sin cantidad en Notion: decide en la tienda</div></div></div>`;
     const v=S.stock[i.key]??0;const step=i.unidad==='g'?50:i.unidad==='ml'?100:1;
     return `<div class="row"><div><div class="n">${esc(i.nombre)}</div><div class="s">Necesitas ${fmtNum(i.total)} ${uTxt(i.unidad)}</div></div>
     <div class="stepper"><button data-act="st" data-k="${esc(i.key)}" data-delta="-${step}" aria-label="Menos ${esc(i.nombre)}">−</button>
     <input type="number" inputmode="decimal" min="0" step="${step}" value="${esc(v)}" data-act="stock" data-k="${esc(i.key)}" aria-label="Stock de ${esc(i.nombre)}">
     <span class="u">${uTxt(i.unidad)}</span><button data-act="st" data-k="${esc(i.key)}" data-delta="${step}" aria-label="Más ${esc(i.nombre)}">+</button></div></div>`;}).join('')}</div>`;}
-function paso7(){const c=compra();const hechos=c.filter(i=>S.bought[i.key]).length;
-  return `<h2>Lista de la compra</h2>
+function paso7(){let h=tabs(7);
+  if(S.lista!=='menu')h+=xCompra(S.lista);
+  else{const c=compra();const hechos=c.filter(i=>S.bought[i.key]).length;
+  h+=`<h2>Lista de la compra</h2>
   ${c.length?`<div class="counter" id="counter">${hechos} de ${c.length} en el carrito${hechos===c.length?' 🎉':''}</div>
   <div class="card">${c.map(i=>{const on=!!S.bought[i.key];return `<button class="shop ${on?'done':''}" data-act="buy" data-k="${esc(i.key)}" aria-pressed="${on}"><span class="box">${on?'✓':''}</span><span class="n">${esc(i.nombre)}${i.sinCantidad?`<span style="display:block;font-size:.78rem;opacity:.65;text-decoration:none">${esc([...new Set(i.menus)].join(', '))}</span>`:''}</span><span class="q">${i.sinCantidad?'a decidir':fmtNum(i.need)+' '+uTxt(i.unidad)}</span></button>`;}).join('')}</div>`
-  :`<div class="card empty">✅ Tenéis todo en casa. No hace falta comprar nada.</div>`}
-  ${S.confirmReset?`<div class="confirm"><p><b>¿Empezar una nueva semana?</b><br>Se borran los menús, días, comensales, stock y la lista.</p><div class="two"><button class="btn" data-act="resetNo">Cancelar</button><button class="btn danger solid" data-act="resetYes">Sí, borrar</button></div></div>`
-  :`<button class="btn danger" data-act="reset">🔄 Nueva semana</button>`}`;}
+  :`<div class="card empty">✅ Tenéis todo en casa. No hace falta comprar nada.</div>`}`;}
+  return h+(S.confirmReset?`<div class="confirm"><p><b>¿Empezar una nueva semana?</b><br>Se borran los menús, días, comensales, stock y las marcas de las listas. Los artículos de desayunos y hogar se conservan.</p><div class="two"><button class="btn" data-act="resetNo">Cancelar</button><button class="btn danger solid" data-act="resetYes">Sí, borrar</button></div></div>`
+  :`<button class="btn danger" data-act="reset">🔄 Nueva semana</button>`);}
 function renderModal(){
   const box=document.getElementById('modal');if(!VER){box.innerHTML='';document.body.style.overflow='';return;}
   const m=menuById(VER),p=m.plato;document.body.style.overflow='hidden';
@@ -300,20 +387,33 @@ document.addEventListener('click',e=>{
     else if(enGrupo(g.id)>=g.max)UI_MSG=`Máximo ${g.max} de ${g.nombre} por semana.`;
     else S.picked.push(id);
   }else if(a==='slot'){const s=b.dataset.s;S.on[s]=!S.on[s];
-  }else if(a==='auto'){const libres=S.picked.filter(id=>!Object.values(S.assign).includes(id));slotsOn().filter(s=>!S.assign[s]).forEach(s=>{if(libres.length)S.assign[s]=libres.shift();});
+  }else if(a==='auto'){const libres=S.picked.filter(id=>!Object.values(S.assign).includes(id));huecosL().forEach(s=>{if(libres.length)S.assign[s]=libres.shift();});
+  }else if(a==='sobra'){const f=b.dataset.from,t=b.dataset.to;delete S.assign[t];for(const k in S.lo)if(S.lo[k]===f)delete S.lo[k];S.lo[t]=f;
+  }else if(a==='tab'){S.lista=b.dataset.l;
+  }else if(a==='xstep'){const it=xItem(b.dataset.id);if(!it)return;const d=Number(b.dataset.delta);if(b.dataset.f==='sem')it.semana=Math.max(0,(Number(it.semana)||0)+d);else S.xstock[it.id]=Math.max(0,(Number(S.xstock[it.id])||0)+d);
+  }else if(a==='xbuy'){const k=b.dataset.id;S.xbought[k]=!S.xbought[k];
+  }else if(a==='xdel'){const l=b.dataset.id.startsWith('des')?'des':'hogar';S.xitems[l]=S.xitems[l].filter(i=>i.id!==b.dataset.id);delete S.xstock[b.dataset.id];delete S.xbought[b.dataset.id];
+  }else if(a==='xadd'){const l=b.dataset.l;const n=(document.getElementById('xn').value||'').trim();
+    if(!n){UI_MSG='Escribe el nombre del artículo.';}
+    else if(S.xitems[l].some(i=>i.nombre.toLowerCase()===n.toLowerCase()))UI_MSG=`«${n}» ya está en la lista.`;
+    else{const cat=document.getElementById('xc').value||XCATS[l][0];S.xitems[l].push({id:l+'-p'+Date.now().toString(36),nombre:n,cat,unidad:document.getElementById('xu').value||'ud',semana:1,propio:true});UI_MSG='';
+      render();const m=document.createElement('div');m.className='okbox';m.id='xok';m.textContent=`✓ «${n}» añadido a ${cat}.`;document.querySelector('[data-add]').before(m);return;}
   }else if(a==='ir'){S.step=Number(b.dataset.step);scrollTo(0,0);
   }else if(a==='diner'){const s=b.dataset.s,p=b.dataset.p;const l=S.diners[s]||PERSONAS.map(x=>x.id);S.diners[s]=l.includes(p)?l.filter(x=>x!==p):PERSONAS.map(x=>x.id).filter(x=>x===p||l.includes(x));
   }else if(a==='st'){const k=b.dataset.k;S.stock[k]=Math.max(0,(Number(S.stock[k])||0)+Number(b.dataset.delta));
   }else if(a==='buy'){const k=b.dataset.k;S.bought[k]=!S.bought[k];
-  }else if(a==='reset'){S.confirmReset=true;}else if(a==='resetNo'){S.confirmReset=false;}else if(a==='resetYes'){S=nuevoEstado();
+  }else if(a==='reset'){S.confirmReset=true;}else if(a==='resetNo'){S.confirmReset=false;}else if(a==='resetYes'){const xi=S.xitems;S=nuevoEstado();S.xitems=xi;
   }else return;
   render();
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&VER){VER=null;renderModal();}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='xn'){e.preventDefault();document.querySelector('[data-act=xadd]').click();return;}if(e.key==='Escape'&&VER){VER=null;renderModal();}});
 document.addEventListener('change',e=>{const t=e.target;
-  if(t.dataset.act==='assign'){const s=t.dataset.s;if(t.value){for(const k in S.assign)if(S.assign[k]===t.value&&k!==s)delete S.assign[k];S.assign[s]=t.value;}else delete S.assign[s];render();}
-  if(t.dataset.act==='stock'){const v=t.value;S.stock[t.dataset.k]=v===''?0:Math.max(0,Number(v));render();}});
-document.addEventListener('input',e=>{const t=e.target;if(t.dataset.act==='stock'){S.stock[t.dataset.k]=t.value;guardar();const err=validar(6);document.getElementById('next').disabled=!!err;const m=document.getElementById('msg');m.textContent=err;m.className='msg'+(err?'':' ok');}});
+  if(t.dataset.act==='assign'){const s=t.dataset.s;delete S.lo[s];if(t.value.startsWith('sobra:')){const f=t.value.slice(6);delete S.assign[s];for(const k in S.lo)if(S.lo[k]===f)delete S.lo[k];S.lo[s]=f;render();return;}
+    if(t.value){for(const k in S.assign)if(S.assign[k]===t.value&&k!==s)delete S.assign[k];S.assign[s]=t.value;}else delete S.assign[s];render();}
+  if(t.dataset.act==='stock'){const v=t.value;S.stock[t.dataset.k]=v===''?0:Math.max(0,Number(v));render();}
+  if(t.dataset.act==='xsem'||t.dataset.act==='xst'){const v=t.value,n=v===''?0:Math.max(0,Number(v)||0);if(t.dataset.act==='xsem')xItem(t.dataset.id).semana=n;else S.xstock[t.dataset.id]=n;render();}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.act==='xsem'||t.dataset.act==='xst'){if(t.dataset.act==='xsem')xItem(t.dataset.id).semana=t.value;else S.xstock[t.dataset.id]=t.value;}
+  if(['stock','xsem','xst'].includes(t.dataset.act)){if(t.dataset.act==='stock')S.stock[t.dataset.k]=t.value;guardar();const err=validar(6);document.getElementById('next').disabled=!!err;const m=document.getElementById('msg');m.textContent=err;m.className='msg'+(err?'':' ok');}});
 document.getElementById('next').onclick=()=>{if(!validar(S.step)&&S.step<NP){S.step++;S.confirmReset=false;UI_MSG='';render();scrollTo(0,0);}};
 document.getElementById('back').onclick=()=>{if(S.step>1){S.step--;S.confirmReset=false;UI_MSG='';render();scrollTo(0,0);}};
 render();
